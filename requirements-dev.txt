@@ -1,0 +1,24 @@
+# =============================================================================
+# Entorno Virtual de Biofísica - Dependencias de Desarrollo
+# =============================================================================
+
+# Incluir dependencias de producción
+-r requirements.txt
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Empaquetado
+pyinstaller>=6.0.0
+
+# Calidad de código
+black>=23.0.0
+isort>=5.12.0
+flake8>=6.0.0
+
+# Type checking
+mypy>=1.0.0
+
+# Pydantic plugins para type checking
+pydantic[mypy]>=2.0.0

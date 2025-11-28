@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-01-01",
+  "books": [
+    {
+      "id": "book-001",
+      "title": "Biofísica Médica",
+      "authors": ["Frumento, Antonio S."],
+      "edition": "4ta",
+      "year": 1995,
+      "publisher": "Editorial Mosby/Doyma Libros",
+      "isbn": null,
+      "is_primary": true,
+      "local_path": null,
+      "chapters_relevant": ["Membranas", "Transporte", "Bioelectricidad"],
+      "notes": "Texto básico de biofísica para ciencias médicas"
+    },
+    {
+      "id": "book-002",
+      "title": "Fisiología Médica",
+      "authors": ["Guyton, Arthur C.", "Hall, John E."],
+      "edition": "14ta",
+      "year": 2021,
+      "publisher": "Elsevier",
+      "isbn": "978-0323597128",
+      "is_primary": true,
+      "local_path": null,
+      "chapters_relevant": [3, 4, 5, 6],
+      "notes": "Capítulos 3-6 sobre transporte y potenciales de membrana"
+    },
+    {
+      "id": "book-003",
+      "title": "Molecular Biology of the Cell",
+      "authors": ["Alberts, Bruce", "Johnson, Alexander", "Lewis, Julian"],
+      "edition": "6ta",
+      "year": 2014,
+      "publisher": "Garland Science",
+      "isbn": "978-0815344322",
+      "is_primary": false,
+      "local_path": null,
+      "chapters_relevant": [11, 12],
+      "notes": "Capítulos sobre transporte de membrana y señalización"
+    },
+    {
+      "id": "book-004",
+      "title": "Ion Channels of Excitable Membranes",
+      "authors": ["Hille, Bertil"],
+      "edition": "3ra",
+      "year": 2001,
+      "publisher": "Sinauer Associates",
+      "isbn": "978-0878933211",
+      "is_primary": false,
+      "local_path": null,
+      "chapters_relevant": ["all"],
+      "notes": "Referencia avanzada sobre canales iónicos"
+    }
+  ],
+  "papers": [
+    {
+      "id": "paper-001",
+      "title": "The origin of the resting potential in cells",
+      "authors": ["Sperelakis, Nick"],
+      "journal": "Cell Biology and Toxicology",
+      "year": 2012,
+      "volume": "28",
+      "pages": "369-392",
+      "doi": "10.1007/s10565-012-9229-0",
+      "abstract": "Review sobre el origen del potencial de reposo",
+      "keywords": ["potencial de reposo", "bomba Na/K", "canales"]
+    },
+    {
+      "id": "paper-002",
+      "title": "A quantitative description of membrane current",
+      "authors": ["Hodgkin, A. L.", "Huxley, A. F."],
+      "journal": "Journal of Physiology",
+      "year": 1952,
+      "volume": "117",
+      "pages": "500-544",
+      "doi": null,
+      "abstract": "El trabajo clásico que describe matemáticamente el potencial de acción",
+      "keywords": ["Hodgkin-Huxley", "potencial de acción", "modelado"]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "osm-001",
+  "title": "Cálculo de osmolaridad de solución salina fisiológica",
+  "category": "osmosis",
+  "difficulty": 2,
+  "topic": "Osmolaridad y Tonicidad",
+  "tags": ["osmolaridad", "NaCl", "solución fisiológica", "cálculo básico"],
+  "statement": "La solución salina fisiológica (suero fisiológico) contiene NaCl al 0.9% (p/v). Calcule:\n\na) La molaridad de la solución\nb) La osmolaridad de la solución\nc) Clasifique la solución respecto al plasma sanguíneo (osmolaridad ≈ 280-295 mOsm/L)",
+  "given_data": {
+    "concentration_percent": {"value": 0.9, "unit": "% p/v"},
+    "molar_mass_NaCl": {"value": 58.44, "unit": "g/mol"},
+    "plasma_osmolarity": {"value": "280-295", "unit": "mOsm/L"},
+    "dissociation_particles": {"value": 2, "unit": "partículas"}
+  },
+  "solution": {
+    "steps": [
+      {
+        "step_number": 1,
+        "description": "Convertir concentración p/v a molaridad",
+        "formula": "M = (g/L) / PM",
+        "calculation": "M = (9 g/L) / (58.44 g/mol) = 0.154 mol/L = 154 mM"
+      },
+      {
+        "step_number": 2,
+        "description": "Calcular osmolaridad considerando disociación del NaCl",
+        "formula": "Osm = n × M × g",
+        "calculation": "Osm = 2 × 154 mM × 1.0 = 308 mOsm/L",
+        "notes": "n=2 porque NaCl → Na⁺ + Cl⁻"
+      },
+      {
+        "step_number": 3,
+        "description": "Clasificar respecto al plasma",
+        "calculation": "308 mOsm/L > 295 mOsm/L",
+        "conclusion": "La solución es ligeramente hipertónica"
+      }
+    ],
+    "final_answer": {
+      "value": 308,
+      "unit": "mOsm/L"
+    },
+    "interpretation": "Aunque se llama 'fisiológica', la solución salina 0.9% es ligeramente hipertónica respecto al plasma normal. Esto se debe a que el coeficiente osmótico real del NaCl es aproximadamente 0.93, lo que da una osmolaridad efectiva de ~286 mOsm/L, más cercana a la isotónica."
+  },
+  "related_solver": "osmolarity",
+  "hints": [
+    "Recuerda que el NaCl se disocia completamente en agua",
+    "El coeficiente osmótico corrige las desviaciones del comportamiento ideal",
+    "Compara con el rango de osmolaridad plasmática normal"
+  ],
+  "references": ["Guyton - Fisiología Médica, Cap. 4"],
+  "created_at": "2024-01-01T00:00:00",
+  "updated_at": "2024-01-01T00:00:00"
+}

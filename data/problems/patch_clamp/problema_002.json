@@ -1,0 +1,51 @@
+{
+  "id": "pc-002",
+  "title": "Potencial de membrana con ecuación de Goldman",
+  "category": "patch_clamp",
+  "difficulty": 3,
+  "topic": "Ecuación de Goldman-Hodgkin-Katz",
+  "tags": ["Goldman", "GHK", "potencial de reposo", "permeabilidad"],
+  "statement": "Una célula nerviosa presenta las siguientes concentraciones iónicas:\n\n[K⁺]i = 140 mM, [K⁺]e = 5 mM\n[Na⁺]i = 12 mM, [Na⁺]e = 145 mM\n[Cl⁻]i = 4 mM, [Cl⁻]e = 110 mM\n\nLas permeabilidades relativas son P_K : P_Na : P_Cl = 1 : 0.04 : 0.45\n\na) Calcule el potencial de membrana en reposo a 37°C\nb) ¿Qué sucede con Vm si P_Na aumenta a 15 durante un potencial de acción?",
+  "given_data": {
+    "K_internal": {"value": 140, "unit": "mM"},
+    "K_external": {"value": 5, "unit": "mM"},
+    "Na_internal": {"value": 12, "unit": "mM"},
+    "Na_external": {"value": 145, "unit": "mM"},
+    "Cl_internal": {"value": 4, "unit": "mM"},
+    "Cl_external": {"value": 110, "unit": "mM"},
+    "P_K": {"value": 1, "unit": "relativo"},
+    "P_Na_rest": {"value": 0.04, "unit": "relativo"},
+    "P_Na_AP": {"value": 15, "unit": "relativo"},
+    "P_Cl": {"value": 0.45, "unit": "relativo"},
+    "temperature": {"value": 37, "unit": "°C"}
+  },
+  "solution": {
+    "steps": [
+      {
+        "step_number": 1,
+        "description": "Aplicar ecuación de Goldman en reposo",
+        "formula": "Vm = (RT/F) × ln[(P_K[K⁺]e + P_Na[Na⁺]e + P_Cl[Cl⁻]i) / (P_K[K⁺]i + P_Na[Na⁺]i + P_Cl[Cl⁻]e)]",
+        "calculation": "Numerador = 1(5) + 0.04(145) + 0.45(4) = 5 + 5.8 + 1.8 = 12.6\nDenominador = 1(140) + 0.04(12) + 0.45(110) = 140 + 0.48 + 49.5 = 189.98\nVm = 26.7 × ln(12.6/189.98) = 26.7 × (-2.71) = -72.4 mV"
+      },
+      {
+        "step_number": 2,
+        "description": "Calcular Vm durante potencial de acción (P_Na = 15)",
+        "calculation": "Numerador = 1(5) + 15(145) + 0.45(4) = 5 + 2175 + 1.8 = 2181.8\nDenominador = 1(140) + 15(12) + 0.45(110) = 140 + 180 + 49.5 = 369.5\nVm = 26.7 × ln(2181.8/369.5) = 26.7 × (1.78) = +47.5 mV"
+      }
+    ],
+    "final_answer": {
+      "value": -72.4,
+      "unit": "mV"
+    },
+    "interpretation": "En reposo, el K⁺ domina el potencial de membrana (-72 mV, cercano a E_K). Durante el potencial de acción, el aumento dramático de P_Na invierte temporalmente el potencial hacia valores positivos (+47 mV, acercándose a E_Na). Esto explica la fase de despolarización del potencial de acción."
+  },
+  "related_solver": "goldman",
+  "hints": [
+    "El Cl⁻ tiene valencia negativa, por eso [Cl⁻]i va en el numerador",
+    "Las permeabilidades son relativas, no absolutas",
+    "Compare los resultados con los potenciales de Nernst individuales"
+  ],
+  "references": ["Hodgkin & Huxley, 1952"],
+  "created_at": "2024-01-01T00:00:00",
+  "updated_at": "2024-01-01T00:00:00"
+}

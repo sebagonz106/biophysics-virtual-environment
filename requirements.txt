@@ -1,0 +1,19 @@
+# =============================================================================
+# Entorno Virtual de Biofísica - Dependencias de Producción
+# =============================================================================
+
+# Interfaz gráfica
+customtkinter>=5.2.0
+pillow>=10.0.0
+
+# Computación científica
+numpy>=1.24.0
+scipy>=1.11.0
+matplotlib>=3.7.0
+
+# Validación de datos
+pydantic>=2.0.0
+
+# Manejo de archivos
+pypdf>=3.0.0
+pyyaml>=6.0

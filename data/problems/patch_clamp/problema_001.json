@@ -1,0 +1,51 @@
+{
+  "id": "pc-001",
+  "title": "Cálculo del potencial de equilibrio del potasio",
+  "category": "patch_clamp",
+  "difficulty": 2,
+  "topic": "Ecuación de Nernst",
+  "tags": ["Nernst", "potasio", "potencial de equilibrio", "neurona"],
+  "statement": "En una neurona típica, la concentración de K⁺ intracelular es 140 mM y la extracelular es 5 mM. Calcule:\n\na) El potencial de equilibrio del K⁺ a 37°C usando la ecuación de Nernst\nb) Compare con el potencial de reposo típico de -70 mV\nc) Explique por qué difieren estos valores",
+  "given_data": {
+    "K_internal": {"value": 140, "unit": "mM"},
+    "K_external": {"value": 5, "unit": "mM"},
+    "temperature": {"value": 37, "unit": "°C"},
+    "valence": {"value": 1, "unit": ""},
+    "resting_potential": {"value": -70, "unit": "mV"}
+  },
+  "solution": {
+    "steps": [
+      {
+        "step_number": 1,
+        "description": "Convertir temperatura a Kelvin",
+        "calculation": "T = 37 + 273.15 = 310.15 K"
+      },
+      {
+        "step_number": 2,
+        "description": "Aplicar ecuación de Nernst",
+        "formula": "E_K = (RT/zF) × ln([K⁺]e/[K⁺]i)",
+        "calculation": "E_K = (8.314 × 310.15)/(1 × 96485) × ln(5/140)\nE_K = 0.0267 × (-3.332) = -89.0 mV",
+        "notes": "Usando la forma simplificada: E = 61.5/z × log([ion]e/[ion]i) a 37°C"
+      },
+      {
+        "step_number": 3,
+        "description": "Comparar con potencial de reposo",
+        "calculation": "E_K = -89 mV, Vm_reposo = -70 mV\nDiferencia = 19 mV"
+      }
+    ],
+    "final_answer": {
+      "value": -89,
+      "unit": "mV"
+    },
+    "interpretation": "El potencial de equilibrio del K⁺ (-89 mV) es más negativo que el potencial de reposo (-70 mV). Esto se debe a que la membrana en reposo también es permeable (aunque menos) al Na⁺, cuyo potencial de equilibrio es positivo (~+60 mV). La ecuación de Goldman-Hodgkin-Katz considera estas múltiples permeabilidades."
+  },
+  "related_solver": "nernst",
+  "hints": [
+    "A 37°C, el factor RT/F ≈ 26.7 mV",
+    "Para logaritmo base 10: factor = 61.5 mV a 37°C",
+    "El signo del potencial depende de la valencia del ion"
+  ],
+  "references": ["Hille - Ion Channels, Cap. 1"],
+  "created_at": "2024-01-01T00:00:00",
+  "updated_at": "2024-01-01T00:00:00"
+}

@@ -1,0 +1,49 @@
+{
+  "app_name": "Entorno Virtual de Biofísica",
+  "version": "1.0.0",
+  "language": "es",
+  "theme": {
+    "mode": "dark",
+    "color_scheme": "blue"
+  },
+  "constants": {
+    "R": 8.314,
+    "F": 96485,
+    "plasma_osmolarity_min": 280,
+    "plasma_osmolarity_max": 295,
+    "body_temperature_celsius": 37
+  },
+  "solutes": {
+    "NaCl": {"n": 2, "g": 0.93},
+    "KCl": {"n": 2, "g": 0.92},
+    "CaCl2": {"n": 3, "g": 0.86},
+    "MgCl2": {"n": 3, "g": 0.89},
+    "Glucose": {"n": 1, "g": 1.0},
+    "Urea": {"n": 1, "g": 1.0},
+    "Sucrose": {"n": 1, "g": 1.0},
+    "Mannitol": {"n": 1, "g": 1.0}
+  },
+  "typical_values": {
+    "neuron": {
+      "K_in": 140,
+      "K_out": 5,
+      "Na_in": 12,
+      "Na_out": 145,
+      "Cl_in": 4,
+      "Cl_out": 110,
+      "P_K": 1.0,
+      "P_Na": 0.04,
+      "P_Cl": 0.45
+    },
+    "erythrocyte": {
+      "volume": 90,
+      "non_osmotic_fraction": 0.4,
+      "internal_osmolarity": 300
+    }
+  },
+  "data_paths": {
+    "conferences": "conferences",
+    "bibliography": "bibliography",
+    "problems": "problems"
+  }
+}

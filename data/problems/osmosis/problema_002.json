@@ -1,0 +1,51 @@
+{
+  "id": "osm-002",
+  "title": "Cambio de volumen celular en medio hipotónico",
+  "category": "osmosis",
+  "difficulty": 3,
+  "topic": "Ley de Boyle-van't Hoff",
+  "tags": ["volumen celular", "hipotonicidad", "Boyle-van't Hoff", "hemólisis"],
+  "statement": "Un eritrocito con volumen inicial de 90 μm³ se coloca en una solución hipotónica con osmolaridad de 200 mOsm/L. Si la osmolaridad interna del eritrocito es 300 mOsm/L y la fracción de volumen no osmótico (b) es 0.4:\n\na) Calcule el volumen final de equilibrio del eritrocito\nb) Determine el cambio porcentual de volumen\nc) ¿Existe riesgo de hemólisis si el volumen crítico es 1.4 × V₀?",
+  "given_data": {
+    "initial_volume": {"value": 90, "unit": "μm³"},
+    "internal_osmolarity": {"value": 300, "unit": "mOsm/L"},
+    "external_osmolarity": {"value": 200, "unit": "mOsm/L"},
+    "non_osmotic_fraction": {"value": 0.4, "unit": "adimensional"},
+    "critical_volume": {"value": 1.4, "unit": "× V₀"}
+  },
+  "solution": {
+    "steps": [
+      {
+        "step_number": 1,
+        "description": "Aplicar la ley de Boyle-van't Hoff",
+        "formula": "V = Vb + Va(πi/πe) = bV₀ + (1-b)V₀(πi/πe)",
+        "calculation": "V = 0.4(90) + 0.6(90)(300/200) = 36 + 81 = 117 μm³"
+      },
+      {
+        "step_number": 2,
+        "description": "Calcular cambio porcentual",
+        "formula": "ΔV% = ((Vf - Vi)/Vi) × 100",
+        "calculation": "ΔV% = ((117 - 90)/90) × 100 = 30%"
+      },
+      {
+        "step_number": 3,
+        "description": "Evaluar riesgo de hemólisis",
+        "calculation": "Volumen crítico = 1.4 × 90 = 126 μm³\n117 < 126, por lo tanto NO hay hemólisis"
+      }
+    ],
+    "final_answer": {
+      "value": 117,
+      "unit": "μm³"
+    },
+    "interpretation": "El eritrocito aumenta su volumen en un 30% al alcanzar el equilibrio osmótico. Aunque hay hinchamiento significativo, no se alcanza el volumen crítico para la hemólisis. Sin embargo, reducciones mayores de la osmolaridad externa podrían causar lisis celular."
+  },
+  "related_solver": "cell_volume",
+  "hints": [
+    "La fracción no osmótica (b) representa el volumen que no participa en el equilibrio osmótico",
+    "Solo la fracción osmótica (1-b) responde a cambios de osmolaridad",
+    "El volumen crítico de hemólisis varía según el tipo celular"
+  ],
+  "references": ["Frumento - Biofísica Médica, Cap. 5"],
+  "created_at": "2024-01-01T00:00:00",
+  "updated_at": "2024-01-01T00:00:00"
+}

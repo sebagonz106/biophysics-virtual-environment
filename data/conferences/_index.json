@@ -1,0 +1,76 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-01-01",
+  "conferences": [
+    {
+      "id": "conf-001",
+      "title": "Propiedades generales de las membranas biológicas",
+      "topic": "Membranas",
+      "order": 1,
+      "description": "Estructura, composición y funciones de las membranas celulares",
+      "local_path": null,
+      "keywords": ["membrana", "bicapa lipídica", "proteínas", "fluidez"],
+      "created_at": "2024-01-01T00:00:00"
+    },
+    {
+      "id": "conf-002",
+      "title": "Fenómenos de transporte a través de membranas",
+      "topic": "Transporte",
+      "order": 2,
+      "description": "Difusión, ósmosis y transporte activo",
+      "local_path": null,
+      "keywords": ["transporte", "difusión", "ósmosis", "ATP"],
+      "created_at": "2024-01-01T00:00:00"
+    },
+    {
+      "id": "conf-003",
+      "title": "Ósmosis y regulación del volumen celular",
+      "topic": "Transporte",
+      "order": 3,
+      "description": "Osmolaridad, tonicidad y respuesta celular",
+      "local_path": null,
+      "keywords": ["ósmosis", "osmolaridad", "tonicidad", "volumen"],
+      "created_at": "2024-01-01T00:00:00"
+    },
+    {
+      "id": "conf-004",
+      "title": "Bioelectricidad: Potenciales de equilibrio",
+      "topic": "Bioelectricidad",
+      "order": 4,
+      "description": "Ecuación de Nernst y potenciales iónicos",
+      "local_path": null,
+      "keywords": ["Nernst", "potencial", "equilibrio", "ion"],
+      "created_at": "2024-01-01T00:00:00"
+    },
+    {
+      "id": "conf-005",
+      "title": "Potencial de membrana en reposo",
+      "topic": "Bioelectricidad",
+      "order": 5,
+      "description": "Ecuación de Goldman-Hodgkin-Katz",
+      "local_path": null,
+      "keywords": ["Goldman", "GHK", "potencial de reposo", "permeabilidad"],
+      "created_at": "2024-01-01T00:00:00"
+    },
+    {
+      "id": "conf-006",
+      "title": "Potencial de acción",
+      "topic": "Bioelectricidad",
+      "order": 6,
+      "description": "Génesis y propagación del potencial de acción",
+      "local_path": null,
+      "keywords": ["potencial de acción", "despolarización", "canales iónicos"],
+      "created_at": "2024-01-01T00:00:00"
+    },
+    {
+      "id": "conf-007",
+      "title": "Técnica de Patch Clamp",
+      "topic": "Técnicas",
+      "order": 7,
+      "description": "Fundamentos y aplicaciones de patch clamp",
+      "local_path": null,
+      "keywords": ["patch clamp", "canales", "corriente", "voltaje"],
+      "created_at": "2024-01-01T00:00:00"
+    }
+  ]
+}
