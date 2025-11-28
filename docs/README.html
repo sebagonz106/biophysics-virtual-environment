@@ -4,12 +4,12 @@
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Markdown Export</title>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.3.0/github-markdown.min.css">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.3.0/github-markdown-dark.min.css">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
                 <style>
                     body {
-                        background-color: #ffffff;
-                        color: #24292e;
+                        background-color: #0d1117;
+                        color: #c9d1d9;
                     }
                     .markdown-body {
                         box-sizing: border-box;
@@ -17,8 +17,8 @@
                         max-width: 980px;
                         margin: 0 auto;
                         padding: 45px;
-                        background-color: #ffffff;
-                        color: #24292e;
+                        background-color: #0d1117;
+                        color: #c9d1d9;
                     }
                     @media (max-width: 767px) {
                         .markdown-body {
@@ -88,62 +88,102 @@
 <li>Clasificación por nivel de dificultad</li>
 </ul>
 <h3>4. Módulos Interactivos 🧮</h3>
-<p><strong>Núcleo innovador de la herramienta.</strong> Los estudiantes, mediante algoritmos personalizados en Python, pueden introducir variables específicas y obtener retroalimentación inmediata.</p>
+<p><strong>Núcleo innovador de la herramienta.</strong> Los estudiantes, mediante algoritmos personalizados en Python, pueden introducir variables específicas y obtener retroalimentación inmediata. Los paneles de resultados y gráficos son <strong>redimensionables</strong> y cuentan con <strong>barras de desplazamiento</strong> para mejorar la experiencia de usuario.</p>
 <h4>4.1 Módulo de Ósmosis</h4>
 <table>
 <thead>
 <tr>
-<th>Funcionalidad</th>
-<th>Descripción</th>
+<th>Solver</th>
+<th>Entradas</th>
+<th>Salidas</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>Cálculo de osmolaridad</td>
-<td>Determina la osmolaridad a partir de concentración y coeficientes</td>
+<td><strong>Cálculo de Osmolaridad</strong></td>
+<td><code>concentration_mM</code> (float): Concentración en mM<br><code>solute_name</code> (str, opcional): Nombre del soluto (NaCl, KCl, glucosa, etc.)<br><code>dissociation_coef</code> (int, opcional): Coeficiente de disociación<br><code>osmotic_coef</code> (float, opcional): Coeficiente osmótico</td>
+<td><code>osmolarity</code> (mOsm/L)<br><code>tonicity</code> (hipotónica/isotónica/hipertónica)<br><code>cell_response</code> (hinchazón/crenación/equilibrio)<br><code>volume_change_percent</code> (%)<br><code>interpretation</code> (texto explicativo)<br><code>feedback</code> (lista de puntos educativos)</td>
 </tr>
 <tr>
-<td>Clasificación de tonicidad</td>
-<td>Clasifica soluciones como hipotónicas, isotónicas o hipertónicas</td>
+<td><strong>Clasificador de Tonicidad</strong></td>
+<td><code>osmolarity</code> (float): Osmolaridad en mOsm/L</td>
+<td><code>tonicity</code> (str)<br><code>relative_to_plasma</code> (%)<br><code>category_detail</code> (descripción detallada)</td>
 </tr>
 <tr>
-<td>Predicción de volumen celular</td>
-<td>Genera gráficos del comportamiento del volumen celular</td>
-</tr>
-<tr>
-<td>Análisis de respuesta celular</td>
-<td>Predice lisis, crenación o equilibrio</td>
+<td><strong>Volumen Celular (Boyle-van't Hoff)</strong></td>
+<td><code>initial_osmolarity</code> (float, default=285): mOsm/L inicial<br><code>final_osmolarity</code> (float): mOsm/L final<br><code>initial_volume</code> (float, default=1.0): Volumen normalizado<br><code>non_osmotic_fraction</code> (float, default=0.4): Fracción b</td>
+<td><code>volume_change_percent</code> (%)<br><code>cell_response</code> (lisis/hinchazón/crenación/equilibrio)<br><code>tonicity</code> (str)<br><code>volume_data</code> (datos para gráfico temporal)<br><code>interpretation</code> y <code>feedback</code></td>
 </tr>
 </tbody></table>
+<p><strong>Solutos predefinidos con coeficientes automáticos:</strong></p>
+<ul>
+<li>Electrolitos: NaCl (i=2), KCl (i=2), CaCl₂ (i=3), MgCl₂ (i=3), NaHCO₃ (i=2)</li>
+<li>No electrolitos: Glucosa (i=1), Urea (i=1), Sacarosa (i=1)</li>
+</ul>
 <h4>4.2 Módulo de Patch Clamp</h4>
 <table>
 <thead>
 <tr>
-<th>Funcionalidad</th>
-<th>Descripción</th>
+<th>Solver</th>
+<th>Entradas</th>
+<th>Salidas</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>Ecuación de Nernst</td>
-<td>Calcula potenciales de equilibrio iónico</td>
+<td><strong>Ecuación de Nernst</strong></td>
+<td><code>ion</code> (str): Nombre del ion (K+, Na+, Cl-, Ca2+)<br><code>z</code> (int): Valencia del ion<br><code>C_out</code> (float): Concentración extracelular (mM)<br><code>C_in</code> (float): Concentración intracelular (mM)<br><code>temperature_C</code> (float, default=37): Temperatura °C</td>
+<td><code>E_eq</code> (mV): Potencial de equilibrio<br><code>interpretation</code> (texto explicativo)<br><code>feedback</code> (detalles del cálculo)</td>
 </tr>
 <tr>
-<td>Ecuación de Goldman-Hodgkin-Katz</td>
-<td>Determina el potencial de membrana</td>
+<td><strong>Ecuación de Goldman-Hodgkin-Katz</strong></td>
+<td><code>P_K</code>, <code>P_Na</code>, <code>P_Cl</code> (float): Permeabilidades relativas<br><code>K_out/in</code>, <code>Na_out/in</code>, <code>Cl_out/in</code> (float): Concentraciones (mM)<br><code>temperature_C</code> (float, default=37)</td>
+<td><code>membrane_potential</code> (mV)<br><code>dominant_ion</code> (str)<br><code>permeabilities</code> (dict)<br><code>concentrations</code> (dict)<br><code>interpretation</code> y <code>feedback</code></td>
 </tr>
 <tr>
-<td>Curvas I-V</td>
-<td>Genera gráficos de corriente vs. voltaje</td>
+<td><strong>Curvas I-V</strong></td>
+<td><code>conductance</code> (float): Conductancia en nS<br><code>reversal_potential</code> (float): E_rev en mV<br><code>voltage_min/max</code> (float): Rango de voltaje<br><em>O datos experimentales:</em> <code>voltages</code> y <code>currents</code> (listas)</td>
+<td><code>voltage</code> (lista mV)<br><code>current</code> (lista pA)<br><code>reversal_potential</code> (mV)<br><code>conductance</code> (nS)<br><code>R²</code> (solo para datos experimentales)<br>Gráfico I-V interactivo</td>
+</tr>
+</tbody></table>
+<p><strong>Concentraciones iónicas predefinidas (condiciones fisiológicas):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Ion</th>
+<th>[Intracelular] mM</th>
+<th>[Extracelular] mM</th>
+<th>Valencia</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>K⁺</td>
+<td>140</td>
+<td>5</td>
+<td>+1</td>
 </tr>
 <tr>
-<td>Simulación de experimentos</td>
-<td>Interpreta resultados experimentales de Patch Clamp</td>
+<td>Na⁺</td>
+<td>12</td>
+<td>145</td>
+<td>+1</td>
+</tr>
+<tr>
+<td>Cl⁻</td>
+<td>4</td>
+<td>120</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>Ca²⁺</td>
+<td>0.0001</td>
+<td>2.5</td>
+<td>+2</td>
 </tr>
 </tbody></table>
 <hr>
 <h2>🛠️ Instalación y Configuración</h2>
 <h3>Requisitos Previos</h3>
 <ul>
-<li><strong>Python 3.10 o superior</strong></li>
+<li><strong>Python 3.10 o superior</strong> (probado con Python 3.14)</li>
 <li><strong>pip</strong> (gestor de paquetes de Python)</li>
 <li><strong>Git</strong> (opcional, para clonar el repositorio)</li>
 </ul>
@@ -302,11 +342,25 @@ pyinstaller --onefile --windowed --icon=assets/icons/app_icon.ico --name=<span c
 <li><strong>Introduzca los parámetros</strong> en los campos correspondientes</li>
 <li><strong>Pulse "Calcular"</strong> para obtener los resultados</li>
 <li><strong>Analice la retroalimentación</strong> proporcionada, incluyendo gráficos si aplica</li>
+<li><strong>Redimensione los paneles</strong> arrastrando las barras divisoras entre resultados y gráficos</li>
 </ol>
+<h3>Bibliografía</h3>
+<ul>
+<li>Navegue entre las pestañas <strong>Libros</strong> y <strong>Artículos</strong></li>
+<li>Pase el cursor sobre las tarjetas para ver el efecto hover</li>
+<li>Haga clic en <strong>"Abrir PDF"</strong> para visualizar documentos locales</li>
+<li>Haga clic en <strong>"DOI"</strong> para abrir artículos en el navegador</li>
+</ul>
+<h3>Problemas Propuestos</h3>
+<ul>
+<li>Seleccione un tema desde la barra lateral</li>
+<li>Haga clic en cualquier problema para ver su detalle</li>
+<li>Los problemas muestran dificultad, puntuación y solución paso a paso</li>
+</ul>
 <h3>Añadir Contenido</h3>
 <ul>
-<li><strong>Conferencias</strong>: Copie archivos PDF a <code>data/conferences/pdfs/</code></li>
-<li><strong>Bibliografía</strong>: Edite <code>data/bibliography/books.json</code> y añada PDFs a <code>data/bibliography/pdfs/</code></li>
+<li><strong>Conferencias</strong>: Copie archivos PDF a <code>data/conferences/pdfs/</code> y actualice <code>_index.json</code></li>
+<li><strong>Bibliografía</strong>: Edite <code>data/bibliography/books.json</code> y <code>papers.json</code>, añada PDFs a <code>data/bibliography/pdfs/</code></li>
 <li><strong>Problemas</strong>: Cree archivos JSON siguiendo la plantilla en <code>data/problems/</code></li>
 </ul>
 <hr>
@@ -338,7 +392,7 @@ pytest tests/test_osmosis_solver.py -v</code></pre><hr>
 <p>Este proyecto está destinado a fines educativos. Consulte con los autores antes de cualquier uso comercial.</p>
 <hr>
 <h2>📞 Contacto</h2>
-<p>Para consultas académicas o técnicas relacionadas con este proyecto, contacte al equipo de desarrollo a través de los canales institucionales correspondientes.</p>
+<p>Para consultas académicas o técnicas relacionadas con este proyecto, contacte al equipo de desarrollo a través <a href="mailto:anagabrielazaragozapalmarola@gmail.com">anagabrielazaragozapalmarola@gmail.com</a> o <a href="mailto:sebagonz106@gmail.com">sebagonz106@gmail.com</a></p>
 <hr>
 <p align="center">
   <em>Desarrollado como recurso educativo complementario para la enseñanza de la Biofísica</em>
