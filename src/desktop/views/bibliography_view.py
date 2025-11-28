@@ -101,7 +101,7 @@ class BibliographyView(ctk.CTkFrame):
     
     def _create_book_card(self, book: dict) -> ctk.CTkFrame:
         """Crea una tarjeta para un libro."""
-        card = ctk.CTkFrame(self.books_scroll)
+        card = ctk.CTkFrame(self.books_scroll, cursor="hand2")
         card.grid_columnconfigure(0, weight=1)
         
         # Header con indicador de primario
@@ -151,9 +151,21 @@ class BibliographyView(ctk.CTkFrame):
             )
             info_label.grid(row=2, column=0, sticky="w", padx=15, pady=(2, 0))
         
+        # Descripción si existe
+        if book.get("description"):
+            desc_label = ctk.CTkLabel(
+                card,
+                text=book["description"],
+                font=ctk.CTkFont(size=11),
+                text_color="gray",
+                wraplength=500,
+                justify="left"
+            )
+            desc_label.grid(row=3, column=0, sticky="w", padx=15, pady=(5, 0))
+        
         # Botón de abrir PDF si existe
         btn_frame = ctk.CTkFrame(card, fg_color="transparent")
-        btn_frame.grid(row=3, column=0, sticky="w", padx=15, pady=(10, 15))
+        btn_frame.grid(row=4, column=0, sticky="w", padx=15, pady=(10, 15))
         
         if book.get("local_path"):
             open_btn = ctk.CTkButton(
@@ -165,11 +177,25 @@ class BibliographyView(ctk.CTkFrame):
             )
             open_btn.grid(row=0, column=0)
         
+        # Efecto hover para toda la tarjeta
+        def on_enter(event):
+            card.configure(fg_color=("gray80", "gray30"))
+        
+        def on_leave(event):
+            card.configure(fg_color=("gray86", "gray17"))
+        
+        # Vincular eventos
+        for widget in card.winfo_children():
+            widget.bind("<Enter>", on_enter)
+            widget.bind("<Leave>", on_leave)
+        card.bind("<Enter>", on_enter)
+        card.bind("<Leave>", on_leave)
+        
         return card
     
     def _create_paper_card(self, paper: dict) -> ctk.CTkFrame:
         """Crea una tarjeta para un artículo."""
-        card = ctk.CTkFrame(self.papers_scroll)
+        card = ctk.CTkFrame(self.papers_scroll, cursor="hand2")
         card.grid_columnconfigure(0, weight=1)
         
         # Título
@@ -208,9 +234,68 @@ class BibliographyView(ctk.CTkFrame):
                 font=ctk.CTkFont(size=11, slant="italic"),
                 text_color="gray"
             )
-            journal_label.grid(row=2, column=0, sticky="w", padx=15, pady=(2, 15))
+            journal_label.grid(row=2, column=0, sticky="w", padx=15, pady=(2, 0))
+        
+        # Abstract/descripción si existe
+        if paper.get("abstract"):
+            abstract_label = ctk.CTkLabel(
+                card,
+                text=paper["abstract"][:200] + "..." if len(paper.get("abstract", "")) > 200 else paper["abstract"],
+                font=ctk.CTkFont(size=10),
+                text_color="gray",
+                wraplength=500,
+                justify="left"
+            )
+            abstract_label.grid(row=3, column=0, sticky="w", padx=15, pady=(5, 0))
+        
+        # Botón de abrir PDF si existe
+        btn_frame = ctk.CTkFrame(card, fg_color="transparent")
+        btn_frame.grid(row=4, column=0, sticky="w", padx=15, pady=(10, 15))
+        
+        if paper.get("local_path"):
+            open_btn = ctk.CTkButton(
+                btn_frame,
+                text="📄 Abrir PDF",
+                width=100,
+                height=28,
+                command=lambda: self._open_pdf(paper)
+            )
+            open_btn.grid(row=0, column=0, padx=(0, 10))
+        
+        if paper.get("doi"):
+            doi_btn = ctk.CTkButton(
+                btn_frame,
+                text="🔗 DOI",
+                width=80,
+                height=28,
+                fg_color="transparent",
+                border_width=1,
+                command=lambda: self._open_doi(paper.get("doi"))
+            )
+            doi_btn.grid(row=0, column=1)
+        
+        # Efecto hover para toda la tarjeta
+        def on_enter(event):
+            card.configure(fg_color=("gray80", "gray30"))
+        
+        def on_leave(event):
+            card.configure(fg_color=("gray86", "gray17"))
+        
+        # Vincular eventos a la tarjeta y sus hijos
+        for widget in card.winfo_children():
+            widget.bind("<Enter>", on_enter)
+            widget.bind("<Leave>", on_leave)
+        card.bind("<Enter>", on_enter)
+        card.bind("<Leave>", on_leave)
         
         return card
+    
+    def _open_doi(self, doi: str):
+        """Abre el DOI en el navegador."""
+        import webbrowser
+        if doi:
+            url = f"https://doi.org/{doi}" if not doi.startswith("http") else doi
+            webbrowser.open(url)
     
     def _open_pdf(self, item: dict):
         """Abre un archivo PDF."""

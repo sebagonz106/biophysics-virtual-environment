@@ -144,29 +144,24 @@ class ProblemsView(ctk.CTkFrame):
     
     def _create_problem_item(self, problem: dict):
         """Crea un item de problema para la lista."""
-        frame = ctk.CTkButton(
+        frame = ctk.CTkFrame(
             self.problems_scroll,
-            text="",
             fg_color=("gray85", "gray25"),
-            hover_color=("gray75", "gray35"),
             corner_radius=5,
             height=60,
-            anchor="w",
-            command=lambda: self._show_problem_detail(problem)
+            cursor="hand2"
         )
-        
-        # Contenido interno
-        content_frame = ctk.CTkFrame(frame, fg_color="transparent")
-        content_frame.place(relx=0.02, rely=0.5, anchor="w")
+        frame.grid_columnconfigure(0, weight=1)
+        frame.grid_propagate(False)
         
         # Título
         title = ctk.CTkLabel(
-            content_frame,
-            text=problem.get("title", "Sin título")[:40] + "...",
+            frame,
+            text=problem.get("title", "Sin título")[:45] + ("..." if len(problem.get("title", "")) > 45 else ""),
             font=ctk.CTkFont(size=12, weight="bold"),
             anchor="w"
         )
-        title.grid(row=0, column=0, sticky="w")
+        title.grid(row=0, column=0, sticky="w", padx=10, pady=(8, 0))
         
         # Info
         difficulty = problem.get("difficulty", 3)
@@ -174,12 +169,28 @@ class ProblemsView(ctk.CTkFrame):
         category = problem.get("category", "general")
         
         info = ctk.CTkLabel(
-            content_frame,
+            frame,
             text=f"{category} | {stars}",
             font=ctk.CTkFont(size=10),
             text_color="gray"
         )
-        info.grid(row=1, column=0, sticky="w")
+        info.grid(row=1, column=0, sticky="w", padx=10, pady=(0, 8))
+        
+        # Hacer todo el frame clicable
+        def on_click(event):
+            self._show_problem_detail(problem)
+        
+        def on_enter(event):
+            frame.configure(fg_color=("gray75", "gray35"))
+        
+        def on_leave(event):
+            frame.configure(fg_color=("gray85", "gray25"))
+        
+        # Vincular eventos a todos los widgets
+        for widget in [frame, title, info]:
+            widget.bind("<Button-1>", on_click)
+            widget.bind("<Enter>", on_enter)
+            widget.bind("<Leave>", on_leave)
         
         return frame
     

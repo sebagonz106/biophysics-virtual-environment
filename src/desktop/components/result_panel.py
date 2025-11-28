@@ -3,12 +3,13 @@ Panel para mostrar resultados de cálculos.
 """
 
 import customtkinter as ctk
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 
 class ResultPanel(ctk.CTkFrame):
     """
     Panel para mostrar resultados de cálculos y retroalimentación.
+    Incluye scroll y es redimensionable.
     """
     
     def __init__(
@@ -24,39 +25,56 @@ class ResultPanel(ctk.CTkFrame):
     
     def _create_widgets(self):
         """Crea los widgets del panel."""
-        # Configurar grid
+        # Configurar grid para expandir
         self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
         
-        # Título
+        # Header con título
+        header_frame = ctk.CTkFrame(self, fg_color="transparent", height=30)
+        header_frame.grid(row=0, column=0, sticky="ew", pady=(0, 5))
+        header_frame.grid_columnconfigure(0, weight=1)
+        header_frame.grid_propagate(False)
+        
         self.title_label = ctk.CTkLabel(
-            self,
+            header_frame,
             text=self.title,
             font=ctk.CTkFont(size=16, weight="bold")
         )
-        self.title_label.grid(row=0, column=0, pady=(0, 10), sticky="w")
+        self.title_label.grid(row=0, column=0, sticky="w")
+        
+        # Área scrollable principal
+        self.scroll_frame = ctk.CTkScrollableFrame(
+            self,
+            fg_color="transparent",
+            scrollbar_button_color=("gray70", "gray30"),
+            scrollbar_button_hover_color=("gray60", "gray40")
+        )
+        self.scroll_frame.grid(row=1, column=0, sticky="nsew")
+        self.scroll_frame.grid_columnconfigure(0, weight=1)
         
         # Frame de resultado principal
-        self.result_frame = ctk.CTkFrame(self, fg_color=("gray90", "gray20"))
-        self.result_frame.grid(row=1, column=0, sticky="ew", pady=5)
+        self.result_frame = ctk.CTkFrame(self.scroll_frame, fg_color=("gray90", "gray20"))
+        self.result_frame.grid(row=0, column=0, sticky="ew", pady=5, padx=2)
         self.result_frame.grid_columnconfigure(0, weight=1)
         
         self.main_result_label = ctk.CTkLabel(
             self.result_frame,
             text="",
-            font=ctk.CTkFont(size=18, weight="bold"),
-            wraplength=400
+            font=ctk.CTkFont(size=14, weight="bold"),
+            wraplength=380,
+            justify="left"
         )
-        self.main_result_label.grid(row=0, column=0, padx=15, pady=15)
+        self.main_result_label.grid(row=0, column=0, padx=15, pady=15, sticky="w")
         
         # Frame de interpretación
-        self.interpretation_frame = ctk.CTkFrame(self, fg_color="transparent")
-        self.interpretation_frame.grid(row=2, column=0, sticky="ew", pady=10)
+        self.interpretation_frame = ctk.CTkFrame(self.scroll_frame, fg_color="transparent")
+        self.interpretation_frame.grid(row=1, column=0, sticky="ew", pady=10, padx=2)
         self.interpretation_frame.grid_columnconfigure(0, weight=1)
         
         self.interpretation_title = ctk.CTkLabel(
             self.interpretation_frame,
             text="💡 Interpretación:",
-            font=ctk.CTkFont(size=14, weight="bold")
+            font=ctk.CTkFont(size=13, weight="bold")
         )
         self.interpretation_title.grid(row=0, column=0, sticky="w")
         
@@ -64,28 +82,30 @@ class ResultPanel(ctk.CTkFrame):
             self.interpretation_frame,
             text="",
             font=ctk.CTkFont(size=12),
-            wraplength=450,
+            wraplength=380,
             justify="left"
         )
         self.interpretation_text.grid(row=1, column=0, sticky="w", pady=(5, 0))
         
-        # Frame de retroalimentación
-        self.feedback_frame = ctk.CTkFrame(self, fg_color="transparent")
-        self.feedback_frame.grid(row=3, column=0, sticky="ew", pady=10)
+        # Frame de retroalimentación/detalles
+        self.feedback_frame = ctk.CTkFrame(self.scroll_frame, fg_color="transparent")
+        self.feedback_frame.grid(row=2, column=0, sticky="ew", pady=10, padx=2)
         self.feedback_frame.grid_columnconfigure(0, weight=1)
         
         self.feedback_title = ctk.CTkLabel(
             self.feedback_frame,
             text="📋 Detalles:",
-            font=ctk.CTkFont(size=14, weight="bold")
+            font=ctk.CTkFont(size=13, weight="bold")
         )
         self.feedback_title.grid(row=0, column=0, sticky="w")
         
+        # Textbox para feedback con scroll propio
         self.feedback_text = ctk.CTkTextbox(
             self.feedback_frame,
-            height=150,
+            height=120,
             font=ctk.CTkFont(size=11),
-            wrap="word"
+            wrap="word",
+            scrollbar_button_color=("gray70", "gray30")
         )
         self.feedback_text.grid(row=1, column=0, sticky="ew", pady=(5, 0))
         
@@ -140,7 +160,7 @@ class ResultPanel(ctk.CTkFrame):
             self.feedback_text.configure(state="normal")
             self.feedback_text.delete("1.0", "end")
             for line in feedback:
-                self.feedback_text.insert("end", f"• {line}\n")
+                self.feedback_text.insert("end", f"• {line}\n\n")
             self.feedback_text.configure(state="disabled")
             self.feedback_frame.grid()
         else:
@@ -156,17 +176,33 @@ class ResultPanel(ctk.CTkFrame):
     def show_results(
         self,
         title: Optional[str] = None,
-        results: Optional[dict] = None,
+        results: Optional[Dict] = None,
         interpretation: Optional[str] = None,
         feedback: Optional[List[str]] = None
     ):
-        """Compatibilidad: muestra resultados agregados con título e interpretación."""
-        main = title or "Resultados"
+        """
+        Muestra resultados con formato de tabla.
+        
+        Args:
+            title: Título del panel (opcional)
+            results: Diccionario de resultados {nombre: valor}
+            interpretation: Texto de interpretación
+            feedback: Lista de puntos de retroalimentación
+        """
+        if title:
+            self.title_label.configure(text=title)
+        
+        # Formatear resultados como texto estructurado
+        main_text = ""
         if results:
-            # Componer texto principal a partir de dict de resultados
-            lines = [f"{k}: {v}" for k, v in results.items()]
-            main = "\n".join(lines)
-        self.show_result(main_result=main, interpretation=interpretation, feedback=feedback)
+            for key, value in results.items():
+                main_text += f"▸ {key}: {value}\n"
+        
+        self.show_result(
+            main_result=main_text.strip() if main_text else "Sin resultados",
+            interpretation=interpretation,
+            feedback=feedback
+        )
     
     def clear(self):
         """Limpia el panel."""

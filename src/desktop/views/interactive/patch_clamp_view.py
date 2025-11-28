@@ -3,6 +3,7 @@ Vista interactiva del módulo de Patch Clamp.
 """
 
 import customtkinter as ctk
+import tkinter as tk
 import numpy as np
 from typing import Optional
 
@@ -53,15 +54,23 @@ class PatchClampView(ctk.CTkFrame):
         )
         self.subtitle.grid(row=1, column=0, sticky="w")
         
-        # Panel principal
-        self.main_frame = ctk.CTkFrame(self)
-        self.main_frame.grid(row=1, column=0, sticky="nsew")
-        self.main_frame.grid_columnconfigure((0, 1), weight=1)
-        self.main_frame.grid_rowconfigure(0, weight=1)
+        # Panel principal con PanedWindow horizontal
+        self.main_paned = tk.PanedWindow(
+            self,
+            orient=tk.HORIZONTAL,
+            sashwidth=6,
+            sashrelief=tk.RAISED,
+            bg="#3a3a3a"
+        )
+        self.main_paned.grid(row=1, column=0, sticky="nsew")
         
         # Panel izquierdo - Tabs de cálculos
-        self.tabs = ctk.CTkTabview(self.main_frame, width=420)
-        self.tabs.grid(row=0, column=0, sticky="nsew", padx=(10, 5), pady=10)
+        left_frame = ctk.CTkFrame(self.main_paned)
+        left_frame.grid_columnconfigure(0, weight=1)
+        left_frame.grid_rowconfigure(0, weight=1)
+        
+        self.tabs = ctk.CTkTabview(left_frame, width=400)
+        self.tabs.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         
         self.tab_nernst = self.tabs.add("Nernst")
         self.tab_ghk = self.tabs.add("Goldman (GHK)")
@@ -71,17 +80,43 @@ class PatchClampView(ctk.CTkFrame):
         self._setup_ghk_tab()
         self._setup_iv_tab()
         
-        # Panel derecho - Resultados y gráficos
-        self.right_panel = ctk.CTkFrame(self.main_frame)
-        self.right_panel.grid(row=0, column=1, sticky="nsew", padx=(5, 10), pady=10)
-        self.right_panel.grid_columnconfigure(0, weight=1)
-        self.right_panel.grid_rowconfigure((0, 1), weight=1)
+        # Panel derecho con PanedWindow vertical
+        right_outer = ctk.CTkFrame(self.main_paned)
+        right_outer.grid_columnconfigure(0, weight=1)
+        right_outer.grid_rowconfigure(0, weight=1)
         
-        self.result_panel = ResultPanel(self.right_panel)
+        self.right_paned = tk.PanedWindow(
+            right_outer,
+            orient=tk.VERTICAL,
+            sashwidth=6,
+            sashrelief=tk.RAISED,
+            bg="#3a3a3a"
+        )
+        self.right_paned.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        
+        # Panel de resultados
+        result_container = ctk.CTkFrame(self.right_paned)
+        result_container.grid_columnconfigure(0, weight=1)
+        result_container.grid_rowconfigure(0, weight=1)
+        
+        self.result_panel = ResultPanel(result_container)
         self.result_panel.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         
-        self.plot_canvas = PlotCanvas(self.right_panel, figsize=(5, 4))
-        self.plot_canvas.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        # Panel del gráfico
+        plot_container = ctk.CTkFrame(self.right_paned)
+        plot_container.grid_columnconfigure(0, weight=1)
+        plot_container.grid_rowconfigure(0, weight=1)
+        
+        self.plot_canvas = PlotCanvas(plot_container, figsize=(5, 3.5))
+        self.plot_canvas.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        
+        # Añadir paneles al PanedWindow vertical
+        self.right_paned.add(result_container, minsize=150, stretch="always")
+        self.right_paned.add(plot_container, minsize=200, stretch="always")
+        
+        # Añadir paneles al PanedWindow horizontal
+        self.main_paned.add(left_frame, minsize=380, stretch="always")
+        self.main_paned.add(right_outer, minsize=400, stretch="always")
     
     def _setup_nernst_tab(self):
         """Configura el tab de Nernst."""

@@ -104,17 +104,19 @@ class OsmolaritySolver(BaseSolver):
         }
         
         # Autocompletar coeficientes si se proporciona nombre del soluto
-        if solute_name and solute_name.lower() in self.DISSOCIATION_COEFFICIENTS:
-            solute_key = solute_name.lower() if solute_name.lower() != "nacl" else "NaCl"
+        if solute_name:
+            # Buscar el soluto en los diccionarios (insensible a mayúsculas)
+            solute_key = None
             for key in self.DISSOCIATION_COEFFICIENTS:
                 if key.lower() == solute_name.lower():
                     solute_key = key
                     break
             
-            if dissociation_coef is None:
-                dissociation_coef = self.DISSOCIATION_COEFFICIENTS.get(solute_key, 1)
-            if osmotic_coef is None:
-                osmotic_coef = self.OSMOTIC_COEFFICIENTS.get(solute_key, 1.0)
+            if solute_key:
+                if dissociation_coef is None:
+                    dissociation_coef = self.DISSOCIATION_COEFFICIENTS.get(solute_key, 1)
+                if osmotic_coef is None:
+                    osmotic_coef = self.OSMOTIC_COEFFICIENTS.get(solute_key, 1.0)
         
         # Valores por defecto
         dissociation_coef = dissociation_coef or 1

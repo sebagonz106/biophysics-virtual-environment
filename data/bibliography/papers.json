@@ -1,0 +1,53 @@
+{
+  "papers": [
+    {
+      "id": "hodgkin-huxley-1952",
+      "title": "A quantitative description of membrane current and its application to conduction and excitation in nerve",
+      "authors": ["A. L. Hodgkin", "A. F. Huxley"],
+      "journal": "The Journal of Physiology",
+      "volume": "117",
+      "issue": "4",
+      "pages": "500-544",
+      "year": 1952,
+      "doi": "10.1113/jphysiol.1952.sp004764",
+      "topics": ["potencial de acción", "canales iónicos", "modelo matemático"],
+      "abstract": "El trabajo seminal que describe el modelo matemático del potencial de acción en el axón gigante del calamar."
+    },
+    {
+      "id": "neher-sakmann-1976",
+      "title": "Single-channel currents recorded from membrane of denervated frog muscle fibres",
+      "authors": ["E. Neher", "B. Sakmann"],
+      "journal": "Nature",
+      "volume": "260",
+      "issue": "5554",
+      "pages": "799-802",
+      "year": 1976,
+      "doi": "10.1038/260799a0",
+      "topics": ["patch clamp", "canales iónicos", "técnicas experimentales"],
+      "abstract": "Primera descripción de la técnica de patch clamp para registrar corrientes de canales iónicos individuales."
+    },
+    {
+      "id": "goldman-1943",
+      "title": "Potential, impedance, and rectification in membranes",
+      "authors": ["David E. Goldman"],
+      "journal": "The Journal of General Physiology",
+      "volume": "27",
+      "issue": "1",
+      "pages": "37-60",
+      "year": 1943,
+      "doi": "10.1085/jgp.27.1.37",
+      "topics": ["potencial de membrana", "permeabilidad", "ecuación GHK"],
+      "abstract": "Derivación de la ecuación de Goldman para el potencial de membrana considerando múltiples iones."
+    },
+    {
+      "id": "finkelstein-1987",
+      "title": "Water movement through lipid bilayers, pores, and plasma membranes",
+      "authors": ["Alan Finkelstein"],
+      "journal": "Wiley-Interscience",
+      "year": 1987,
+      "isbn": "978-0471043683",
+      "topics": ["ósmosis", "acuaporinas", "permeabilidad al agua"],
+      "abstract": "Monografía clásica sobre el transporte de agua a través de membranas biológicas."
+    }
+  ]
+}

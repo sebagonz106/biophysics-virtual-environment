@@ -75,25 +75,35 @@ Banco de ejercicios organizados por tema de la asignatura, que incluye:
 
 ### 4. Módulos Interactivos 🧮
 
-**Núcleo innovador de la herramienta.** Los estudiantes, mediante algoritmos personalizados en Python, pueden introducir variables específicas y obtener retroalimentación inmediata.
+**Núcleo innovador de la herramienta.** Los estudiantes, mediante algoritmos personalizados en Python, pueden introducir variables específicas y obtener retroalimentación inmediata. Los paneles de resultados y gráficos son **redimensionables** y cuentan con **barras de desplazamiento** para mejorar la experiencia de usuario.
 
 #### 4.1 Módulo de Ósmosis
 
-| Funcionalidad | Descripción |
-|---------------|-------------|
-| Cálculo de osmolaridad | Determina la osmolaridad a partir de concentración y coeficientes |
-| Clasificación de tonicidad | Clasifica soluciones como hipotónicas, isotónicas o hipertónicas |
-| Predicción de volumen celular | Genera gráficos del comportamiento del volumen celular |
-| Análisis de respuesta celular | Predice lisis, crenación o equilibrio |
+| Solver | Entradas | Salidas |
+|--------|----------|---------|
+| **Cálculo de Osmolaridad** | `concentration_mM` (float): Concentración en mM<br>`solute_name` (str, opcional): Nombre del soluto (NaCl, KCl, glucosa, etc.)<br>`dissociation_coef` (int, opcional): Coeficiente de disociación<br>`osmotic_coef` (float, opcional): Coeficiente osmótico | `osmolarity` (mOsm/L)<br>`tonicity` (hipotónica/isotónica/hipertónica)<br>`cell_response` (hinchazón/crenación/equilibrio)<br>`volume_change_percent` (%)<br>`interpretation` (texto explicativo)<br>`feedback` (lista de puntos educativos) |
+| **Clasificador de Tonicidad** | `osmolarity` (float): Osmolaridad en mOsm/L | `tonicity` (str)<br>`relative_to_plasma` (%)<br>`category_detail` (descripción detallada) |
+| **Volumen Celular (Boyle-van't Hoff)** | `initial_osmolarity` (float, default=285): mOsm/L inicial<br>`final_osmolarity` (float): mOsm/L final<br>`initial_volume` (float, default=1.0): Volumen normalizado<br>`non_osmotic_fraction` (float, default=0.4): Fracción b | `volume_change_percent` (%)<br>`cell_response` (lisis/hinchazón/crenación/equilibrio)<br>`tonicity` (str)<br>`volume_data` (datos para gráfico temporal)<br>`interpretation` y `feedback` |
+
+**Solutos predefinidos con coeficientes automáticos:**
+- Electrolitos: NaCl (i=2), KCl (i=2), CaCl₂ (i=3), MgCl₂ (i=3), NaHCO₃ (i=2)
+- No electrolitos: Glucosa (i=1), Urea (i=1), Sacarosa (i=1)
 
 #### 4.2 Módulo de Patch Clamp
 
-| Funcionalidad | Descripción |
-|---------------|-------------|
-| Ecuación de Nernst | Calcula potenciales de equilibrio iónico |
-| Ecuación de Goldman-Hodgkin-Katz | Determina el potencial de membrana |
-| Curvas I-V | Genera gráficos de corriente vs. voltaje |
-| Simulación de experimentos | Interpreta resultados experimentales de Patch Clamp |
+| Solver | Entradas | Salidas |
+|--------|----------|---------|
+| **Ecuación de Nernst** | `ion` (str): Nombre del ion (K+, Na+, Cl-, Ca2+)<br>`z` (int): Valencia del ion<br>`C_out` (float): Concentración extracelular (mM)<br>`C_in` (float): Concentración intracelular (mM)<br>`temperature_C` (float, default=37): Temperatura °C | `E_eq` (mV): Potencial de equilibrio<br>`interpretation` (texto explicativo)<br>`feedback` (detalles del cálculo) |
+| **Ecuación de Goldman-Hodgkin-Katz** | `P_K`, `P_Na`, `P_Cl` (float): Permeabilidades relativas<br>`K_out/in`, `Na_out/in`, `Cl_out/in` (float): Concentraciones (mM)<br>`temperature_C` (float, default=37) | `membrane_potential` (mV)<br>`dominant_ion` (str)<br>`permeabilities` (dict)<br>`concentrations` (dict)<br>`interpretation` y `feedback` |
+| **Curvas I-V** | `conductance` (float): Conductancia en nS<br>`reversal_potential` (float): E_rev en mV<br>`voltage_min/max` (float): Rango de voltaje<br>*O datos experimentales:* `voltages` y `currents` (listas) | `voltage` (lista mV)<br>`current` (lista pA)<br>`reversal_potential` (mV)<br>`conductance` (nS)<br>`R²` (solo para datos experimentales)<br>Gráfico I-V interactivo |
+
+**Concentraciones iónicas predefinidas (condiciones fisiológicas):**
+| Ion | [Intracelular] mM | [Extracelular] mM | Valencia |
+|-----|-------------------|-------------------|----------|
+| K⁺  | 140 | 5 | +1 |
+| Na⁺ | 12 | 145 | +1 |
+| Cl⁻ | 4 | 120 | -1 |
+| Ca²⁺| 0.0001 | 2.5 | +2 |
 
 ---
 
@@ -101,7 +111,7 @@ Banco de ejercicios organizados por tema de la asignatura, que incluye:
 
 ### Requisitos Previos
 
-- **Python 3.10 o superior**
+- **Python 3.10 o superior** (probado con Python 3.14)
 - **pip** (gestor de paquetes de Python)
 - **Git** (opcional, para clonar el repositorio)
 
@@ -256,11 +266,25 @@ La aplicación presenta una barra lateral izquierda con acceso a los cuatro mód
 2. **Introduzca los parámetros** en los campos correspondientes
 3. **Pulse "Calcular"** para obtener los resultados
 4. **Analice la retroalimentación** proporcionada, incluyendo gráficos si aplica
+5. **Redimensione los paneles** arrastrando las barras divisoras entre resultados y gráficos
+
+### Bibliografía
+
+- Navegue entre las pestañas **Libros** y **Artículos**
+- Pase el cursor sobre las tarjetas para ver el efecto hover
+- Haga clic en **"Abrir PDF"** para visualizar documentos locales
+- Haga clic en **"DOI"** para abrir artículos en el navegador
+
+### Problemas Propuestos
+
+- Seleccione un tema desde la barra lateral
+- Haga clic en cualquier problema para ver su detalle
+- Los problemas muestran dificultad, puntuación y solución paso a paso
 
 ### Añadir Contenido
 
-- **Conferencias**: Copie archivos PDF a `data/conferences/pdfs/`
-- **Bibliografía**: Edite `data/bibliography/books.json` y añada PDFs a `data/bibliography/pdfs/`
+- **Conferencias**: Copie archivos PDF a `data/conferences/pdfs/` y actualice `_index.json`
+- **Bibliografía**: Edite `data/bibliography/books.json` y `papers.json`, añada PDFs a `data/bibliography/pdfs/`
 - **Problemas**: Cree archivos JSON siguiendo la plantilla en `data/problems/`
 
 ---

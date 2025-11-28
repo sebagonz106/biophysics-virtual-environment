@@ -1,0 +1,69 @@
+{
+  "books": [
+    {
+      "id": "guyton-hall",
+      "title": "Guyton y Hall: Tratado de Fisiología Médica",
+      "authors": ["John E. Hall", "Michael E. Hall"],
+      "edition": "14ª",
+      "year": 2021,
+      "publisher": "Elsevier",
+      "isbn": "978-8491138327",
+      "topics": ["fisiología", "electrofisiología", "transporte de membrana"],
+      "is_primary": true,
+      "local_path": null,
+      "description": "Texto de referencia principal para fisiología médica, con capítulos dedicados a potenciales de membrana, transporte iónico y ósmosis."
+    },
+    {
+      "id": "alberts-molecular",
+      "title": "Biología Molecular de la Célula",
+      "authors": ["Bruce Alberts", "Alexander Johnson", "Julian Lewis", "David Morgan", "Martin Raff", "Keith Roberts", "Peter Walter"],
+      "edition": "6ª",
+      "year": 2015,
+      "publisher": "Garland Science",
+      "isbn": "978-0815344322",
+      "topics": ["biología celular", "membranas", "canales iónicos"],
+      "is_primary": true,
+      "local_path": null,
+      "description": "Referencia completa sobre biología celular y molecular, con énfasis en estructura y función de membranas."
+    },
+    {
+      "id": "hille-ion-channels",
+      "title": "Ion Channels of Excitable Membranes",
+      "authors": ["Bertil Hille"],
+      "edition": "3ª",
+      "year": 2001,
+      "publisher": "Sinauer Associates",
+      "isbn": "978-0878933211",
+      "topics": ["canales iónicos", "patch clamp", "electrofisiología"],
+      "is_primary": false,
+      "local_path": null,
+      "description": "El texto clásico sobre canales iónicos y electrofisiología de membranas excitables."
+    },
+    {
+      "id": "nicholls-neuroscience",
+      "title": "From Neuron to Brain",
+      "authors": ["John G. Nicholls", "A. Robert Martin", "Paul A. Fuchs", "David A. Brown", "Mathew E. Diamond", "David A. Bhownick"],
+      "edition": "6ª",
+      "year": 2021,
+      "publisher": "Oxford University Press",
+      "isbn": "978-0197549193",
+      "topics": ["neurociencia", "potencial de acción", "sinapsis"],
+      "is_primary": false,
+      "local_path": null,
+      "description": "Texto de neurociencia con enfoque cuantitativo en mecanismos eléctricos neuronales."
+    },
+    {
+      "id": "lodish-molecular",
+      "title": "Molecular Cell Biology",
+      "authors": ["Harvey Lodish", "Arnold Berk", "Chris A. Kaiser", "Monty Krieger", "Anthony Bretscher", "Hidde Ploegh", "Kelsey C. Martin", "Michael B. Yaffe", "Angelika Amon"],
+      "edition": "9ª",
+      "year": 2021,
+      "publisher": "W.H. Freeman",
+      "isbn": "978-1319208523",
+      "topics": ["biología celular", "señalización", "membranas"],
+      "is_primary": false,
+      "local_path": null,
+      "description": "Texto integral de biología celular molecular con capítulos dedicados a transporte y membranas."
+    }
+  ]
+}

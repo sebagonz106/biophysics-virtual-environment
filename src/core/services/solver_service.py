@@ -2,10 +2,70 @@
 Servicio que coordina los diferentes solvers.
 """
 
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
+from dataclasses import dataclass
 from ..solvers.osmosis import OsmolaritySolver, TonicityClassifier, CellVolumeSolver
 from ..solvers.patch_clamp import NernstSolver, GoldmanHodgkinKatzSolver, IVCurveSolver
-from ..domain.solver_result import OsmosisResult, PatchClampResult
+from ..domain.solver_result import OsmosisResult, PatchClampResult, IVCurveData
+
+
+# ==================== CLASES DE RESULTADO ADAPTADAS ====================
+# Estas clases adaptan los resultados internos al formato que espera la GUI
+
+@dataclass
+class OsmolarityResultAdapted:
+    """Resultado adaptado para la GUI de osmolaridad."""
+    osmolarity: float
+    concentration_mM: float
+    n: int  # Coeficiente de disociación
+    g: float  # Coeficiente osmótico
+    tonicity_classification: Optional[str]
+    clinical_interpretation: Optional[str]
+    feedback: List[str]
+
+
+@dataclass
+class VolumeResultAdapted:
+    """Resultado adaptado para la GUI de volumen celular."""
+    initial_volume: float
+    final_volume: float
+    internal_osmolarity: float
+    external_osmolarity: float
+    tonicity: Optional[str]
+    interpretation: Optional[str]
+    feedback: List[str]
+
+
+@dataclass
+class NernstResultAdapted:
+    """Resultado adaptado para la GUI de Nernst."""
+    equilibrium_potential: float
+    concentration_out: float
+    concentration_in: float
+    valence: int
+    temperature_kelvin: float
+    interpretation: Optional[str]
+    feedback: List[str]
+
+
+@dataclass
+class GHKResultAdapted:
+    """Resultado adaptado para la GUI de Goldman."""
+    membrane_potential: float
+    ion_contributions: Dict[str, float]
+    temperature_kelvin: float
+    interpretation: Optional[str]
+    feedback: List[str]
+
+
+@dataclass
+class IVCurveResultAdapted:
+    """Resultado adaptado para la GUI de curva I-V."""
+    voltages: List[float]
+    currents: List[float]
+    reversal_potential: float
+    conductance: float
+    iv_curve: Any  # Para compatibilidad con el objeto IVCurveData
 
 
 class SolverService:
@@ -31,54 +91,95 @@ class SolverService:
     
     def calculate_osmolarity(
         self,
-        concentration_mM: float,
+        concentration_mM: float = 0,
+        solute_name: Optional[str] = None,
+        g: Optional[float] = None,
+        n: Optional[int] = None,
+        # Parámetros alternativos para compatibilidad
         dissociation_coef: Optional[int] = None,
         osmotic_coef: Optional[float] = None,
-        solute_name: Optional[str] = None
-    ) -> OsmosisResult:
+    ) -> OsmolarityResultAdapted:
         """
         Calcula la osmolaridad de una solución.
         
         Args:
             concentration_mM: Concentración en mM
-            dissociation_coef: Coeficiente de disociación
-            osmotic_coef: Coeficiente osmótico
             solute_name: Nombre del soluto (para autocompletar)
+            g: Coeficiente osmótico (alias de osmotic_coef)
+            n: Coeficiente de disociación (alias de dissociation_coef)
             
         Returns:
-            OsmosisResult con osmolaridad y clasificación
+            OsmolarityResultAdapted con osmolaridad y clasificación
         """
-        return self.osmolarity_solver.solve(
+        # Usar aliases si se proporcionan
+        dissociation = n or dissociation_coef
+        osmotic = g or osmotic_coef
+        
+        result = self.osmolarity_solver.solve(
             concentration_mM=concentration_mM,
-            dissociation_coef=dissociation_coef,
-            osmotic_coef=osmotic_coef,
+            dissociation_coef=dissociation,
+            osmotic_coef=osmotic,
             solute_name=solute_name
+        )
+        
+        # Adaptar resultado
+        return OsmolarityResultAdapted(
+            osmolarity=result.osmolarity or 0.0,
+            concentration_mM=concentration_mM,
+            n=result.inputs.get("dissociation_coef", 1),
+            g=result.inputs.get("osmotic_coef", 1.0),
+            tonicity_classification=result.tonicity,
+            clinical_interpretation=result.interpretation,
+            feedback=result.feedback or []
         )
     
     def calculate_cell_volume(
         self,
-        final_osmolarity: float,
-        initial_osmolarity: float = 285,
         initial_volume: float = 1.0,
-        non_osmotic_fraction: float = 0.4
-    ) -> OsmosisResult:
+        internal_osmolarity: float = 285,
+        external_osmolarity: float = 285,
+        non_osmotic_fraction: float = 0.4,
+        # Alias para compatibilidad
+        final_osmolarity: Optional[float] = None,
+        initial_osmolarity: Optional[float] = None,
+    ) -> VolumeResultAdapted:
         """
         Calcula el cambio de volumen celular.
         
         Args:
-            final_osmolarity: Osmolaridad del nuevo medio
-            initial_osmolarity: Osmolaridad inicial
-            initial_volume: Volumen inicial normalizado
+            initial_volume: Volumen inicial
+            internal_osmolarity: Osmolaridad interna (inicial)
+            external_osmolarity: Osmolaridad externa (final)
             non_osmotic_fraction: Fracción no osmótica
             
         Returns:
-            OsmosisResult con predicción de volumen
+            VolumeResultAdapted con predicción de volumen
         """
-        return self.cell_volume_solver.solve(
-            final_osmolarity=final_osmolarity,
-            initial_osmolarity=initial_osmolarity,
+        # Usar parámetros correctos
+        osm_initial = initial_osmolarity or internal_osmolarity
+        osm_final = final_osmolarity or external_osmolarity
+        
+        result = self.cell_volume_solver.solve(
+            final_osmolarity=osm_final,
+            initial_osmolarity=osm_initial,
             initial_volume=initial_volume,
             non_osmotic_fraction=non_osmotic_fraction
+        )
+        
+        # Calcular volumen final
+        b = non_osmotic_fraction
+        final_vol = (b * initial_volume) + (
+            initial_volume * (1 - b) * (osm_initial / osm_final)
+        )
+        
+        return VolumeResultAdapted(
+            initial_volume=initial_volume,
+            final_volume=final_vol,
+            internal_osmolarity=osm_initial,
+            external_osmolarity=osm_final,
+            tonicity=result.tonicity,
+            interpretation=result.interpretation,
+            feedback=result.feedback or []
         )
     
     def get_clinical_examples(self) -> Dict:
@@ -102,8 +203,14 @@ class SolverService:
         z: int = 0,
         C_out: float = 0.0,
         C_in: float = 0.0,
-        temperature_C: float = 37
-    ) -> PatchClampResult:
+        temperature_C: float = 37,
+        # Aliases para compatibilidad con la GUI
+        ion_name: Optional[str] = None,
+        concentration_out: Optional[float] = None,
+        concentration_in: Optional[float] = None,
+        valence: Optional[int] = None,
+        temperature_celsius: Optional[float] = None,
+    ) -> NernstResultAdapted:
         """
         Calcula el potencial de equilibrio de Nernst.
         
@@ -115,14 +222,34 @@ class SolverService:
             temperature_C: Temperatura (°C)
             
         Returns:
-            PatchClampResult con potencial de equilibrio
+            NernstResultAdapted con potencial de equilibrio
         """
-        return self.nernst_solver.solve(
-            ion=ion,
-            z=z,
-            C_out=C_out,
-            C_in=C_in,
-            temperature_C=temperature_C
+        # Usar aliases si están disponibles
+        ion_final = ion_name or ion
+        z_final = valence if valence is not None else z
+        c_out_final = concentration_out if concentration_out is not None else C_out
+        c_in_final = concentration_in if concentration_in is not None else C_in
+        temp_final = temperature_celsius if temperature_celsius is not None else temperature_C
+        
+        result = self.nernst_solver.solve(
+            ion=ion_final,
+            z=z_final,
+            C_out=c_out_final,
+            C_in=c_in_final,
+            temperature_C=temp_final
+        )
+        
+        # Extraer resultado de Nernst
+        nernst_data = result.nernst_results[0] if result.nernst_results else None
+        
+        return NernstResultAdapted(
+            equilibrium_potential=nernst_data.E_eq if nernst_data else 0.0,
+            concentration_out=c_out_final,
+            concentration_in=c_in_final,
+            valence=z_final,
+            temperature_kelvin=temp_final + 273.15,
+            interpretation=result.interpretation,
+            feedback=result.feedback or []
         )
     
     def calculate_nernst_all_ions(
@@ -143,20 +270,63 @@ class SolverService:
         Na_in: float = 12,
         Cl_out: float = 120,
         Cl_in: float = 4,
-        temperature_C: float = 37
-    ) -> PatchClampResult:
+        temperature_C: float = 37,
+        # Aliases para compatibilidad con la GUI
+        concentrations_out: Optional[Dict[str, float]] = None,
+        concentrations_in: Optional[Dict[str, float]] = None,
+        permeabilities: Optional[Dict[str, float]] = None,
+        temperature_celsius: Optional[float] = None,
+    ) -> GHKResultAdapted:
         """
         Calcula el potencial de membrana usando GHK.
         
         Returns:
-            PatchClampResult con potencial de membrana
+            GHKResultAdapted con potencial de membrana
         """
-        return self.ghk_solver.solve(
-            P_K=P_K, P_Na=P_Na, P_Cl=P_Cl,
-            K_out=K_out, K_in=K_in,
-            Na_out=Na_out, Na_in=Na_in,
-            Cl_out=Cl_out, Cl_in=Cl_in,
-            temperature_C=temperature_C
+        # Usar diccionarios si están disponibles
+        if concentrations_out and concentrations_in and permeabilities:
+            K_out = concentrations_out.get("K", K_out)
+            Na_out = concentrations_out.get("Na", Na_out)
+            Cl_out = concentrations_out.get("Cl", Cl_out)
+            K_in = concentrations_in.get("K", K_in)
+            Na_in = concentrations_in.get("Na", Na_in)
+            Cl_in = concentrations_in.get("Cl", Cl_in)
+            P_K = permeabilities.get("K", P_K)
+            P_Na = permeabilities.get("Na", P_Na)
+            P_Cl = permeabilities.get("Cl", P_Cl)
+        
+        temp = temperature_celsius if temperature_celsius is not None else temperature_C
+        
+        # Construir diccionario de iones para el solver
+        ions = {
+            'K': {'C_out': K_out, 'C_in': K_in, 'P': P_K},
+            'Na': {'C_out': Na_out, 'C_in': Na_in, 'P': P_Na},
+            'Cl': {'C_out': Cl_out, 'C_in': Cl_in, 'P': P_Cl}
+        }
+        
+        result = self.ghk_solver.solve(
+            ions=ions,
+            temperature_C=temp
+        )
+        
+        # Calcular contribuciones relativas (simplificado)
+        ghk = result.ghk_result
+        contributions = {}
+        if ghk:
+            # Las contribuciones son relativas a las permeabilidades
+            total_p = P_K + P_Na + P_Cl
+            contributions = {
+                "K": P_K / total_p,
+                "Na": P_Na / total_p,
+                "Cl": P_Cl / total_p
+            }
+        
+        return GHKResultAdapted(
+            membrane_potential=ghk.membrane_potential if ghk else 0.0,
+            ion_contributions=contributions,
+            temperature_kelvin=temp + 273.15,
+            interpretation=result.interpretation,
+            feedback=result.feedback or []
         )
     
     def simulate_action_potential(
@@ -170,8 +340,9 @@ class SolverService:
         self,
         conductance: float = 10,
         reversal_potential: float = -80,
-        voltage_range: tuple = (-120, 60)
-    ) -> PatchClampResult:
+        voltage_range: tuple = (-120, 60),
+        voltage_step: float = 10,
+    ) -> IVCurveResultAdapted:
         """
         Genera una curva I-V teórica.
         
@@ -179,15 +350,33 @@ class SolverService:
             conductance: Conductancia del canal (nS)
             reversal_potential: Potencial de reversión (mV)
             voltage_range: Rango de voltajes
+            voltage_step: Paso de voltaje
             
         Returns:
-            PatchClampResult con datos de curva I-V
+            IVCurveResultAdapted con datos de curva I-V
         """
-        return self.iv_curve_solver.solve(
-            conductance=conductance,
+        import numpy as np
+        
+        # Generar voltajes
+        voltages = list(np.arange(voltage_range[0], voltage_range[1] + voltage_step, voltage_step))
+        
+        # Calcular corrientes: I = g * (V - E_rev)
+        currents = [conductance * (v - reversal_potential) for v in voltages]
+        
+        # Crear objeto de curva I-V compatible
+        iv_curve = IVCurveData(
+            voltage=voltages,
+            current=currents,
             reversal_potential=reversal_potential,
-            voltage_min=voltage_range[0],
-            voltage_max=voltage_range[1]
+            conductance=conductance
+        )
+        
+        return IVCurveResultAdapted(
+            voltages=voltages,
+            currents=currents,
+            reversal_potential=reversal_potential,
+            conductance=conductance,
+            iv_curve=iv_curve
         )
     
     def analyze_iv_data(
