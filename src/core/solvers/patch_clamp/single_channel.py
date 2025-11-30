@@ -7,7 +7,8 @@ simulando el comportamiento estocástico de apertura/cierre del canal.
 
 from typing import Any, Dict, List, Tuple, Optional
 from random import uniform
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+import numpy as np
 from ..base_solver import BaseSolver
 
 
@@ -27,15 +28,26 @@ class SingleChannelData:
 
 
 @dataclass
+class ContinuousWaveformData:
+    """Datos para la forma de onda continua (realista)."""
+    time_points: List[float]
+    current_points: List[float]
+    tau_activation: float  # Constante de tiempo de activación (ms)
+    tau_inactivation: float  # Constante de tiempo de inactivación (ms)
+    tau_deactivation: float  # Constante de tiempo de desactivación (ms)
+
+
+@dataclass
 class SingleChannelResult:
     """Resultado completo de la simulación de canal único."""
     
     success: bool
     channel_data: Optional[SingleChannelData]
-    time_points: List[float]  # Puntos de tiempo para graficar
-    current_points: List[float]  # Valores de corriente para graficar
-    interpretation: str
-    feedback: List[str]
+    time_points: List[float]  # Puntos de tiempo para graficar (rectangular)
+    current_points: List[float]  # Valores de corriente para graficar (rectangular)
+    continuous_waveform: Optional[ContinuousWaveformData] = None  # Forma de onda continua
+    interpretation: str = ""
+    feedback: List[str] = field(default_factory=list)
     error_message: Optional[str] = None
 
 
@@ -64,6 +76,13 @@ class SingleChannelSolver(BaseSolver):
     DEFAULT_E_K = -80.0   # mV (potencial de equilibrio K+)
     DEFAULT_V_REST = -70.0  # mV (potencial de reposo)
     DEFAULT_TIME_RANGE = 10.0  # ms (rango típico de registro)
+    
+    # Constantes de tiempo típicas (ms) para forma de onda continua
+    TAU_ACTIVATION_NA = 0.3   # Activación rápida de Na+
+    TAU_INACTIVATION_NA = 0.8  # Inactivación de Na+
+    TAU_ACTIVATION_K = 1.5    # Activación lenta de K+
+    TAU_INACTIVATION_K = 8.0  # K+ no tiene inactivación significativa
+    TAU_DEACTIVATION = 0.2    # Desactivación (cierre)
     
     def get_required_params(self) -> Dict[str, Dict[str, Any]]:
         return {
@@ -163,11 +182,19 @@ class SingleChannelSolver(BaseSolver):
             for t0, t1 in activation_intervals
         ]
         
-        # Generar puntos para la gráfica
+        # Generar puntos para la gráfica rectangular
         time_points, current_points = self._generate_plot_data(
             intensity=intensity,
             activation_intervals=time_intervals_ms,
             time_range_ms=time_range_ms
+        )
+        
+        # Generar forma de onda continua (realista)
+        continuous_waveform = self._generate_continuous_waveform(
+            intensity=intensity,
+            activation_intervals=time_intervals_ms,
+            time_range_ms=time_range_ms,
+            ion=ion
         )
         
         # Crear datos del canal
@@ -192,6 +219,7 @@ class SingleChannelSolver(BaseSolver):
             channel_data=channel_data,
             time_points=time_points,
             current_points=current_points,
+            continuous_waveform=continuous_waveform,
             interpretation=interpretation,
             feedback=feedback
         )
@@ -244,7 +272,8 @@ class SingleChannelSolver(BaseSolver):
         # Generar intervalos de apertura estocásticos
         rate = 2
         min_interval = 0.025 * rate
-        print("Probabilidad de apertura:", p, "\n\n")
+        
+        # Ajustar hasta obtener una probabilidad de apertura adecuada
         real_prob = 1.0
         while real_prob > p or real_prob < 5 * p / 6:
             x_0 = 0.0
@@ -258,6 +287,7 @@ class SingleChannelSolver(BaseSolver):
                 last -= uniform(min_interval, p/2)
                 data.append((last, rate * 1.0))
 
+            # Generar aperturas y cierres
             while x_0 < last:
                 u = uniform(0, 1)
                 if u < p:
@@ -273,7 +303,6 @@ class SingleChannelSolver(BaseSolver):
             real_prob = sum(t1 - t0 for t0, t1 in data) / rate
 
             data = sorted(data, key=lambda x: x[0])
-            print(real_prob, data, "\n")
 
         # Procesar datos para evitar solapamientos y duraciones excesivas
         prev = (0.0, 0.0)
@@ -300,8 +329,6 @@ class SingleChannelSolver(BaseSolver):
         
         if prev != (0.0, 0.0) and prev not in processed_data:
             processed_data.append(prev)
-
-        print(processed_data)
 
         return (intensity, is_fast, processed_data)
     
@@ -425,3 +452,116 @@ class SingleChannelSolver(BaseSolver):
             )
         
         return feedback
+    
+    def _generate_continuous_waveform(
+        self,
+        intensity: float,
+        activation_intervals: List[Tuple[float, float]],
+        time_range_ms: float,
+        ion: str,
+        resolution: int = 1000
+    ) -> ContinuousWaveformData:
+        """
+        Genera una forma de onda continua (realista) con transiciones exponenciales.
+        
+        Modela las transiciones de apertura y cierre del canal usando
+        funciones exponenciales que representan la cinética real:
+        
+        - Activación: I(t) = I_max × (1 - e^(-t/τ_act))
+        - Inactivación (Na+): I(t) = I_max × e^(-t/τ_inact))
+        - Desactivación: I(t) = I_max × e^(-t/τ_deact)
+        
+        Args:
+            intensity: Intensidad máxima de corriente (pA)
+            activation_intervals: Intervalos de apertura [(t0, t1), ...]
+            time_range_ms: Duración total del registro (ms)
+            ion: Tipo de ion ("Na+" o "K+")
+            resolution: Número de puntos para la curva
+            
+        Returns:
+            ContinuousWaveformData con los puntos de la forma de onda
+        """
+        # Seleccionar constantes de tiempo según el ion
+        if ion == "Na+":
+            tau_act = self.TAU_ACTIVATION_NA
+            tau_inact = self.TAU_INACTIVATION_NA
+        else:
+            tau_act = self.TAU_ACTIVATION_K
+            tau_inact = self.TAU_INACTIVATION_K  # K+ no inactiva significativamente
+        
+        tau_deact = self.TAU_DEACTIVATION
+        
+        # Crear array de tiempo con alta resolución
+        time_points = np.linspace(0, time_range_ms, resolution)
+        current_points = np.zeros(resolution)
+        
+        if not activation_intervals or abs(intensity) < 0.01:
+            return ContinuousWaveformData(
+                time_points=time_points.tolist(),
+                current_points=current_points.tolist(),
+                tau_activation=tau_act,
+                tau_inactivation=tau_inact,
+                tau_deactivation=tau_deact
+            )
+        
+        # Procesar cada intervalo de apertura
+        for t_open, t_close in activation_intervals:
+            # Encontrar índices correspondientes
+            idx_open = np.searchsorted(time_points, t_open)
+            idx_close = np.searchsorted(time_points, t_close)
+            
+            if idx_open >= resolution:
+                continue
+                
+            # 1. Fase de ACTIVACIÓN (subida exponencial)
+            # Durante el intervalo de apertura, el canal se activa
+            duration_open = t_close - t_open
+            
+            for i in range(idx_open, min(idx_close, resolution)):
+                t_rel = time_points[i] - t_open  # Tiempo relativo desde apertura
+                
+                # Activación: aproximación a intensidad máxima
+                activation = 1 - np.exp(-t_rel / tau_act)
+                
+                # Para Na+: también hay inactivación durante la apertura
+                if ion == "Na+":
+                    # La inactivación comienza después de un pequeño delay
+                    t_inact = max(0, t_rel - tau_act)  # Delay antes de inactivación
+                    inactivation = np.exp(-t_inact / tau_inact)
+                    current_points[i] += intensity * activation * inactivation
+                else:
+                    # K+ no tiene inactivación significativa
+                    current_points[i] += intensity * activation
+            
+            # 2. Fase de DESACTIVACIÓN (bajada exponencial después del cierre)
+            # El canal se cierra gradualmente después de t_close
+            idx_deact_end = min(resolution, idx_close + int(5 * tau_deact * resolution / time_range_ms))
+            
+            # Valor de corriente al momento del cierre
+            if idx_close > 0 and idx_close < resolution:
+                I_at_close = current_points[idx_close - 1] if idx_close > idx_open else intensity
+            else:
+                I_at_close = intensity * (1 - np.exp(-duration_open / tau_act))
+                if ion == "Na+":
+                    t_inact = max(0, duration_open - tau_act)
+                    I_at_close *= np.exp(-t_inact / tau_inact)
+            
+            for i in range(idx_close, idx_deact_end):
+                t_rel = time_points[i] - t_close  # Tiempo desde cierre
+                # Desactivación exponencial
+                decay = np.exp(-t_rel / tau_deact)
+                current_points[i] += I_at_close * decay
+        
+        # Suavizar para evitar discontinuidades (filtro de media móvil simple)
+        window_size = max(3, resolution // 200)
+        if window_size > 1:
+            kernel = np.ones(window_size) / window_size
+            current_points = np.convolve(current_points, kernel, mode='same')
+        
+        return ContinuousWaveformData(
+            time_points=time_points.tolist(),
+            current_points=current_points.tolist(),
+            tau_activation=tau_act,
+            tau_inactivation=tau_inact,
+            tau_deactivation=tau_deact
+        )

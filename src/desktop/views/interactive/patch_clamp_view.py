@@ -354,9 +354,32 @@ class PatchClampView(ctk.CTkFrame):
         )
         self.single_channel_form.grid(row=1, column=0, sticky="ew", padx=5)
         
+        # Frame para opciones de visualización
+        options_frame = ctk.CTkFrame(self.tab_single_channel)
+        options_frame.grid(row=2, column=0, sticky="ew", pady=(10, 5), padx=5)
+        
+        ctk.CTkLabel(
+            options_frame,
+            text="🔧 Opciones de visualización:",
+            font=ctk.CTkFont(size=12, weight="bold")
+        ).grid(row=0, column=0, sticky="w", padx=10, pady=(10, 5))
+        
+        # Variable para el switch de forma de onda continua
+        self.use_continuous_waveform = ctk.BooleanVar(value=False)
+        
+        self.continuous_switch = ctk.CTkSwitch(
+            options_frame,
+            text="Forma de onda continua (realista)",
+            variable=self.use_continuous_waveform,
+            onvalue=True,
+            offvalue=False,
+            font=ctk.CTkFont(size=11)
+        )
+        self.continuous_switch.grid(row=1, column=0, sticky="w", padx=15, pady=(5, 10))
+        
         # Escenarios de ejemplo
         scenarios_frame = ctk.CTkFrame(self.tab_single_channel)
-        scenarios_frame.grid(row=2, column=0, sticky="ew", pady=15, padx=5)
+        scenarios_frame.grid(row=3, column=0, sticky="ew", pady=10, padx=5)
         
         ctk.CTkLabel(
             scenarios_frame,
@@ -658,6 +681,9 @@ class PatchClampView(ctk.CTkFrame):
             conductance = float(data.get("conductance", 20))
             time_range = float(data.get("time_range", 20))
             
+            # Tipo de forma de onda (desde el switch)
+            use_continuous = self.use_continuous_waveform.get()
+            
             # Potencial de equilibrio (opcional)
             eq_pot_str = data.get("equilibrium_potential", "").strip()
             equilibrium_potential = float(eq_pot_str) if eq_pot_str else None
@@ -690,8 +716,16 @@ class PatchClampView(ctk.CTkFrame):
                 "Cinética": "Rápida (Na⁺)" if channel_data.is_fast else "Lenta (K⁺)",
                 "Eventos de apertura": str(num_openings),
                 "Tiempo abierto": f"{total_open_time:.2f} ms",
-                "Prob. apertura": f"{open_prob:.1f}%"
+                "Prob. apertura": f"{open_prob:.1f}%",
+                "Tipo de onda": "Continua" if use_continuous else "Rectangular"
             }
+            
+            # Añadir constantes de tiempo si es forma de onda continua
+            if use_continuous and result.continuous_waveform:
+                cw = result.continuous_waveform
+                results_data["τ activación"] = f"{cw.tau_activation:.2f} ms"
+                results_data["τ inactivación"] = f"{cw.tau_inactivation:.2f} ms"
+                results_data["τ desactivación"] = f"{cw.tau_deactivation:.2f} ms"
             
             self.result_panel.show_results(
                 title="📊 Registro de Canal Único",
@@ -701,34 +735,59 @@ class PatchClampView(ctk.CTkFrame):
             )
             
             # Graficar corriente vs tiempo
-            self._plot_single_channel_recording(result)
+            self._plot_single_channel_recording(result, use_continuous=use_continuous)
             
         except ValueError as e:
             self.result_panel.show_error(f"Error en los datos: {e}")
         except Exception as e:
             self.result_panel.show_error(f"Error de cálculo: {e}")
     
-    def _plot_single_channel_recording(self, result):
-        """Grafica el registro de canal único (corriente vs tiempo)."""
+    def _plot_single_channel_recording(self, result, use_continuous: bool = False):
+        """Grafica el registro de canal único (corriente vs tiempo).
+        
+        Args:
+            result: SingleChannelResult con los datos de la simulación
+            use_continuous: Si True, usa la forma de onda continua (realista);
+                          si False, usa la forma rectangular (ideal)
+        """
         self.plot_canvas.clear()
         
         channel_data = result.channel_data
         
-        # Graficar como step plot (rectangular)
-        if result.time_points and result.current_points:
+        if use_continuous and result.continuous_waveform:
+            # Graficar forma de onda continua (realista)
+            cw = result.continuous_waveform
             self.plot_canvas.ax.plot(
-                result.time_points,
-                result.current_points,
-                color="steelblue",
+                cw.time_points,
+                cw.current_points,
+                color="coral",
                 linewidth=1.5,
-                drawstyle="steps-post"
+                label="Continua"
             )
+            # Añadir leyenda con constantes de tiempo
+            self.plot_canvas.ax.legend(
+                title=f"τ_act={cw.tau_activation:.1f}ms, τ_inact={cw.tau_inactivation:.1f}ms",
+                loc="best",
+                fontsize=8
+            )
+        else:
+            # Graficar como step plot (rectangular/ideal)
+            if result.time_points and result.current_points:
+                self.plot_canvas.ax.plot(
+                    result.time_points,
+                    result.current_points,
+                    color="steelblue",
+                    linewidth=1.5,
+                    drawstyle="steps-post"
+                )
         
         # Configurar ejes
         self.plot_canvas.ax.set_xlabel("Tiempo (ms)")
         self.plot_canvas.ax.set_ylabel("Corriente (pA)")
+        
+        waveform_label = "Continua" if use_continuous else "Rectangular"
         self.plot_canvas.ax.set_title(
-            f"Registro de Canal {channel_data.ion} | Vm = {channel_data.membrane_potential:.0f} mV"
+            f"Registro de Canal {channel_data.ion} | Vm = {channel_data.membrane_potential:.0f} mV ({waveform_label})"
         )
         
         # Línea base en 0
