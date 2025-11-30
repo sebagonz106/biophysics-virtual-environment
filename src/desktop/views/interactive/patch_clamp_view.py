@@ -75,10 +75,12 @@ class PatchClampView(ctk.CTkFrame):
         self.tab_nernst = self.tabs.add("Nernst")
         self.tab_ghk = self.tabs.add("Goldman (GHK)")
         self.tab_iv = self.tabs.add("Curva I-V")
+        self.tab_single_channel = self.tabs.add("Registro")
         
         self._setup_nernst_tab()
         self._setup_ghk_tab()
         self._setup_iv_tab()
+        self._setup_single_channel_tab()
         
         # Panel derecho con PanedWindow vertical
         right_outer = ctk.CTkFrame(self.main_paned)
@@ -313,6 +315,68 @@ class PatchClampView(ctk.CTkFrame):
                 width=90,
                 height=28,
                 command=lambda cond=g, rev=e_rev: self._set_iv_example(cond, rev)
+            )
+            btn.grid(row=1, column=i, padx=5, pady=(5, 10))
+    
+    def _setup_single_channel_tab(self):
+        """Configura el tab de registro de canal único."""
+        self.tab_single_channel.grid_columnconfigure(0, weight=1)
+        
+        # Información
+        info = ctk.CTkLabel(
+            self.tab_single_channel,
+            text="Simulación de registro de canal único\n"
+                 "Genera gráfica de corriente vs tiempo",
+            font=ctk.CTkFont(size=11),
+            text_color="gray",
+            justify="left"
+        )
+        info.grid(row=0, column=0, sticky="w", pady=(10, 15))
+        
+        # Formulario
+        self.single_channel_form = InputForm(
+            self.tab_single_channel,
+            title="Parámetros del Registro",
+            fields=[
+                FormField(
+                    "ion", "Tipo de Canal", "combobox",
+                    options=["Na⁺", "K⁺"]
+                ),
+                FormField("membrane_potential", "Potencial de membrana (mV)", "entry", "-20"),
+                FormField("conductance", "Conductancia (pS)", "entry", "20",
+                         tooltip="Conductancia unitaria del canal"),
+                FormField("equilibrium_potential", "Potencial de equilibrio (mV)", "entry", "",
+                         tooltip="Dejar vacío para usar valor por defecto (+50 para Na⁺, -80 para K⁺)"),
+                FormField("time_range", "Duración del registro (ms)", "entry", "20"),
+            ],
+            on_submit=self._calculate_single_channel,
+            submit_text="Simular Registro"
+        )
+        self.single_channel_form.grid(row=1, column=0, sticky="ew", padx=5)
+        
+        # Escenarios de ejemplo
+        scenarios_frame = ctk.CTkFrame(self.tab_single_channel)
+        scenarios_frame.grid(row=2, column=0, sticky="ew", pady=15, padx=5)
+        
+        ctk.CTkLabel(
+            scenarios_frame,
+            text="🧪 Escenarios:",
+            font=ctk.CTkFont(size=12, weight="bold")
+        ).grid(row=0, column=0, columnspan=3, sticky="w", padx=10, pady=(10, 5))
+        
+        scenarios = [
+            ("Na⁺ Despolarizado", "Na⁺", "0"),
+            ("Na⁺ Reposo", "Na⁺", "-70"),
+            ("K⁺ Despolarizado", "K⁺", "0"),
+        ]
+        
+        for i, (name, ion, vm) in enumerate(scenarios):
+            btn = ctk.CTkButton(
+                scenarios_frame,
+                text=name,
+                width=110,
+                height=28,
+                command=lambda io=ion, v=vm: self._set_single_channel_example(io, v)
             )
             btn.grid(row=1, column=i, padx=5, pady=(5, 10))
     
@@ -578,3 +642,119 @@ class PatchClampView(ctk.CTkFrame):
         """Establece valores de ejemplo para curva I-V."""
         self.iv_form.set_value("conductance", conductance)
         self.iv_form.set_value("reversal_potential", reversal)
+    
+    def _calculate_single_channel(self, data: dict):
+        """Calcula y grafica el registro de canal único."""
+        if not self.solver_service:
+            self.result_panel.show_error("Servicio no disponible")
+            return
+        
+        try:
+            # Obtener valores
+            ion_raw = data.get("ion", "Na⁺")
+            ion = ion_raw.replace("⁺", "+").replace("⁻", "-")
+            
+            membrane_potential = float(data.get("membrane_potential", -20))
+            conductance = float(data.get("conductance", 20))
+            time_range = float(data.get("time_range", 20))
+            
+            # Potencial de equilibrio (opcional)
+            eq_pot_str = data.get("equilibrium_potential", "").strip()
+            equilibrium_potential = float(eq_pot_str) if eq_pot_str else None
+            
+            # Simular
+            result = self.solver_service.simulate_single_channel(
+                ion=ion,
+                membrane_potential=membrane_potential,
+                conductance=conductance,
+                equilibrium_potential=equilibrium_potential,
+                time_range_ms=time_range
+            )
+            
+            if not result.success:
+                self.result_panel.show_error(result.error_message or "Error en la simulación")
+                return
+            
+            channel_data = result.channel_data
+            
+            # Mostrar resultados
+            num_openings = len(channel_data.activation_intervals)
+            total_open_time = sum(t1 - t0 for t0, t1 in channel_data.time_intervals_ms)
+            open_prob = (total_open_time / channel_data.time_range_ms * 100) if channel_data.time_range_ms > 0 else 0
+            
+            results_data = {
+                "Canal": ion_raw,
+                "Vm aplicado": f"{channel_data.membrane_potential:.1f} mV",
+                "Eeq": f"{channel_data.equilibrium_potential:.1f} mV",
+                "Corriente (canal abierto)": f"{channel_data.intensity:.2f} pA",
+                "Cinética": "Rápida (Na⁺)" if channel_data.is_fast else "Lenta (K⁺)",
+                "Eventos de apertura": str(num_openings),
+                "Tiempo abierto": f"{total_open_time:.2f} ms",
+                "Prob. apertura": f"{open_prob:.1f}%"
+            }
+            
+            self.result_panel.show_results(
+                title="📊 Registro de Canal Único",
+                results=results_data,
+                interpretation=result.interpretation,
+                feedback=result.feedback
+            )
+            
+            # Graficar corriente vs tiempo
+            self._plot_single_channel_recording(result)
+            
+        except ValueError as e:
+            self.result_panel.show_error(f"Error en los datos: {e}")
+        except Exception as e:
+            self.result_panel.show_error(f"Error de cálculo: {e}")
+    
+    def _plot_single_channel_recording(self, result):
+        """Grafica el registro de canal único (corriente vs tiempo)."""
+        self.plot_canvas.clear()
+        
+        channel_data = result.channel_data
+        
+        # Graficar como step plot (rectangular)
+        if result.time_points and result.current_points:
+            self.plot_canvas.ax.plot(
+                result.time_points,
+                result.current_points,
+                color="steelblue",
+                linewidth=1.5,
+                drawstyle="steps-post"
+            )
+        
+        # Configurar ejes
+        self.plot_canvas.ax.set_xlabel("Tiempo (ms)")
+        self.plot_canvas.ax.set_ylabel("Corriente (pA)")
+        self.plot_canvas.ax.set_title(
+            f"Registro de Canal {channel_data.ion} | Vm = {channel_data.membrane_potential:.0f} mV"
+        )
+        
+        # Línea base en 0
+        self.plot_canvas.ax.axhline(y=0, color="gray", linestyle="--", alpha=0.5, linewidth=0.8)
+        
+        # Ajustar límites del eje Y
+        if channel_data.intensity != 0:
+            margin = abs(channel_data.intensity) * 0.2
+            if channel_data.intensity > 0:
+                self.plot_canvas.ax.set_ylim(-margin, channel_data.intensity + margin)
+            else:
+                self.plot_canvas.ax.set_ylim(channel_data.intensity - margin, margin)
+        else:
+            self.plot_canvas.ax.set_ylim(-10, 10)
+        
+        # Límites del eje X
+        self.plot_canvas.ax.set_xlim(0, channel_data.time_range_ms)
+        
+        # Grid sutil
+        self.plot_canvas.ax.grid(True, alpha=0.3)
+        
+        self.plot_canvas.draw()
+    
+    def _set_single_channel_example(self, ion: str, vm: str):
+        """Establece valores de ejemplo para registro de canal único."""
+        self.single_channel_form.set_value("ion", ion)
+        self.single_channel_form.set_value("membrane_potential", vm)
+        # Resetear potencial de equilibrio para usar por defecto
+        self.single_channel_form.set_value("equilibrium_potential", "")

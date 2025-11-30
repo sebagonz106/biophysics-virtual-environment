@@ -5,7 +5,8 @@ Servicio que coordina los diferentes solvers.
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
 from ..solvers.osmosis import OsmolaritySolver, TonicityClassifier, CellVolumeSolver
-from ..solvers.patch_clamp import NernstSolver, GoldmanHodgkinKatzSolver, IVCurveSolver
+from ..solvers.patch_clamp import NernstSolver, GoldmanHodgkinKatzSolver, IVCurveSolver, SingleChannelSolver
+from ..solvers.patch_clamp.single_channel import SingleChannelResult
 from ..domain.solver_result import OsmosisResult, PatchClampResult, IVCurveData
 
 
@@ -86,6 +87,7 @@ class SolverService:
         self.nernst_solver = NernstSolver()
         self.ghk_solver = GoldmanHodgkinKatzSolver()
         self.iv_curve_solver = IVCurveSolver()
+        self.single_channel_solver = SingleChannelSolver()
     
     # ==================== MÉTODOS DE ÓSMOSIS ====================
     
@@ -386,6 +388,36 @@ class SolverService:
     ) -> PatchClampResult:
         """Analiza datos experimentales de curva I-V."""
         return self.iv_curve_solver.analyze_experimental_data(voltages, currents)
+    
+    def simulate_single_channel(
+        self,
+        ion: str,
+        membrane_potential: float,
+        conductance: float = 20.0,
+        equilibrium_potential: Optional[float] = None,
+        time_range_ms: float = 10.0,
+    ) -> SingleChannelResult:
+        """
+        Simula un registro de canal único.
+        
+        Args:
+            ion: Tipo de canal ("Na+" o "K+")
+            membrane_potential: Potencial de membrana aplicado (mV)
+            conductance: Conductancia del canal (pS). Por defecto 20 pS
+            equilibrium_potential: Potencial de equilibrio (mV).
+                                   Por defecto +50 mV para Na+, -80 mV para K+
+            time_range_ms: Duración del registro en ms. Por defecto 10 ms
+            
+        Returns:
+            SingleChannelResult con los datos de la simulación
+        """
+        return self.single_channel_solver.solve(
+            ion=ion,
+            membrane_potential=membrane_potential,
+            conductance=conductance,
+            equilibrium_potential=equilibrium_potential,
+            time_range_ms=time_range_ms
+        )
     
     # ==================== MÉTODOS DE INFORMACIÓN ====================
     
