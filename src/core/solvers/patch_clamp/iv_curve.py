@@ -34,10 +34,10 @@ class IVCurveSolver(BaseSolver):
         return {
             "conductance": {
                 "type": float,
-                "description": "Conductancia del canal (nS)",
-                "unit": "nS",
-                "default": 10,
-                "range": (0.1, 1000),
+                "description": "Conductancia del canal (pS)",
+                "unit": "pS",
+                "default": 20,
+                "range": (1, 1000),
             },
             "reversal_potential": {
                 "type": float,
@@ -68,7 +68,7 @@ class IVCurveSolver(BaseSolver):
     
     def solve(
         self,
-        conductance: float = 10,
+        conductance: float = 20,
         reversal_potential: float = -80,
         voltage_min: float = -120,
         voltage_max: float = 60,
@@ -92,7 +92,9 @@ class IVCurveSolver(BaseSolver):
         voltages = np.linspace(voltage_min, voltage_max, num_points)
         
         # Calcular corrientes (ley de Ohm)
-        currents = conductance * (voltages - reversal_potential)  # en pA si g en nS
+        # I (pA) = g (pS) * (V - E_rev) (mV) * 1000
+        # Nota: 1 pS * 1 mV = 0.001 pA, por eso multiplicamos por 1000
+        currents = conductance * (voltages - reversal_potential) * 1000  # en pA si g en pS
         
         # Crear datos de curva I-V
         iv_data = IVCurveData(
@@ -193,14 +195,14 @@ class IVCurveSolver(BaseSolver):
         
         interpretation = (
             f"Análisis de curva I-V experimental:\n"
-            f"- Conductancia: {g:.2f} nS\n"
+            f"- Conductancia: {g:.2f} pS\n"
             f"- Potencial de reversión: {E_rev:.1f} mV\n"
             f"- R² = {r_squared:.4f} (ajuste lineal)"
         )
         
         feedback = [
             f"Se analizaron {len(voltages)} puntos experimentales",
-            f"Conductancia calculada: g = {g:.2f} nS",
+            f"Conductancia calculada: g = {g:.2f} pS",
             f"Potencial de reversión: E_rev = {E_rev:.1f} mV",
             f"Coeficiente de determinación: R² = {r_squared:.4f}",
         ]
@@ -275,7 +277,7 @@ class IVCurveSolver(BaseSolver):
             interpretation=interpretation,
             feedback=[
                 f"Tipo de rectificación: {rectification_type}",
-                f"Conductancia base: {conductance} nS",
+                f"Conductancia base: {conductance} pS",
                 f"Potencial de reversión: {reversal_potential} mV",
             ],
         )
@@ -287,7 +289,7 @@ class IVCurveSolver(BaseSolver):
     ) -> str:
         """Genera interpretación del resultado."""
         interpretation = (
-            f"Curva I-V teórica para un canal con conductancia g = {conductance} nS "
+            f"Curva I-V teórica para un canal con conductancia g = {conductance} pS "
             f"y potencial de reversión E_rev = {reversal_potential} mV.\n\n"
         )
         
@@ -332,7 +334,7 @@ class IVCurveSolver(BaseSolver):
         
         feedback.append("")
         feedback.append(f"Parámetros del canal:")
-        feedback.append(f"  Conductancia (g): {conductance} nS")
+        feedback.append(f"  Conductancia (g): {conductance} pS")
         feedback.append(f"  Potencial de reversión (E_rev): {reversal_potential} mV")
         
         feedback.append("")

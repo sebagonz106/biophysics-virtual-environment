@@ -272,18 +272,7 @@ class NernstSolver(BaseSolver):
         )
         
         # Agregar información específica para iones comunes
-        if ion == "K+":
-            interpretation += (
-                " El K+ es el principal determinante del potencial de reposo "
-                "debido a la alta permeabilidad de la membrana a este ion."
-            )
-        elif ion == "Na+":
-            interpretation += (
-                " El Na+ tiene un potencial muy positivo, lo que explica "
-                "la despolarización durante el potencial de acción cuando "
-                "se abren los canales de Na+."
-            )
-        elif ion == "Cl-":
+        if ion == "Cl-":
             interpretation += (
                 " El Cl- tiene un potencial cercano al de reposo, por lo que "
                 "su apertura de canales tiende a estabilizar el potencial de membrana."

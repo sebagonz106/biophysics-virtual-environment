@@ -135,10 +135,10 @@ class PatchClampView(ctk.CTkFrame):
             self.tab_iv,
             title="Parámetros del Canal",
             fields=[
-                FormField("conductance", "Conductancia (nS)", "entry", "1.0"),
+                FormField("conductance", "Conductancia (pS)", "entry", "20"),
                 FormField("reversal_potential", "Potencial de reversión (mV)", "entry", "-80"),
                 FormField("v_min", "Voltaje mínimo (mV)", "entry", "-100"),
-                FormField("v_max", "Voltaje máximo (mV)", "entry", "50"),
+                FormField("v_max", "Voltaje máximo (mV)", "entry", "100"),
                 FormField("v_step", "Paso de voltaje (mV)", "entry", "10"),
             ],
             on_submit=self._calculate_iv,
@@ -157,9 +157,9 @@ class PatchClampView(ctk.CTkFrame):
         ).grid(row=0, column=0, columnspan=3, sticky="w", padx=10, pady=(10, 5))
         
         channels = [
-            ("Canal K⁺", "1.0", "-80"),
-            ("Canal Na⁺", "1.5", "+60"),
-            ("Canal Cl⁻", "0.5", "-70"),
+            ("Canal K⁺", "20", "-80"),
+            ("Canal Na⁺", "20", "+50"),
+            ("Canal Cl⁻", "15", "-70"),
         ]
         
         for i, (name, g, e_rev) in enumerate(channels):
@@ -284,7 +284,7 @@ class PatchClampView(ctk.CTkFrame):
             
             # Mostrar resultados
             results_data = {
-                "Conductancia": f"{g:.2f} nS",
+                "Conductancia": f"{g:.2f} pS",
                 "Potencial de reversión": f"{e_rev:.1f} mV",
                 "Rango de voltaje": f"{v_min:.0f} a {v_max:.0f} mV",
                 "Puntos generados": str(len(result.voltages))
