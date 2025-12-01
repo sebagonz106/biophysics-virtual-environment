@@ -1,5 +1,5 @@
 """
-Vista de problemas propuestos.
+Vista de problemas propuestos y seminarios.
 """
 
 import customtkinter as ctk
@@ -8,7 +8,7 @@ from tkinter import messagebox
 
 class ProblemsView(ctk.CTkFrame):
     """
-    Vista para el módulo de Problemas Propuestos.
+    Vista para el módulo de Problemas Propuestos y Seminarios.
     """
     
     def __init__(self, master, app=None, **kwargs):
@@ -21,33 +21,54 @@ class ProblemsView(ctk.CTkFrame):
         self.grid_rowconfigure(1, weight=1)
         
         self._create_widgets()
-        self._load_problems()
     
     def _create_widgets(self):
         """Crea los widgets de la vista."""
         # Header
         header_frame = ctk.CTkFrame(self, fg_color="transparent")
-        header_frame.grid(row=0, column=0, sticky="ew", pady=(0, 20))
-        header_frame.grid_columnconfigure(1, weight=1)
+        header_frame.grid(row=0, column=0, sticky="ew", pady=(0, 10))
         
         self.title = ctk.CTkLabel(
             header_frame,
-            text="📝 Problemas Propuestos",
+            text="📝 Problemas y Seminarios",
             font=ctk.CTkFont(size=22, weight="bold")
         )
         self.title.grid(row=0, column=0, sticky="w")
         
         self.subtitle = ctk.CTkLabel(
             header_frame,
-            text="Ejercicios organizados por tema",
+            text="Ejercicios organizados por tema y seminarios del curso",
             font=ctk.CTkFont(size=12),
             text_color="gray"
         )
         self.subtitle.grid(row=1, column=0, sticky="w")
         
+        # Tabs para problemas y seminarios
+        self.tabview = ctk.CTkTabview(self)
+        self.tabview.grid(row=1, column=0, sticky="nsew")
+        
+        self.tab_problems = self.tabview.add("📋 Problemas")
+        self.tab_seminars = self.tabview.add("📚 Seminarios")
+        
+        # Configurar tabs
+        for tab in [self.tab_problems, self.tab_seminars]:
+            tab.grid_columnconfigure(0, weight=1)
+            tab.grid_rowconfigure(0, weight=1)
+        
+        # Crear contenido de cada tab
+        self._create_problems_tab()
+        self._create_seminars_tab()
+    
+    def _create_problems_tab(self):
+        """Crea el contenido del tab de problemas."""
+        container = ctk.CTkFrame(self.tab_problems, fg_color="transparent")
+        container.grid(row=0, column=0, sticky="nsew")
+        container.grid_columnconfigure(0, weight=1)
+        container.grid_rowconfigure(1, weight=1)
+        
         # Filtros
-        filter_frame = ctk.CTkFrame(header_frame, fg_color="transparent")
-        filter_frame.grid(row=0, column=1, rowspan=2, sticky="e")
+        filter_frame = ctk.CTkFrame(container, fg_color="transparent")
+        filter_frame.grid(row=0, column=0, sticky="ew", pady=(0, 10))
         
         ctk.CTkLabel(filter_frame, text="Categoría:").grid(row=0, column=0, padx=5)
         self.category_filter = ctk.CTkComboBox(
@@ -68,7 +89,7 @@ class ProblemsView(ctk.CTkFrame):
         self.difficulty_filter.grid(row=0, column=3, padx=5)
         
         # Panel principal dividido
-        self.main_paned = ctk.CTkFrame(self)
+        self.main_paned = ctk.CTkFrame(container)
         self.main_paned.grid(row=1, column=0, sticky="nsew")
         self.main_paned.grid_columnconfigure(0, weight=1)
         self.main_paned.grid_columnconfigure(1, weight=2)
@@ -110,6 +131,139 @@ class ProblemsView(ctk.CTkFrame):
             justify="left"
         )
         self.detail_content.grid(row=0, column=0, pady=20)
+        
+        # Cargar problemas
+        self._load_problems()
+    
+    def _create_seminars_tab(self):
+        """Crea el contenido del tab de seminarios."""
+        container = ctk.CTkScrollableFrame(self.tab_seminars)
+        container.grid(row=0, column=0, sticky="nsew")
+        container.grid_columnconfigure(0, weight=1)
+        
+        # Descripción
+        desc_label = ctk.CTkLabel(
+            container,
+            text="📖 Seminarios del curso con ejercicios y problemas propuestos",
+            font=ctk.CTkFont(size=14),
+            text_color="gray"
+        )
+        desc_label.grid(row=0, column=0, sticky="w", pady=(10, 20))
+        
+        # Cargar seminarios
+        self._load_seminars(container)
+    
+    def _load_seminars(self, container):
+        """Carga los seminarios desde el repositorio."""
+        if not self.app:
+            self._show_empty_seminars(container)
+            return
+        
+        seminars = self.app.problem_repo.get_all_seminars()
+        
+        if not seminars:
+            self._show_empty_seminars(container)
+            return
+        
+        for i, seminar in enumerate(seminars):
+            card = self._create_seminar_card(container, seminar)
+            card.grid(row=i+1, column=0, sticky="ew", pady=5, padx=5)
+    
+    def _show_empty_seminars(self, container):
+        """Muestra mensaje cuando no hay seminarios."""
+        empty_label = ctk.CTkLabel(
+            container,
+            text="📂 No hay seminarios disponibles\n\nColoque archivos PDF en data/problems/seminars/\ny edite el archivo _index.json",
+            font=ctk.CTkFont(size=14),
+            text_color="gray",
+            justify="center"
+        )
+        empty_label.grid(row=1, column=0, pady=50)
+    
+    def _create_seminar_card(self, parent, seminar: dict) -> ctk.CTkFrame:
+        """Crea una tarjeta para un seminario."""
+        card = ctk.CTkFrame(parent)
+        card.grid_columnconfigure(0, weight=1)
+        
+        # Header con número de orden
+        header = ctk.CTkFrame(card, fg_color="transparent")
+        header.grid(row=0, column=0, sticky="ew", padx=15, pady=(15, 5))
+        header.grid_columnconfigure(1, weight=1)
+        
+        # Número
+        order_label = ctk.CTkLabel(
+            header,
+            text=f"#{seminar.get('order', '?')}",
+            font=ctk.CTkFont(size=18, weight="bold"),
+            text_color=("blue", "lightblue"),
+            width=40
+        )
+        order_label.grid(row=0, column=0, padx=(0, 10))
+        
+        # Título
+        title = ctk.CTkLabel(
+            header,
+            text=seminar.get("title", "Sin título"),
+            font=ctk.CTkFont(size=15, weight="bold"),
+            anchor="w"
+        )
+        title.grid(row=0, column=1, sticky="w")
+        
+        # Descripción
+        if seminar.get("description"):
+            desc_label = ctk.CTkLabel(
+                card,
+                text=seminar["description"],
+                font=ctk.CTkFont(size=12),
+                text_color="gray",
+                anchor="w"
+            )
+            desc_label.grid(row=1, column=0, sticky="w", padx=15, pady=(0, 5))
+        
+        # Topics/Tags
+        if seminar.get("topics"):
+            topics_text = "Temas: " + ", ".join(seminar["topics"])
+            topics_label = ctk.CTkLabel(
+                card,
+                text=topics_text,
+                font=ctk.CTkFont(size=11),
+                text_color="gray"
+            )
+            topics_label.grid(row=2, column=0, sticky="w", padx=15, pady=(0, 5))
+        
+        # Botón de abrir
+        btn_frame = ctk.CTkFrame(card, fg_color="transparent")
+        btn_frame.grid(row=3, column=0, sticky="w", padx=15, pady=(5, 15))
+        
+        if seminar.get("local_path"):
+            open_btn = ctk.CTkButton(
+                btn_frame,
+                text="📄 Abrir Seminario",
+                width=140,
+                height=32,
+                command=lambda s=seminar: self._open_seminar(s)
+            )
+            open_btn.grid(row=0, column=0)
+        else:
+            no_file = ctk.CTkLabel(
+                btn_frame,
+                text="Archivo no disponible",
+                text_color="gray",
+                font=ctk.CTkFont(size=11)
+            )
+            no_file.grid(row=0, column=0)
+        
+        return card
+    
+    def _open_seminar(self, seminar: dict):
+        """Abre un archivo de seminario."""
+        if self.app and seminar.get("local_path"):
+            success = self.app.file_manager.open_pdf(seminar["local_path"])
+            if not success:
+                messagebox.showerror(
+                    "Error",
+                    f"No se pudo abrir el archivo:\n{seminar['local_path']}"
+                )
     
     def _load_problems(self):
         """Carga los problemas desde el repositorio."""

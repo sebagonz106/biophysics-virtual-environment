@@ -30,8 +30,8 @@ class Sidebar(ctk.CTkFrame):
         self.buttons = {}
         self.active_button = None
         
-        # Configurar grid
-        self.grid_rowconfigure(10, weight=1)  # Espaciador
+        # Configurar grid - row 11 será el espaciador
+        self.grid_rowconfigure(11, weight=1)
         
         self._create_widgets()
     

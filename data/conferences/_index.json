@@ -1,76 +1,201 @@
 {
   "version": "1.0.0",
-  "last_updated": "2024-01-01",
-  "conferences": [
+  "last_updated": "2025-11-30",
+  "topics": [
     {
-      "id": "conf-001",
-      "title": "Propiedades generales de las membranas biológicas",
-      "topic": "Membranas",
+      "id": "tema-1",
+      "title": "Tema #1: Difusión y Ósmosis",
       "order": 1,
-      "description": "Estructura, composición y funciones de las membranas celulares",
-      "local_path": null,
-      "keywords": ["membrana", "bicapa lipídica", "proteínas", "fluidez"],
-      "created_at": "2024-01-01T00:00:00"
+      "folder": "Tema #1",
+      "files": [
+        {
+          "id": "t1-conf1",
+          "title": "Conferencia 1",
+          "filename": "BF_Tema 1_Conferencia 1_BQ 3ro 2022.pdf",
+          "description": "Primera conferencia del Tema 1"
+        },
+        {
+          "id": "t1-conf2",
+          "title": "Conferencia 2",
+          "filename": "BF_Tema 1_Conferencia 2_BQ 3ro 2022.pdf",
+          "description": "Segunda conferencia del Tema 1"
+        },
+        {
+          "id": "t1-extra",
+          "title": "Difusión, Difusión Simple y Ósmosis",
+          "filename": "BF_Tema 1_Difusión, Difusión Simple y Ósmosis.pdf",
+          "description": "Material complementario sobre difusión y ósmosis"
+        }
+      ],
+      "keywords": ["difusión", "ósmosis", "membrana", "transporte pasivo"]
     },
     {
-      "id": "conf-002",
-      "title": "Fenómenos de transporte a través de membranas",
-      "topic": "Transporte",
+      "id": "tema-2",
+      "title": "Tema #2: Equilibrio Iónico Celular",
       "order": 2,
-      "description": "Difusión, ósmosis y transporte activo",
-      "local_path": null,
-      "keywords": ["transporte", "difusión", "ósmosis", "ATP"],
-      "created_at": "2024-01-01T00:00:00"
+      "folder": "Tema #2",
+      "files": [
+        {
+          "id": "t2-conf1",
+          "title": "Conferencia 1",
+          "filename": "BF_Tema 2_Conferencia 1_BQ 3ro 2022.pdf",
+          "description": "Primera conferencia del Tema 2"
+        },
+        {
+          "id": "t2-conf2",
+          "title": "Conferencia 2",
+          "filename": "BF_Tema 2_Conferencia 2_BQ 3ro 2022.pdf",
+          "description": "Segunda conferencia del Tema 2"
+        },
+        {
+          "id": "t2-extra",
+          "title": "Equilibrio Iónico Celular",
+          "filename": "BF_Tema 2_Equilibrio Iónico Celular.pdf",
+          "description": "Material complementario sobre equilibrio iónico"
+        }
+      ],
+      "keywords": ["Nernst", "Goldman", "potencial", "equilibrio", "iones"]
     },
     {
-      "id": "conf-003",
-      "title": "Ósmosis y regulación del volumen celular",
-      "topic": "Transporte",
+      "id": "tema-3",
+      "title": "Tema #3: Transporte Mediado",
       "order": 3,
-      "description": "Osmolaridad, tonicidad y respuesta celular",
-      "local_path": null,
-      "keywords": ["ósmosis", "osmolaridad", "tonicidad", "volumen"],
-      "created_at": "2024-01-01T00:00:00"
+      "folder": "Tema #3",
+      "files": [
+        {
+          "id": "t3-conf1",
+          "title": "Conferencia 1",
+          "filename": "BF_Tema 3_Conferencia 1_BQ 3ro 2022.pdf",
+          "description": "Primera conferencia del Tema 3"
+        },
+        {
+          "id": "t3-extra",
+          "title": "Transporte Mediado",
+          "filename": "BF_Tema 3_Transporte Mediado.pdf",
+          "description": "Material complementario sobre transporte mediado"
+        }
+      ],
+      "keywords": ["transporte activo", "transportadores", "ATP", "bombas"]
     },
     {
-      "id": "conf-004",
-      "title": "Bioelectricidad: Potenciales de equilibrio",
-      "topic": "Bioelectricidad",
+      "id": "tema-4",
+      "title": "Tema #4: Canales Iónicos y Patch Clamp",
       "order": 4,
-      "description": "Ecuación de Nernst y potenciales iónicos",
-      "local_path": null,
-      "keywords": ["Nernst", "potencial", "equilibrio", "ion"],
-      "created_at": "2024-01-01T00:00:00"
+      "folder": "Tema #4",
+      "files": [
+        {
+          "id": "t4-conf1",
+          "title": "Conferencia 1",
+          "filename": "BF_Tema 4_Conferencia 1_BQ 3ro 2022.pdf",
+          "description": "Primera conferencia del Tema 4"
+        },
+        {
+          "id": "t4-conf2",
+          "title": "Conferencia 2",
+          "filename": "BF_Tema 4_Conferencia 2_BQ 3ro 2022.pdf",
+          "description": "Segunda conferencia del Tema 4"
+        },
+        {
+          "id": "t4-conf3",
+          "title": "Conferencia 3",
+          "filename": "BF_Tema 4_Conferencia 3_BQ 3ro 2022.pdf",
+          "description": "Tercera conferencia del Tema 4"
+        },
+        {
+          "id": "t4-canales",
+          "title": "Canales Iónicos",
+          "filename": "BF_Tema 4_Canales Iónicos.pdf",
+          "description": "Material sobre canales iónicos"
+        },
+        {
+          "id": "t4-patch",
+          "title": "Modalidades de Patch-clamp",
+          "filename": "BF_Tema 4_Modalidades de Patch-clamp.pdf",
+          "description": "Técnicas y modalidades de patch clamp"
+        }
+      ],
+      "keywords": ["patch clamp", "canales iónicos", "corriente", "voltaje", "conductancia"]
     },
     {
-      "id": "conf-005",
-      "title": "Potencial de membrana en reposo",
-      "topic": "Bioelectricidad",
+      "id": "tema-5",
+      "title": "Tema #5: Excitabilidad",
       "order": 5,
-      "description": "Ecuación de Goldman-Hodgkin-Katz",
-      "local_path": null,
-      "keywords": ["Goldman", "GHK", "potencial de reposo", "permeabilidad"],
-      "created_at": "2024-01-01T00:00:00"
+      "folder": "Tema #5",
+      "files": [
+        {
+          "id": "t5-conf1",
+          "title": "Conferencia 1",
+          "filename": "BF_Tema 5_Conferencia 1_BQ 3ro 2022.pdf",
+          "description": "Primera conferencia del Tema 5"
+        },
+        {
+          "id": "t5-conf2",
+          "title": "Conferencia 2",
+          "filename": "BF_Tema 5_Conferencia 2_BQ 3ro 2022.pdf",
+          "description": "Segunda conferencia del Tema 5"
+        },
+        {
+          "id": "t5-conf3",
+          "title": "Conferencia 3",
+          "filename": "BF_Tema 5_Conferencia 3_BQ 3ro 2022.pdf",
+          "description": "Tercera conferencia del Tema 5"
+        },
+        {
+          "id": "t5-extra",
+          "title": "Excitabilidad",
+          "filename": "BF_Tema 5_Excitabilidad.pdf",
+          "description": "Material complementario sobre excitabilidad celular"
+        }
+      ],
+      "keywords": ["potencial de acción", "excitabilidad", "despolarización", "umbral"]
     },
     {
-      "id": "conf-006",
-      "title": "Potencial de acción",
-      "topic": "Bioelectricidad",
+      "id": "tema-6",
+      "title": "Tema #6: Movimiento Mecánico Celular",
       "order": 6,
-      "description": "Génesis y propagación del potencial de acción",
-      "local_path": null,
-      "keywords": ["potencial de acción", "despolarización", "canales iónicos"],
-      "created_at": "2024-01-01T00:00:00"
+      "folder": "Tema #6",
+      "files": [
+        {
+          "id": "t6-conf1",
+          "title": "Conferencia 1",
+          "filename": "BF_Tema 6_Conferencia 1_BQ 3ro 2022.pdf",
+          "description": "Primera conferencia del Tema 6"
+        },
+        {
+          "id": "t6-conf2",
+          "title": "Conferencia 2",
+          "filename": "BF_Tema 6_Conferencia 2_BQ 3ro 2022.pdf",
+          "description": "Segunda conferencia del Tema 6"
+        },
+        {
+          "id": "t6-acoplamiento",
+          "title": "Acoplamiento Excitación-Contracción",
+          "filename": "BF_Tema 6_Acoplamiento Excitación-Contracción.pdf",
+          "description": "Material sobre acoplamiento E-C"
+        },
+        {
+          "id": "t6-movimiento",
+          "title": "Movimiento Mecánico Celular",
+          "filename": "BF_Tema 6_Movimiento Mecánico Celular.pdf",
+          "description": "Material sobre movimiento celular"
+        }
+      ],
+      "keywords": ["contracción", "músculo", "actina", "miosina", "calcio"]
     },
     {
-      "id": "conf-007",
-      "title": "Técnica de Patch Clamp",
-      "topic": "Técnicas",
+      "id": "tema-7",
+      "title": "Tema #7: Procesos Fotobiológicos",
       "order": 7,
-      "description": "Fundamentos y aplicaciones de patch clamp",
-      "local_path": null,
-      "keywords": ["patch clamp", "canales", "corriente", "voltaje"],
-      "created_at": "2024-01-01T00:00:00"
+      "folder": "Tema #7",
+      "files": [
+        {
+          "id": "t7-foto",
+          "title": "Procesos Fotobiológicos",
+          "filename": "BF_Tema 7_Procesos Fotobiológicos-1.pdf",
+          "description": "Material sobre procesos fotobiológicos"
+        }
+      ],
+      "keywords": ["fotobiología", "luz", "fotosíntesis", "absorción"]
     }
   ]
 }

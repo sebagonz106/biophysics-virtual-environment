@@ -72,12 +72,17 @@ class ConferencesView(ctk.CTkFrame):
             topics = {}
             for conf in conferences:
                 topic = conf.get("topic", "General")
+                topic_order = conf.get("topic_order", 999)
                 if topic not in topics:
-                    topics[topic] = []
-                topics[topic].append(conf)
+                    topics[topic] = {"order": topic_order, "conferences": []}
+                topics[topic]["conferences"].append(conf)
+            
+            # Ordenar temas por topic_order
+            sorted_topics = sorted(topics.items(), key=lambda x: x[1]["order"])
             
             row = 0
-            for topic, confs in sorted(topics.items()):
+            for topic, data in sorted_topics:
+                confs = data["conferences"]
                 # Header del tema
                 topic_frame = self._create_topic_section(topic, confs, row)
                 topic_frame.grid(row=row, column=0, sticky="ew", pady=10)
@@ -96,16 +101,16 @@ class ConferencesView(ctk.CTkFrame):
         )
         topic_label.grid(row=0, column=0, sticky="w", padx=15, pady=(15, 10))
         
-        # Lista de conferencias
+        # Lista de conferencias ordenadas por order
         for i, conf in enumerate(sorted(conferences, key=lambda x: x.get("order", 0))):
-            conf_item = self._create_conference_item(conf)
+            conf_item = self._create_conference_item(frame, conf)
             conf_item.grid(row=i+1, column=0, sticky="ew", padx=15, pady=2)
         
         return frame
     
-    def _create_conference_item(self, conf: dict) -> ctk.CTkFrame:
+    def _create_conference_item(self, parent: ctk.CTkFrame, conf: dict) -> ctk.CTkFrame:
         """Crea un item de conferencia."""
-        frame = ctk.CTkFrame(self.main_frame, fg_color=("gray90", "gray20"))
+        frame = ctk.CTkFrame(parent, fg_color=("gray90", "gray20"))
         frame.grid_columnconfigure(1, weight=1)
         
         # Número de orden
