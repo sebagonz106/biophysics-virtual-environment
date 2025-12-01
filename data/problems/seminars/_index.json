@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2025-11-30",
+  "seminars": [
+    {
+      "id": "seminario-1",
+      "title": "Seminario 1: Difusión y Ósmosis",
+      "order": 1,
+      "filename": "BF_Seminario 1_BQ 3ro 2022.pdf",
+      "topics": ["difusión", "ósmosis", "membrana"],
+      "description": "Ejercicios sobre difusión simple, facilitada y ósmosis"
+    },
+    {
+      "id": "seminario-2",
+      "title": "Seminario 2: Equilibrio Iónico",
+      "order": 2,
+      "filename": "BF_Seminario 2_BQ 3ro 2022.pdf",
+      "topics": ["Nernst", "Goldman", "potencial de membrana"],
+      "description": "Ejercicios sobre ecuación de Nernst y potenciales de equilibrio"
+    },
+    {
+      "id": "seminario-3",
+      "title": "Seminario 3: Canales Iónicos y Patch Clamp",
+      "order": 3,
+      "filename": "BF_Seminario_3_BQ 3ro 2022.pdf",
+      "topics": ["patch clamp", "canales iónicos", "conductancia"],
+      "description": "Ejercicios sobre técnicas de patch clamp y análisis de canales"
+    },
+    {
+      "id": "seminario-4",
+      "title": "Seminario 4: Excitabilidad",
+      "order": 4,
+      "filename": "BF_Seminario_4_BQ 3ro 2022.pdf",
+      "topics": ["potencial de acción", "excitabilidad", "umbral"],
+      "description": "Ejercicios sobre potenciales de acción y excitabilidad celular"
+    }
+  ]
+}

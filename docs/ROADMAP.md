@@ -1,362 +1,373 @@
-# 🗺️ Roadmap de Mejoras y Revisiones
+# 🗺️ Roadmap del Proyecto
 
 **Entorno Virtual para la Enseñanza de la Biofísica**  
-*Última actualización: 28 de noviembre de 2025*
+*Última actualización: 30 de noviembre de 2025*
 
 ---
 
-## 📊 Estado Actual de la Aplicación
+## 📊 Estado Actual — Versión 1.0.0
 
-La aplicación está **funcional** en su versión 1.0.0 con los siguientes módulos operativos:
+### Resumen de Funcionalidades Implementadas
 
-| Módulo | Estado | Observaciones |
-|--------|--------|---------------|
-| 🏠 Vista de Inicio | ✅ Completo | Navegación y accesos rápidos |
-| 📖 Conferencias | ✅ Funcional | Requiere contenido (PDFs) |
-| 📚 Bibliografía | ✅ Funcional | Libros y artículos con hover |
-| 📝 Problemas | ✅ Funcional | Requiere más ejercicios |
-| 💧 Ósmosis | ✅ Completo | 3 calculadoras operativas |
-| ⚡ Patch Clamp | ✅ Completo | 3 calculadoras operativas |
+| Módulo | Estado | Descripción |
+|--------|--------|-------------|
+| 🏠 **Inicio** | ✅ Completo | Pantalla de bienvenida con logo y accesos rápidos |
+| 📖 **Conferencias** | ✅ Completo | 7 temas con 20 PDFs organizados por carpetas |
+| 📚 **Bibliografía** | ✅ Completo | 10 libros + 1 artículo con acceso a PDFs |
+| 📝 **Problemas** | ✅ Completo | Banco de ejercicios con filtros y detalles |
+| 📚 **Seminarios** | ✅ Completo | 4 seminarios del curso en PDF |
+| 💧 **Ósmosis** | ✅ Completo | Comparación de osmolaridades con gráficos |
+| ⚖️ **Equilibrio Iónico** | ✅ Completo | Ecuación de Nernst con 7 iones predefinidos |
+| ⚡ **Patch Clamp** | ✅ Completo | Curvas I-V y registro de canal único |
+
+### Características de la Interfaz
+
+- ✅ Barra lateral con navegación visual
+- ✅ Logo personalizado en sidebar, home y barra de tareas
+- ✅ Paneles redimensionables con PanedWindow
+- ✅ Barras de desplazamiento en resultados y gráficos
+- ✅ Pestañas para organizar contenido
+- ✅ Efectos hover en tarjetas de bibliografía
+- ✅ Apertura de PDFs con visor del sistema
+
+### Solvers Implementados
+
+#### Módulo de Ósmosis
+| Solver | Archivo | Funcionalidad |
+|--------|---------|---------------|
+| `OsmolarityComparisonSolver` | `osmolarity_comparison.py` | Comparación intra/extracelular con múltiples solutos |
+| `OsmolaritySolver` | `osmolarity.py` | Cálculo de osmolaridad simple |
+| `TonicitySolver` | `tonicity.py` | Clasificación de tonicidad |
+| `CellVolumeSolver` | `cell_volume.py` | Volumen celular Boyle-van't Hoff |
+| `VolumeDynamicsSolver` | `volume_dynamics.py` | Dinámica temporal del volumen |
+
+#### Módulo de Equilibrio Iónico
+| Solver | Archivo | Funcionalidad |
+|--------|---------|---------------|
+| `NernstSolver` | `ionic_equilibrium/nernst.py` | Potencial de equilibrio de Nernst |
+
+#### Módulo de Patch Clamp
+| Solver | Archivo | Funcionalidad |
+|--------|---------|---------------|
+| `NernstSolver` | `patch_clamp/nernst.py` | Potencial de Nernst (duplicado) |
+| `GoldmanSolver` | `goldman.py` | Ecuación de Goldman-Hodgkin-Katz |
+| `IVCurveSolver` | `iv_curve.py` | Curvas corriente-voltaje |
+| `SingleChannelSolver` | `single_channel.py` | Análisis de canal único |
 
 ---
 
-## 🔴 Prioridad Alta — Correcciones Necesarias
+## 🔴 Prioridad Alta — Próximas Mejoras
 
-### 1. Validación de Entrada de Datos
-**Problema**: Los formularios no validan completamente los datos antes de enviarlos a los solvers.
+### 1. Unificación de Solvers de Nernst
+**Estado**: Pendiente  
+**Problema**: Existe duplicación entre `ionic_equilibrium/nernst.py` y `patch_clamp/nernst.py`
 
 **Tareas**:
-- [ ] Añadir validación de rangos numéricos en `InputForm`
-- [ ] Mostrar mensajes de error específicos por campo
-- [ ] Prevenir concentraciones negativas o cero
-- [ ] Validar que la temperatura esté en rangos fisiológicos
+- [ ] Consolidar en un único solver base
+- [ ] Mantener referencias desde ambos módulos
+- [ ] Actualizar imports en las vistas
 
-**Archivos afectados**: `src/desktop/components/input_form.py`
-
----
-
-### 2. Manejo de Errores en Solvers
-**Problema**: Algunos errores de cálculo no se capturan correctamente.
+### 2. Integración Completa de Goldman-Hodgkin-Katz
+**Estado**: Parcialmente implementado (solver existe, GUI incompleta)
 
 **Tareas**:
-- [ ] Envolver todos los cálculos en try-except
-- [ ] Retornar mensajes de error descriptivos en español
-- [ ] Registrar errores en log para debugging
+- [ ] Añadir tab de Goldman en Equilibrio Iónico
+- [ ] Campos para permeabilidades relativas (P_K, P_Na, P_Cl)
+- [ ] Gráfico comparativo con potenciales individuales de Nernst
 
-**Archivos afectados**: `src/core/solvers/**/*.py`
-
----
-
-### 3. Persistencia de Configuración de Usuario
-**Problema**: Los cambios de tema o preferencias no se guardan.
+### 3. Validación de Datos de Entrada
+**Estado**: Básica
 
 **Tareas**:
-- [ ] Implementar guardado de preferencias en `data/user_data/`
-- [ ] Recordar última vista visitada
-- [ ] Guardar historial de cálculos recientes
-
-**Archivos afectados**: `src/infrastructure/file_manager.py`, `src/desktop/app.py`
+- [ ] Validar rangos fisiológicos de concentraciones
+- [ ] Prevenir valores negativos o cero donde no aplique
+- [ ] Mensajes de error específicos en español
+- [ ] Validar temperatura en rangos razonables
 
 ---
 
 ## 🟡 Prioridad Media — Mejoras Funcionales
 
-### 4. Añadir Más Solutos Predefinidos
-**Ubicación**: `src/core/solvers/osmosis/osmolarity.py`
-
-**Solutos a añadir**:
-- [ ] Manitol (20%, diurético osmótico)
-- [ ] NaHCO₃ (bicarbonato)
-- [ ] Albúmina (presión oncótica)
-- [ ] Lactato de Ringer (composición completa)
-- [ ] Dextrosa en diferentes concentraciones
-
----
-
-### 5. Calculadora de Presión Osmótica (π)
-**Estado**: No implementada
-
-**Funcionalidad propuesta**:
-- Ecuación de Van't Hoff: π = iMRT
-- Comparación con presión oncótica del plasma
-- Predicción de flujo de agua
-
-**Archivos a crear**: `src/core/solvers/osmosis/osmotic_pressure.py`
-
----
-
-### 6. Exportación de Resultados
-**Estado**: No implementada
+### 4. Exportación de Resultados
+**Estado**: No implementado
 
 **Funcionalidades propuestas**:
-- [ ] Exportar resultados a PDF
+- [ ] Exportar resultados a PDF con formato académico
 - [ ] Exportar gráficos como imágenes (PNG/SVG)
-- [ ] Generar reportes con interpretación completa
 - [ ] Copiar resultados al portapapeles
+- [ ] Generar reportes con interpretación completa
 
 **Archivos a crear**: `src/infrastructure/export_manager.py`
 
----
-
-### 7. Mejoras en Gráficos
+### 5. Mejoras en Gráficos
 **Ubicación**: `src/desktop/components/plot_canvas.py`
 
 **Mejoras propuestas**:
-- [ ] Zoom interactivo en gráficos
-- [ ] Tooltips al pasar el cursor sobre puntos
-- [ ] Opción de guardar gráfico
-- [ ] Personalización de colores/estilos
+- [ ] Zoom interactivo con scroll del mouse
+- [ ] Tooltips al pasar cursor sobre puntos de datos
+- [ ] Botón para guardar gráfico individual
+- [ ] Personalización de colores y estilos
 - [ ] Animación de cambio de volumen celular
 
----
+### 6. Más Solutos Predefinidos
+**Ubicación**: `src/core/solvers/osmosis/osmolarity_comparison.py`
 
-### 8. Calculadora de Canales Rectificadores
-**Estado**: Parcialmente implementada en `iv_curve.py`
+**Solutos a añadir**:
+- [ ] Lactato de Ringer (composición completa)
+- [ ] Solución salina hipertónica (3%, 7.5%)
+- [ ] Albúmina (para presión oncótica)
+- [ ] Dextrosa en diferentes concentraciones
 
-**Mejoras**:
-- [ ] Añadir modelos de rectificación inward/outward a la GUI
-- [ ] Comparación visual con canal óhmico
-- [ ] Ejemplos de canales Kir, Kv
+### 7. Calculadora de Presión Osmótica (π)
+**Estado**: No implementado
+
+**Funcionalidad propuesta**:
+- Ecuación de Van't Hoff: π = iMRT
+- Comparación con presión oncótica del plasma (~25 mmHg)
+- Predicción de dirección del flujo de agua
+
+**Archivo a crear**: `src/core/solvers/osmosis/osmotic_pressure.py`
 
 ---
 
 ## 🟢 Prioridad Baja — Mejoras de UX/UI
 
-### 9. Modo Oscuro/Claro Dinámico
+### 8. Modo Claro/Oscuro Dinámico
 **Estado**: Solo modo oscuro
 
 **Tareas**:
-- [ ] Añadir toggle de tema en sidebar
+- [ ] Añadir toggle de tema en sidebar o configuración
 - [ ] Guardar preferencia de tema
 - [ ] Asegurar legibilidad en ambos modos
+- [ ] Adaptar gráficos al tema seleccionado
 
----
+### 9. Atajos de Teclado
+**Estado**: No implementado
 
-### 10. Internacionalización (i18n)
+**Atajos propuestos**:
+| Atajo | Acción |
+|-------|--------|
+| `Ctrl+1-6` | Cambiar entre módulos principales |
+| `Ctrl+Enter` | Ejecutar cálculo |
+| `Ctrl+R` | Resetear formulario |
+| `Ctrl+E` | Exportar resultados |
+| `F1` | Mostrar ayuda contextual |
+
+### 10. Tooltips y Ayuda Contextual
+**Estado**: Mínimo
+
+**Tareas**:
+- [ ] Tooltips explicativos en todos los campos de entrada
+- [ ] Panel de ayuda con fórmulas y ecuaciones
+- [ ] Enlace a recursos externos relevantes
+- [ ] Explicación de unidades y rangos típicos
+
+### 11. Internacionalización (i18n)
 **Estado**: Solo español
 
 **Tareas**:
 - [ ] Extraer strings a archivos de traducción
-- [ ] Añadir soporte para inglés
+- [ ] Implementar soporte para inglés
 - [ ] Selector de idioma en configuración
+- [ ] Traducir contenido de ayuda
 
 ---
 
-### 11. Tooltips y Ayuda Contextual
-**Estado**: Mínimo
+## 📚 Contenido a Expandir
 
-**Tareas**:
-- [ ] Añadir tooltips explicativos a todos los campos
-- [ ] Crear panel de ayuda con fórmulas
-- [ ] Añadir enlaces a recursos externos
-
----
-
-### 12. Atajos de Teclado
-**Estado**: No implementado
-
-**Atajos propuestos**:
-- `Ctrl+1-4`: Cambiar entre módulos
-- `Ctrl+Enter`: Calcular
-- `Ctrl+R`: Resetear formulario
-- `Ctrl+E`: Exportar resultados
-
----
-
-## 📚 Contenido a Añadir
-
-### 13. Banco de Problemas
+### 12. Banco de Problemas
 **Ubicación**: `data/problems/`
 
-**Temas pendientes**:
-- [ ] Problemas de transporte activo
+**Categorías pendientes**:
+- [ ] Problemas de transporte activo (bomba Na/K)
 - [ ] Ejercicios de potencial de acción completo
 - [ ] Casos clínicos de alteraciones electrolíticas
-- [ ] Problemas de permeabilidad selectiva
+- [ ] Problemas de cinética de canales
+- [ ] Ejercicios de sinapsis y neurotransmisión
 
-**Formato sugerido por problema**:
+**Formato JSON sugerido**:
 ```json
 {
   "id": "osm_003",
   "title": "Título del problema",
-  "topic": "osmosis",
-  "difficulty": 1-5,
-  "points": 10,
+  "category": "osmosis",
+  "difficulty": 3,
   "statement": "Enunciado completo...",
-  "given_data": {"variable": "valor"},
-  "solution_steps": ["Paso 1...", "Paso 2..."],
-  "answer": "Respuesta final",
-  "hints": ["Pista 1", "Pista 2"]
+  "given_data": {
+    "variable": {"value": 100, "unit": "mM"}
+  },
+  "solution": {
+    "steps": [
+      {"step_number": 1, "description": "...", "formula": "...", "calculation": "..."}
+    ],
+    "final_answer": {"value": 285, "unit": "mOsm/L"},
+    "interpretation": "Explicación del significado..."
+  },
+  "related_solver": "osmolarity_comparison",
+  "tags": ["ósmosis", "tonicidad", "NaCl"]
 }
 ```
 
 ---
 
-### 14. Conferencias Digitales
-**Ubicación**: `data/conferences/`
+## 🔬 Módulos Futuros — Versión 2.0
 
-**Temas sugeridos**:
-1. Introducción a la Biofísica
-2. Propiedades del agua y soluciones
-3. Membranas biológicas
-4. Transporte pasivo y activo
-5. Potenciales de membrana
-6. Potencial de acción
-7. Sinapsis y neurotransmisión
-8. Técnicas de Patch Clamp
-
----
-
-### 15. Bibliografía Adicional
-**Ubicación**: `data/bibliography/`
-
-**Añadir**:
-- [ ] Más artículos seminales (Hodgkin-Huxley originales)
-- [ ] Reviews modernos de canales iónicos
-- [ ] Libros de problemas resueltos
-- [ ] Videos y recursos multimedia (enlaces)
-
----
-
-## 🔬 Módulos Futuros (Versión 2.0)
-
-### 16. Módulo de Cinética Enzimática
+### 13. Módulo de Cinética Enzimática
 **Funcionalidades propuestas**:
 - Ecuación de Michaelis-Menten
-- Gráficos de Lineweaver-Burk
-- Tipos de inhibición (competitiva, no competitiva, etc.)
+- Gráficos de Lineweaver-Burk y Eadie-Hofstee
+- Tipos de inhibición (competitiva, no competitiva, acompetitiva)
 - Simulación de reacciones enzimáticas
+- Determinación de Km y Vmax
 
----
-
-### 17. Módulo de Termodinámica
+### 14. Módulo de Termodinámica Biológica
 **Funcionalidades propuestas**:
 - Energía libre de Gibbs (ΔG)
-- Equilibrio químico
+- Equilibrio químico y constante de equilibrio
 - Acoplamiento energético
-- ATP y trabajo celular
+- ATP como moneda energética
+- Reacciones exergónicas y endergónicas
 
----
-
-### 18. Módulo de Biofísica de Radiaciones
+### 15. Módulo de Biofísica de Radiaciones
 **Funcionalidades propuestas**:
-- Decaimiento radiactivo
+- Decaimiento radiactivo (vida media)
 - Dosis y exposición
 - Efectos biológicos de la radiación
+- Protección radiológica básica
 
----
-
-### 19. Sistema de Progreso del Estudiante
+### 16. Sistema de Progreso del Estudiante
 **Funcionalidades propuestas**:
 - [ ] Registro de problemas resueltos
-- [ ] Estadísticas de uso
-- [ ] Logros y medallas
+- [ ] Estadísticas de uso por módulo
+- [ ] Sistema de logros y medallas
 - [ ] Modo de práctica con tiempo
-- [ ] Comparación con pares (anónima)
+- [ ] Historial de cálculos recientes
 
 ---
 
 ## 🛠️ Mejoras Técnicas
 
-### 20. Testing Automatizado
+### 17. Testing Automatizado
 **Estado**: No implementado
 
 **Tareas**:
 - [ ] Tests unitarios para todos los solvers
-- [ ] Tests de integración para la GUI
+- [ ] Tests de integración para repositorios JSON
+- [ ] Mocks para testing de GUI
 - [ ] CI/CD con GitHub Actions
-- [ ] Cobertura de código > 80%
+- [ ] Cobertura de código objetivo: >80%
 
-**Archivos a crear**: `tests/`
+**Estructura propuesta**:
+```
+tests/
+├── unit/
+│   ├── test_osmosis_solvers.py
+│   ├── test_nernst_solver.py
+│   ├── test_iv_curve_solver.py
+│   └── test_repositories.py
+├── integration/
+│   └── test_solver_service.py
+└── conftest.py
+```
 
----
-
-### 21. Documentación del Código
+### 18. Documentación del Código
 **Estado**: Docstrings básicos
 
 **Tareas**:
-- [ ] Generar documentación con Sphinx
+- [ ] Generar documentación con Sphinx o MkDocs
 - [ ] Añadir ejemplos de uso en docstrings
-- [ ] Crear guía de contribución
+- [ ] Crear guía de contribución (CONTRIBUTING.md)
+- [ ] Documentar API de solvers
 
----
-
-### 22. Optimización de Rendimiento
+### 19. Optimización de Rendimiento
 **Tareas**:
-- [ ] Lazy loading de módulos
+- [ ] Lazy loading de vistas (cargar solo al navegar)
 - [ ] Caché de cálculos frecuentes
-- [ ] Optimizar gráficos grandes
+- [ ] Optimizar renderizado de gráficos grandes
+- [ ] Reducir tiempo de inicio de la aplicación
 
----
-
-### 23. Empaquetado Mejorado
+### 20. Empaquetado Mejorado
 **Estado**: PyInstaller básico
 
 **Tareas**:
-- [ ] Crear instalador para Windows (NSIS o Inno Setup)
-- [ ] Añadir icono y metadatos de aplicación
+- [ ] Crear instalador para Windows (Inno Setup)
+- [ ] Incluir icono y metadatos de aplicación
 - [ ] Crear versión portable sin instalación
+- [ ] Auto-actualización desde repositorio
 - [ ] Firmar digitalmente el ejecutable
 
 ---
 
-## 🌐 Migración Web (Versión 3.0)
+## 🌐 Migración Web — Versión 3.0
 
-### 24. API REST Backend
-**Tecnología propuesta**: FastAPI
+### 21. API REST Backend
+**Tecnología propuesta**: FastAPI + Python
 
 **Endpoints**:
-- `POST /api/osmosis/osmolarity`
-- `POST /api/osmosis/volume`
-- `POST /api/patch-clamp/nernst`
-- `POST /api/patch-clamp/goldman`
-- `POST /api/patch-clamp/iv-curve`
+```
+POST /api/v1/osmosis/compare
+POST /api/v1/osmosis/volume
+POST /api/v1/equilibrium/nernst
+POST /api/v1/equilibrium/goldman
+POST /api/v1/patch-clamp/iv-curve
+POST /api/v1/patch-clamp/single-channel
+GET  /api/v1/conferences
+GET  /api/v1/bibliography
+GET  /api/v1/problems
+```
 
----
-
-### 25. Frontend Web
-**Tecnología propuesta**: React + TypeScript + Tailwind
+### 22. Frontend Web
+**Tecnología propuesta**: React + TypeScript + TailwindCSS
 
 **Ventajas**:
 - Acceso desde cualquier dispositivo
 - No requiere instalación
 - Actualizaciones automáticas
 - Posibilidad de modo colaborativo
+- Integración con LMS (Moodle, etc.)
 
 ---
 
-## ✅ Checklist de Revisión Pre-Release
+## ✅ Checklist de Release
 
 Antes de distribuir una nueva versión, verificar:
 
 - [ ] Todos los solvers retornan resultados correctos
-- [ ] La GUI no tiene errores visibles
-- [ ] Los PDFs de ejemplo se abren correctamente
-- [ ] El empaquetado con PyInstaller funciona
-- [ ] El README está actualizado
-- [ ] Se han actualizado los números de versión
-- [ ] Se ha probado en Windows 10/11
+- [ ] La GUI no tiene errores visibles ni warnings
+- [ ] Los PDFs de conferencias, bibliografía y seminarios se abren
+- [ ] El empaquetado con PyInstaller funciona en Windows 10/11
+- [ ] El README.md está actualizado
+- [ ] Se han actualizado los números de versión en `config.py`
 - [ ] Los datos de ejemplo están incluidos
+- [ ] El logo aparece correctamente en sidebar, home y taskbar
 
 ---
 
-## 📝 Notas de Implementación
+## 📝 Convenciones de Desarrollo
 
-### Convenciones de Código
-- Usar type hints en todas las funciones
-- Docstrings en español (formato Google)
-- Nombres de variables en inglés
-- Mensajes de usuario en español
+### Estilo de Código
+- **Type hints**: Obligatorios en funciones públicas
+- **Docstrings**: Formato Google, en español
+- **Nombres de variables**: En inglés (snake_case)
+- **Mensajes de usuario**: En español
+- **Linter**: Pyright configurado en `pyrightconfig.json`
 
 ### Estructura de Commits
 ```
 feat: añadir nueva funcionalidad
 fix: corregir error
 docs: actualizar documentación
-style: cambios de formato
+style: cambios de formato (sin cambio de lógica)
 refactor: reestructurar código
-test: añadir tests
+test: añadir o modificar tests
+chore: tareas de mantenimiento
 ```
+
+### Flujo de Trabajo Git
+1. Rama principal: `main`
+2. Ramas de feature: `feature/nombre-descriptivo`
+3. Ramas de fix: `fix/descripcion-del-bug`
+4. Pull Request con revisión antes de merge
 
 ---
 
@@ -366,11 +377,21 @@ Para contribuir al proyecto:
 
 1. Fork del repositorio
 2. Crear rama: `git checkout -b feature/nueva-funcionalidad`
-3. Commit: `git commit -m 'feat: descripción'`
-4. Push: `git push origin feature/nueva-funcionalidad`
-5. Crear Pull Request
+3. Desarrollar con tests
+4. Commit: `git commit -m 'feat: descripción concisa'`
+5. Push: `git push origin feature/nueva-funcionalidad`
+6. Crear Pull Request con descripción detallada
+
+---
+
+## 📞 Contacto
+
+**Autores**:
+- Ana Gabriela Zaragoza Palmarola — anagabrielazaragozapalmarola@gmail.com
+- Sebastián González — sebagonz106@gmail.com
+
+**Repositorio**: [github.com/sebagonz106/biophysics-virtual-environment](https://github.com/sebagonz106/biophysics-virtual-environment)
 
 ---
 
 *Este documento debe actualizarse conforme se implementen mejoras.*
-

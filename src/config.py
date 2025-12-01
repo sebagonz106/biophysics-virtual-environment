@@ -2,12 +2,62 @@
 Configuración global de la aplicación.
 """
 
+import sys
 from pathlib import Path
 
+
+def get_base_path() -> Path:
+    """
+    Obtiene la ruta base de la aplicación.
+    
+    Funciona tanto en desarrollo como cuando está empaquetada con PyInstaller.
+    - En desarrollo: retorna la carpeta raíz del proyecto
+    - Empaquetado (--onefile): retorna la carpeta temporal donde se extraen los datos
+    - Empaquetado (--onedir): retorna la carpeta del ejecutable
+    """
+    if getattr(sys, 'frozen', False):
+        # Ejecutando como ejecutable empaquetado
+        if hasattr(sys, '_MEIPASS'):
+            # PyInstaller --onefile: datos en carpeta temporal
+            return Path(sys._MEIPASS)
+        else:
+            # PyInstaller --onedir: datos junto al ejecutable
+            return Path(sys.executable).parent
+    else:
+        # Ejecutando como script de Python
+        return Path(__file__).resolve().parent.parent
+
+
+def get_data_path() -> Path:
+    """
+    Obtiene la ruta a la carpeta de datos.
+    
+    Busca en orden:
+    1. Carpeta 'data' en el directorio base (empaquetado o desarrollo)
+    2. Carpeta 'data' junto al ejecutable (para distribución con datos externos)
+    """
+    base = get_base_path()
+    
+    # Primero buscar en la ruta base (funciona para desarrollo y --onefile)
+    data_in_base = base / "data"
+    if data_in_base.exists():
+        return data_in_base
+    
+    # Si está empaquetado, buscar junto al ejecutable
+    if getattr(sys, 'frozen', False):
+        exe_dir = Path(sys.executable).parent
+        data_next_to_exe = exe_dir / "data"
+        if data_next_to_exe.exists():
+            return data_next_to_exe
+    
+    # Fallback: retornar la ruta esperada aunque no exista
+    return data_in_base
+
+
 # Rutas base
-ROOT_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = get_base_path()
 SRC_DIR = ROOT_DIR / "src"
-DATA_DIR = ROOT_DIR / "data"
+DATA_DIR = get_data_path()
 ASSETS_DIR = ROOT_DIR / "assets"
 IMG_DIR = DATA_DIR / "img"
 

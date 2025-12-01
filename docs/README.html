@@ -31,120 +31,166 @@
                 <article class="markdown-body">
                     <h1>Entorno Virtual para la Enseñanza de la Biofísica</h1>
 <p align="center">
-  <strong>Herramienta Interactiva para la Resolución de Problemas</strong>
+  <img width="200" alt="BIA Logo" src="data/img/bia_logo.png">
+</p>
+
+<p align="center">
+  <strong>Herramienta Interactiva para la Resolución de Problemas de Biofísica</strong><br>
+  <em>Versión 1.0.0</em>
+</p>
+
+<p align="center">
+  <a href="#-descripción">Descripción</a> •
+  <a href="#-módulos">Módulos</a> •
+  <a href="#-instalación">Instalación</a> •
+  <a href="#-uso">Uso</a> •
+  <a href="#-arquitectura">Arquitectura</a>
 </p>
 
 <hr>
 <h2>📋 Descripción</h2>
-<p>Este proyecto presenta el desarrollo de un <strong>entorno virtual</strong> diseñado específicamente para facilitar la enseñanza y el aprendizaje de la Biofísica, centrándose en la práctica activa mediante la resolución de ejercicios.</p>
-<p>La Biofísica es una asignatura fundamental en la formación de un bioquímico. Su aprendizaje se ve dificultado frecuentemente por la abstracción de sus conceptos y la necesidad de aplicar modelos matemáticos. La resolución de problemas es una estrategia pedagógica esencial para superar estas dificultades.</p>
-<h3>Objetivos</h3>
+<p>El <strong>Entorno Virtual de Biofísica (BIA)</strong> es una aplicación de escritorio desarrollada en Python que proporciona una plataforma integrada para el estudio de la Biofísica. Diseñada específicamente para estudiantes de Bioquímica, la herramienta combina:</p>
 <ul>
-<li>Proporcionar una plataforma centralizada e interactiva para el estudio de la Biofísica</li>
-<li>Facilitar la comprensión de conceptos biofísicos complejos a través de la práctica guiada</li>
-<li>Ofrecer retroalimentación inmediata mediante algoritmos personalizados</li>
-<li>Incrementar la motivación del estudiante promoviendo un aprendizaje activo y autónomo</li>
+<li><strong>Contenido teórico organizado</strong> (conferencias digitales)</li>
+<li><strong>Bibliografía de referencia</strong> (libros y artículos científicos)</li>
+<li><strong>Problemas propuestos con soluciones</strong> (banco de ejercicios)</li>
+<li><strong>Seminarios del curso</strong> (ejercicios prácticos en PDF)</li>
+<li><strong>Calculadoras interactivas</strong> con retroalimentación inmediata</li>
 </ul>
+<h3>Motivación</h3>
+<p>La Biofísica es una disciplina que requiere la integración de conceptos físicos, químicos y biológicos. Su aprendizaje frecuentemente se dificulta por:</p>
+<ul>
+<li>La abstracción de los fenómenos estudiados</li>
+<li>La necesidad de aplicar modelos matemáticos complejos</li>
+<li>La dificultad para visualizar procesos a escala celular</li>
+</ul>
+<p>Este entorno virtual aborda estas dificultades mediante algoritmos que calculan y explican paso a paso los fenómenos biofísicos, proporcionando retroalimentación educativa inmediata.</p>
 <hr>
-<h2>🏗️ Arquitectura del Sistema</h2>
-<p>La aplicación está diseñada siguiendo una <strong>arquitectura hexagonal (Ports &amp; Adapters)</strong>, lo que permite una separación clara entre la lógica de negocio y las interfaces de usuario. Esta decisión arquitectónica facilita:</p>
-<ul>
-<li><strong>Mantenibilidad</strong>: Código organizado en capas con responsabilidades bien definidas</li>
-<li><strong>Testabilidad</strong>: Componentes independientes que pueden probarse de forma aislada</li>
-<li><strong>Extensibilidad</strong>: Posibilidad de añadir nuevos módulos sin afectar los existentes</li>
-<li><strong>Portabilidad futura</strong>: El núcleo puede reutilizarse para una versión web sin modificaciones</li>
-</ul>
-<pre><code class="hljs plaintext">┌─────────────────────────────────────────────────────────────────┐
-│                        CAPA DE PRESENTACIÓN                     │
-│                    (CustomTkinter - Desktop GUI)                │
-├─────────────────────────────────────────────────────────────────┤
-│                        CAPA DE SERVICIOS                        │
-│              (Lógica de negocio - 100% independiente)           │
-├─────────────────────────────────────────────────────────────────┤
-│                        CAPA DE DOMINIO                          │
-│         (Modelos de datos, Entidades, Solvers algorítmicos)     │
-├─────────────────────────────────────────────────────────────────┤
-│                        CAPA DE DATOS                            │
-│              (Repositorios JSON, Gestión de archivos)           │
-└─────────────────────────────────────────────────────────────────┘</code></pre><hr>
-<h2>📚 Módulos Principales</h2>
-<p>La plataforma contiene <strong>cuatro módulos principales</strong>:</p>
-<h3>1. Conferencias Digitales 📖</h3>
-<p>Repositorio organizado de contenido teórico que permite acceder a las conferencias de la asignatura en formato digital (PDF). Los materiales están organizados por temas para facilitar la navegación y el estudio secuencial.</p>
-<h3>2. Bibliografía Recomendada 📚</h3>
-<p>Apartado dedicado a las referencias bibliográficas del curso, incluyendo:</p>
-<ul>
-<li>Libros de texto principales</li>
-<li>Artículos científicos relevantes</li>
-<li>Recursos complementarios</li>
-</ul>
-<p>Los documentos pueden almacenarse localmente en formato PDF para acceso sin conexión.</p>
-<h3>3. Problemas Propuestos 📝</h3>
-<p>Banco de ejercicios organizados por tema de la asignatura, que incluye:</p>
-<ul>
-<li>Enunciados detallados</li>
-<li>Datos proporcionados</li>
-<li>Soluciones paso a paso</li>
-<li>Clasificación por nivel de dificultad</li>
-</ul>
-<h3>4. Módulos Interactivos 🧮</h3>
-<p><strong>Núcleo innovador de la herramienta.</strong> Los estudiantes, mediante algoritmos personalizados en Python, pueden introducir variables específicas y obtener retroalimentación inmediata. Los paneles de resultados y gráficos son <strong>redimensionables</strong> y cuentan con <strong>barras de desplazamiento</strong> para mejorar la experiencia de usuario.</p>
-<h4>4.1 Módulo de Ósmosis</h4>
+<h2>🧬 Módulos Principales</h2>
+<p>La aplicación está organizada en <strong>seis módulos</strong> accesibles desde la barra lateral:</p>
+<h3>1. 🏠 Inicio</h3>
+<p>Pantalla de bienvenida con acceso rápido a los módulos principales y descripción general de la herramienta.</p>
+<h3>2. 📖 Conferencias Digitales</h3>
+<p>Repositorio organizado de contenido teórico del curso, estructurado en <strong>7 temas</strong>:</p>
 <table>
 <thead>
 <tr>
-<th>Solver</th>
-<th>Entradas</th>
-<th>Salidas</th>
+<th>Tema</th>
+<th>Contenido</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>Cálculo de Osmolaridad</strong></td>
-<td><code>concentration_mM</code> (float): Concentración en mM<br><code>solute_name</code> (str, opcional): Nombre del soluto (NaCl, KCl, glucosa, etc.)<br><code>dissociation_coef</code> (int, opcional): Coeficiente de disociación<br><code>osmotic_coef</code> (float, opcional): Coeficiente osmótico</td>
-<td><code>osmolarity</code> (mOsm/L)<br><code>tonicity</code> (hipotónica/isotónica/hipertónica)<br><code>cell_response</code> (hinchazón/crenación/equilibrio)<br><code>volume_change_percent</code> (%)<br><code>interpretation</code> (texto explicativo)<br><code>feedback</code> (lista de puntos educativos)</td>
+<td>Tema 1</td>
+<td>Difusión y Ósmosis</td>
 </tr>
 <tr>
-<td><strong>Clasificador de Tonicidad</strong></td>
-<td><code>osmolarity</code> (float): Osmolaridad en mOsm/L</td>
-<td><code>tonicity</code> (str)<br><code>relative_to_plasma</code> (%)<br><code>category_detail</code> (descripción detallada)</td>
+<td>Tema 2</td>
+<td>Equilibrio Iónico Celular</td>
 </tr>
 <tr>
-<td><strong>Volumen Celular (Boyle-van't Hoff)</strong></td>
-<td><code>initial_osmolarity</code> (float, default=285): mOsm/L inicial<br><code>final_osmolarity</code> (float): mOsm/L final<br><code>initial_volume</code> (float, default=1.0): Volumen normalizado<br><code>non_osmotic_fraction</code> (float, default=0.4): Fracción b</td>
-<td><code>volume_change_percent</code> (%)<br><code>cell_response</code> (lisis/hinchazón/crenación/equilibrio)<br><code>tonicity</code> (str)<br><code>volume_data</code> (datos para gráfico temporal)<br><code>interpretation</code> y <code>feedback</code></td>
+<td>Tema 3</td>
+<td>Transporte Mediado</td>
+</tr>
+<tr>
+<td>Tema 4</td>
+<td>Canales Iónicos y Patch Clamp</td>
+</tr>
+<tr>
+<td>Tema 5</td>
+<td>Excitabilidad</td>
+</tr>
+<tr>
+<td>Tema 6</td>
+<td>Movimiento Mecánico Celular</td>
+</tr>
+<tr>
+<td>Tema 7</td>
+<td>Procesos Fotobiológicos</td>
 </tr>
 </tbody></table>
-<p><strong>Solutos predefinidos con coeficientes automáticos:</strong></p>
+<p>Cada tema contiene conferencias en formato PDF con acceso directo desde la aplicación.</p>
+<h3>3. 📚 Bibliografía Recomendada</h3>
+<p>Sección dividida en dos pestañas:</p>
 <ul>
-<li>Electrolitos: NaCl (i=2), KCl (i=2), CaCl₂ (i=3), MgCl₂ (i=3), NaHCO₃ (i=2)</li>
-<li>No electrolitos: Glucosa (i=1), Urea (i=1), Sacarosa (i=1)</li>
+<li><strong>📕 Libros</strong>: 10 libros de referencia incluyendo Blaustein, Kandel, Sperelakis, entre otros</li>
+<li><strong>📄 Artículos</strong>: Artículos científicos relevantes con acceso a PDFs locales</li>
 </ul>
-<h4>4.2 Módulo de Patch Clamp</h4>
+<p>Cada entrada muestra autor, año, editorial y permite abrir el PDF directamente.</p>
+<h3>4. 📝 Problemas y Seminarios</h3>
+<p>Módulo dividido en dos pestañas:</p>
+<ul>
+<li><p><strong>📋 Problemas</strong>: Banco de ejercicios organizados por categoría y dificultad</p>
+<ul>
+<li>Filtros por categoría (ósmosis, patch clamp)</li>
+<li>Filtros por dificultad (1-5 estrellas)</li>
+<li>Panel de detalle con enunciado, datos y solución paso a paso</li>
+</ul>
+</li>
+<li><p><strong>📚 Seminarios</strong>: 4 seminarios del curso en PDF</p>
+<ul>
+<li>Seminario 1: Difusión y Ósmosis</li>
+<li>Seminario 2: Equilibrio Iónico</li>
+<li>Seminario 3: Canales Iónicos y Patch Clamp</li>
+<li>Seminario 4: Excitabilidad</li>
+</ul>
+</li>
+</ul>
+<h3>5. 💧 Módulo Interactivo de Ósmosis</h3>
+<p>Calculadora interactiva para análisis osmótico que incluye:</p>
+<h4>Comparación de Osmolaridades</h4>
+<ul>
+<li>Ingreso de múltiples solutos para medio intracelular y extracelular</li>
+<li>Solutos predefinidos: NaCl, KCl, CaCl₂, MgCl₂, Glucosa, Urea, Sacarosa, Manitol</li>
+<li>Soporte para solutos penetrantes y no penetrantes</li>
+</ul>
+<p><strong>Resultados generados:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Solver</th>
-<th>Entradas</th>
-<th>Salidas</th>
+<th>Parámetro</th>
+<th>Descripción</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>Ecuación de Nernst</strong></td>
-<td><code>ion</code> (str): Nombre del ion (K+, Na+, Cl-, Ca2+)<br><code>z</code> (int): Valencia del ion<br><code>C_out</code> (float): Concentración extracelular (mM)<br><code>C_in</code> (float): Concentración intracelular (mM)<br><code>temperature_C</code> (float, default=37): Temperatura °C</td>
-<td><code>E_eq</code> (mV): Potencial de equilibrio<br><code>interpretation</code> (texto explicativo)<br><code>feedback</code> (detalles del cálculo)</td>
+<td>Osmolaridad intracelular</td>
+<td>Suma de contribuciones osmóticas internas (mOsm/L)</td>
 </tr>
 <tr>
-<td><strong>Ecuación de Goldman-Hodgkin-Katz</strong></td>
-<td><code>P_K</code>, <code>P_Na</code>, <code>P_Cl</code> (float): Permeabilidades relativas<br><code>K_out/in</code>, <code>Na_out/in</code>, <code>Cl_out/in</code> (float): Concentraciones (mM)<br><code>temperature_C</code> (float, default=37)</td>
-<td><code>membrane_potential</code> (mV)<br><code>dominant_ion</code> (str)<br><code>permeabilities</code> (dict)<br><code>concentrations</code> (dict)<br><code>interpretation</code> y <code>feedback</code></td>
+<td>Osmolaridad extracelular</td>
+<td>Suma de contribuciones osmóticas externas (mOsm/L)</td>
 </tr>
 <tr>
-<td><strong>Curvas I-V</strong></td>
-<td><code>conductance</code> (float): Conductancia en nS<br><code>reversal_potential</code> (float): E_rev en mV<br><code>voltage_min/max</code> (float): Rango de voltaje<br><em>O datos experimentales:</em> <code>voltages</code> y <code>currents</code> (listas)</td>
-<td><code>voltage</code> (lista mV)<br><code>current</code> (lista pA)<br><code>reversal_potential</code> (mV)<br><code>conductance</code> (nS)<br><code>R²</code> (solo para datos experimentales)<br>Gráfico I-V interactivo</td>
+<td>Osmolaridad efectiva</td>
+<td>Solo solutos no penetrantes (determina tonicidad)</td>
+</tr>
+<tr>
+<td>Clasificación osmótica</td>
+<td>Isosmótica / Hiperosmótica / Hiposmótica</td>
+</tr>
+<tr>
+<td>Clasificación tónica</td>
+<td>Isotónica / Hipertónica / Hipotónica</td>
+</tr>
+<tr>
+<td>Respuesta celular</td>
+<td>Equilibrio / Hinchazón / Disecación / Lisis</td>
+</tr>
+<tr>
+<td>Cambio de volumen</td>
+<td>Porcentaje respecto al volumen inicial</td>
 </tr>
 </tbody></table>
-<p><strong>Concentraciones iónicas predefinidas (condiciones fisiológicas):</strong></p>
+<p><strong>Gráficos generados:</strong></p>
+<ul>
+<li>Comparación de barras de osmolaridades</li>
+<li>Dinámica de volumen celular en el tiempo (modelo Boyle-van't Hoff)</li>
+<li>Indicación de umbrales de lisis celular</li>
+</ul>
+<h3>6. ⚖️ Módulo de Equilibrio Iónico</h3>
+<p>Calculadora para potenciales de equilibrio iónico:</p>
+<h4>Ecuación de Nernst</h4>
+<p>$$E_{ion} = \frac{RT}{zF} \ln\left(\frac{[Ion]<em>{ext}}{[Ion]</em>{int}}\right)$$</p>
+<p><strong>Iones predefinidos con concentraciones fisiológicas:</strong></p>
 <table>
 <thead>
 <tr>
@@ -169,47 +215,209 @@
 <tr>
 <td>Cl⁻</td>
 <td>4</td>
-<td>120</td>
+<td>110</td>
 <td>-1</td>
 </tr>
 <tr>
 <td>Ca²⁺</td>
 <td>0.0001</td>
-<td>2.5</td>
+<td>2</td>
 <td>+2</td>
 </tr>
+<tr>
+<td>H⁺</td>
+<td>0.0001</td>
+<td>0.00004</td>
+<td>+1</td>
+</tr>
+<tr>
+<td>Mg²⁺</td>
+<td>0.5</td>
+<td>1.5</td>
+<td>+2</td>
+</tr>
+<tr>
+<td>HCO₃⁻</td>
+<td>10</td>
+<td>24</td>
+<td>-1</td>
+</tr>
 </tbody></table>
+<p><strong>Resultados:</strong></p>
+<ul>
+<li>Potencial de equilibrio en mV</li>
+<li>Interpretación fisiológica del resultado</li>
+<li>Gráfico de barras comparativo entre iones</li>
+</ul>
+<h3>7. ⚡ Módulo de Patch Clamp</h3>
+<p>Herramientas para análisis electrofisiológico:</p>
+<h4>Curvas I-V (Corriente-Voltaje)</h4>
+<ul>
+<li>Generación de curvas teóricas a partir de conductancia y potencial de reversión</li>
+<li>Análisis de datos experimentales con ajuste lineal</li>
+<li>Cálculo de conductancia (nS) y potencial de reversión (mV)</li>
+</ul>
+<h4>Registro de Canal Único</h4>
+<ul>
+<li>Análisis de registros de corriente</li>
+<li>Cálculo de conductancia de canal único</li>
+<li>Probabilidad de apertura</li>
+</ul>
+<p><strong>Gráficos interactivos:</strong></p>
+<ul>
+<li>Curva I-V con línea de regresión</li>
+<li>Identificación del potencial de reversión</li>
+<li>Paneles redimensionables con barras de desplazamiento</li>
+</ul>
 <hr>
+<h2>🏗️ Arquitectura del Sistema</h2>
+<p>La aplicación implementa una <strong>arquitectura hexagonal</strong> (Ports &amp; Adapters) que garantiza:</p>
+<ul>
+<li><strong>Separación de responsabilidades</strong>: Lógica de negocio independiente de la interfaz</li>
+<li><strong>Testabilidad</strong>: Componentes aislados que pueden probarse unitariamente</li>
+<li><strong>Extensibilidad</strong>: Nuevos módulos sin modificar el núcleo existente</li>
+<li><strong>Portabilidad</strong>: El core puede reutilizarse para versión web futura</li>
+</ul>
+<pre><code class="hljs plaintext">┌─────────────────────────────────────────────────────────────────┐
+│                    CAPA DE PRESENTACIÓN                         │
+│              CustomTkinter Desktop GUI                          │
+│  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐   │
+│  │ Sidebar │ │  Views  │ │  Forms  │ │ Panels  │ │ Plots   │   │
+│  └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘   │
+├─────────────────────────────────────────────────────────────────┤
+│                    CAPA DE SERVICIOS                            │
+│              SolverService (Orquestador)                        │
+├─────────────────────────────────────────────────────────────────┤
+│                    CAPA DE DOMINIO                              │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐ │
+│  │ Solvers Ósmosis │  │ Solvers Nernst  │  │ Solvers Patch   │ │
+│  │ - Osmolarity    │  │ - Nernst        │  │ - I-V Curve     │ │
+│  │ - Tonicity      │  │ - Goldman       │  │ - SingleChannel │ │
+│  │ - Volume        │  │                 │  │                 │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘ │
+├─────────────────────────────────────────────────────────────────┤
+│                  CAPA DE INFRAESTRUCTURA                        │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐ │
+│  │ JSON Repository │  │  File Manager   │  │    Config       │ │
+│  │ - Conferences   │  │  - PDF Opener   │  │    Loader       │ │
+│  │ - Bibliography  │  │  - Path Manager │  │                 │ │
+│  │ - Problems      │  │                 │  │                 │ │
+│  │ - Seminars      │  │                 │  │                 │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘ │
+└─────────────────────────────────────────────────────────────────┘</code></pre><hr>
+<h2>📁 Estructura del Proyecto</h2>
+<pre><code class="hljs plaintext">biofisica_entorno_virtual/
+│
+├── src/                              # Código fuente
+│   ├── main.py                       # Punto de entrada
+│   ├── config.py                     # Configuración global
+│   │
+│   ├── core/                         # Núcleo de la aplicación
+│   │   ├── domain/                   # Modelos de datos
+│   │   │   ├── bibliography.py
+│   │   │   ├── conference.py
+│   │   │   ├── problem.py
+│   │   │   └── solver_result.py
+│   │   │
+│   │   ├── services/                 # Lógica de negocio
+│   │   │   └── solver_service.py
+│   │   │
+│   │   └── solvers/                  # Algoritmos matemáticos
+│   │       ├── base_solver.py
+│   │       ├── osmosis/
+│   │       │   ├── osmolarity.py
+│   │       │   ├── osmolarity_comparison.py
+│   │       │   ├── tonicity.py
+│   │       │   ├── cell_volume.py
+│   │       │   └── volume_dynamics.py
+│   │       ├── ionic_equilibrium/
+│   │       │   └── nernst.py
+│   │       └── patch_clamp/
+│   │           ├── nernst.py
+│   │           ├── goldman.py
+│   │           ├── iv_curve.py
+│   │           └── single_channel.py
+│   │
+│   ├── infrastructure/               # Acceso a datos
+│   │   ├── json_repository.py        # Repositorios JSON
+│   │   └── file_manager.py           # Gestión de archivos
+│   │
+│   └── desktop/                      # Interfaz gráfica
+│       ├── app.py                    # Aplicación principal
+│       ├── components/               # Widgets reutilizables
+│       │   ├── sidebar.py
+│       │   ├── input_form.py
+│       │   ├── result_panel.py
+│       │   ├── plot_canvas.py
+│       │   └── solute_widgets.py
+│       └── views/                    # Vistas de cada módulo
+│           ├── home_view.py
+│           ├── conferences_view.py
+│           ├── bibliography_view.py
+│           ├── problems_view.py
+│           └── interactive/
+│               ├── osmosis_view.py
+│               ├── osmosis_plotting.py
+│               ├── ionic_equilibrium_view.py
+│               └── patch_clamp_view.py
+│
+├── data/                             # Datos de la aplicación
+│   ├── config.json                   # Configuración de usuario
+│   ├── img/                          # Imágenes y logos
+│   ├── conferences/                  # Conferencias digitales
+│   │   ├── _index.json
+│   │   └── pdfs/
+│   │       ├── Tema #1/
+│   │       ├── Tema #2/
+│   │       └── ...
+│   ├── bibliography/                 # Referencias bibliográficas
+│   │   ├── index.json
+│   │   ├── books.json
+│   │   ├── papers.json
+│   │   └── pdfs/
+│   └── problems/                     # Banco de ejercicios
+│       ├── osmosis/
+│       ├── patch_clamp/
+│       └── seminars/
+│           ├── _index.json
+│           └── *.pdf
+│
+├── docs/                             # Documentación
+│   ├── README.html
+│   └── ROADMAP.md
+│
+├── requirements.txt                  # Dependencias de producción
+├── requirements-dev.txt              # Dependencias de desarrollo
+├── pyrightconfig.json                # Configuración de tipo
+└── README.md                         # Este archivo</code></pre><hr>
 <h2>🛠️ Instalación y Configuración</h2>
 <h3>Requisitos Previos</h3>
 <ul>
-<li><strong>Python 3.10 o superior</strong> (probado con Python 3.14)</li>
-<li><strong>pip</strong> (gestor de paquetes de Python)</li>
-<li><strong>Git</strong> (opcional, para clonar el repositorio)</li>
+<li><strong>Python 3.10+</strong> (probado con Python 3.11, 3.12)</li>
+<li><strong>pip</strong> (gestor de paquetes)</li>
+<li><strong>Git</strong> (opcional)</li>
 </ul>
-<h3>Paso 1: Clonar o Descargar el Proyecto</h3>
-<pre><code class="hljs bash"><span class="hljs-comment"># Opción A: Clonar con Git</span>
-git <span class="hljs-built_in">clone</span> &lt;url-del-repositorio&gt;
+<h3>Paso 1: Obtener el Proyecto</h3>
+<pre><code class="hljs bash"><span class="hljs-comment"># Clonar repositorio</span>
+git <span class="hljs-built_in">clone</span> https://github.com/sebagonz106/biophysics-virtual-environment.git
 <span class="hljs-built_in">cd</span> biofisica_entorno_virtual
 
-<span class="hljs-comment"># Opción B: Descargar y extraer el archivo ZIP</span></code></pre><h3>Paso 2: Crear un Entorno Virtual (Recomendado)</h3>
-<p>Es altamente recomendable utilizar un entorno virtual para aislar las dependencias del proyecto:</p>
+<span class="hljs-comment"># O descargar y extraer el ZIP</span></code></pre><h3>Paso 2: Crear Entorno Virtual</h3>
 <pre><code class="hljs bash"><span class="hljs-comment"># Crear entorno virtual</span>
 python -m venv venv
 
-<span class="hljs-comment"># Activar entorno virtual</span>
-<span class="hljs-comment"># En Windows (PowerShell):</span>
+<span class="hljs-comment"># Activar (Windows PowerShell)</span>
 .\venv\Scripts\Activate.ps1
 
-<span class="hljs-comment"># En Windows (CMD):</span>
+<span class="hljs-comment"># Activar (Windows CMD)</span>
 .\venv\Scripts\activate.bat
 
-<span class="hljs-comment"># En Linux/macOS:</span>
+<span class="hljs-comment"># Activar (Linux/macOS)</span>
 <span class="hljs-built_in">source</span> venv/bin/activate</code></pre><h3>Paso 3: Instalar Dependencias</h3>
 <pre><code class="hljs bash">pip install -r requirements.txt</code></pre><h3>Paso 4: Ejecutar la Aplicación</h3>
-<pre><code class="hljs bash">python src/main.py</code></pre><hr>
+<pre><code class="hljs bash">python -m src.main</code></pre><hr>
 <h2>📦 Dependencias</h2>
-<h3>Dependencias Principales</h3>
+<h3>Producción</h3>
 <table>
 <thead>
 <tr>
@@ -221,7 +429,7 @@ python -m venv venv
 <tbody><tr>
 <td><code>customtkinter</code></td>
 <td>≥5.2.0</td>
-<td>Interfaz gráfica moderna basada en Tkinter</td>
+<td>Interfaz gráfica moderna</td>
 </tr>
 <tr>
 <td><code>pillow</code></td>
@@ -236,7 +444,7 @@ python -m venv venv
 <tr>
 <td><code>scipy</code></td>
 <td>≥1.11.0</td>
-<td>Funciones científicas avanzadas</td>
+<td>Funciones científicas</td>
 </tr>
 <tr>
 <td><code>matplotlib</code></td>
@@ -246,20 +454,10 @@ python -m venv venv
 <tr>
 <td><code>pydantic</code></td>
 <td>≥2.0.0</td>
-<td>Validación de datos y modelos</td>
-</tr>
-<tr>
-<td><code>pypdf</code></td>
-<td>≥3.0.0</td>
-<td>Manejo de archivos PDF</td>
-</tr>
-<tr>
-<td><code>pyyaml</code></td>
-<td>≥6.0</td>
-<td>Lectura de archivos de configuración</td>
+<td>Validación de datos</td>
 </tr>
 </tbody></table>
-<h3>Dependencias de Desarrollo</h3>
+<h3>Desarrollo</h3>
 <table>
 <thead>
 <tr>
@@ -276,126 +474,67 @@ python -m venv venv
 <tr>
 <td><code>pyinstaller</code></td>
 <td>≥6.0.0</td>
-<td>Empaquetado como ejecutable</td>
+<td>Empaquetado ejecutable</td>
 </tr>
 </tbody></table>
 <hr>
-<h2>📁 Estructura del Proyecto</h2>
-<pre><code class="hljs plaintext">biofisica_entorno_virtual/
-│
-├── src/                            # Código fuente
-│   ├── main.py                     # Punto de entrada
-│   ├── config.py                   # Configuraciones globales
-│   │
-│   ├── core/                       # Núcleo de la aplicación
-│   │   ├── domain/                 # Modelos de datos
-│   │   ├── services/               # Lógica de negocio
-│   │   └── solvers/                # Algoritmos matemáticos
-│   │       ├── osmosis/            # Módulo de ósmosis
-│   │       └── patch_clamp/        # Módulo de Patch Clamp
-│   │
-│   ├── infrastructure/             # Acceso a datos
-│   │   ├── json_repository.py      # Repositorio basado en JSON
-│   │   └── file_manager.py         # Gestión de archivos
-│   │
-│   └── desktop/                    # Interfaz gráfica
-│       ├── app.py                  # Aplicación principal
-│       ├── components/             # Widgets reutilizables
-│       └── views/                  # Vistas de cada módulo
-│
-├── data/                           # Datos de la aplicación
-│   ├── conferences/                # Conferencias digitales
-│   ├── bibliography/               # Referencias bibliográficas
-│   ├── problems/                   # Banco de ejercicios
-│   └── config.json                 # Configuración de usuario
-│
-├── assets/                         # Recursos estáticos
-│   ├── icons/                      # Iconos de la aplicación
-│   └── images/                     # Imágenes y diagramas
-│
-├── tests/                          # Pruebas unitarias
-│
-├── requirements.txt                # Dependencias de producción
-├── requirements-dev.txt            # Dependencias de desarrollo
-└── README.md                       # Este archivo</code></pre><hr>
-<h2>🚀 Distribución como Ejecutable Portable</h2>
-<p>Para crear un ejecutable portable que no requiera instalación de Python:</p>
-<pre><code class="hljs bash"><span class="hljs-comment"># Instalar PyInstaller (si no está instalado)</span>
-pip install pyinstaller
-
-<span class="hljs-comment"># Generar ejecutable</span>
-pyinstaller --onefile --windowed --icon=assets/icons/app_icon.ico --name=<span class="hljs-string">"BiofisicaApp"</span> src/main.py</code></pre><p>El ejecutable se generará en la carpeta <code>dist/</code>.</p>
-<h3>Estructura de Distribución</h3>
-<pre><code class="hljs plaintext">BiofisicaApp_v1.0/
-├── BiofisicaApp.exe          # Ejecutable principal
-├── data/                      # Carpeta de datos (copiar junto al .exe)
-│   ├── conferences/
-│   ├── bibliography/
-│   └── problems/
-└── README.txt                 # Instrucciones de uso</code></pre><hr>
 <h2>📖 Guía de Uso</h2>
-<h3>Navegación</h3>
-<p>La aplicación presenta una barra lateral izquierda con acceso a los cuatro módulos principales. El área central muestra el contenido del módulo seleccionado.</p>
+<h3>Navegación General</h3>
+<ol>
+<li>Use la <strong>barra lateral izquierda</strong> para acceder a los módulos</li>
+<li>El módulo activo se resalta visualmente</li>
+<li>El área central muestra el contenido del módulo seleccionado</li>
+</ol>
 <h3>Módulos Interactivos</h3>
 <ol>
-<li><strong>Seleccione el módulo</strong> (Ósmosis o Patch Clamp) desde el menú lateral</li>
-<li><strong>Introduzca los parámetros</strong> en los campos correspondientes</li>
-<li><strong>Pulse "Calcular"</strong> para obtener los resultados</li>
-<li><strong>Analice la retroalimentación</strong> proporcionada, incluyendo gráficos si aplica</li>
-<li><strong>Redimensione los paneles</strong> arrastrando las barras divisoras entre resultados y gráficos</li>
+<li>Seleccione el módulo deseado (Ósmosis, Equilibrio Iónico o Patch Clamp)</li>
+<li>Complete los campos del formulario con los datos del problema</li>
+<li>Pulse <strong>"Calcular"</strong> para obtener resultados</li>
+<li>Analice la <strong>interpretación</strong> y <strong>retroalimentación</strong> generada</li>
+<li>Los paneles son <strong>redimensionables</strong> arrastrando los separadores</li>
 </ol>
-<h3>Bibliografía</h3>
+<h3>Abrir PDFs</h3>
 <ul>
-<li>Navegue entre las pestañas <strong>Libros</strong> y <strong>Artículos</strong></li>
-<li>Pase el cursor sobre las tarjetas para ver el efecto hover</li>
-<li>Haga clic en <strong>"Abrir PDF"</strong> para visualizar documentos locales</li>
-<li>Haga clic en <strong>"DOI"</strong> para abrir artículos en el navegador</li>
-</ul>
-<h3>Problemas Propuestos</h3>
-<ul>
-<li>Seleccione un tema desde la barra lateral</li>
-<li>Haga clic en cualquier problema para ver su detalle</li>
-<li>Los problemas muestran dificultad, puntuación y solución paso a paso</li>
+<li>En Conferencias, Bibliografía o Seminarios, haga clic en <strong>"Abrir"</strong> o <strong>"Abrir PDF"</strong></li>
+<li>El archivo se abrirá con el visor de PDF predeterminado del sistema</li>
 </ul>
 <h3>Añadir Contenido</h3>
 <ul>
-<li><strong>Conferencias</strong>: Copie archivos PDF a <code>data/conferences/pdfs/</code> y actualice <code>_index.json</code></li>
-<li><strong>Bibliografía</strong>: Edite <code>data/bibliography/books.json</code> y <code>papers.json</code>, añada PDFs a <code>data/bibliography/pdfs/</code></li>
-<li><strong>Problemas</strong>: Cree archivos JSON siguiendo la plantilla en <code>data/problems/</code></li>
+<li><strong>Conferencias</strong>: Añada PDFs a <code>data/conferences/pdfs/Tema #X/</code> y actualice <code>_index.json</code></li>
+<li><strong>Bibliografía</strong>: Edite <code>data/bibliography/index.json</code> y añada PDFs a <code>pdfs/</code></li>
+<li><strong>Seminarios</strong>: Añada PDFs a <code>data/problems/seminars/</code> y actualice <code>_index.json</code></li>
 </ul>
 <hr>
-<h2>🧪 Pruebas</h2>
-<p>Para ejecutar las pruebas unitarias:</p>
-<pre><code class="hljs bash"><span class="hljs-comment"># Ejecutar todas las pruebas</span>
-pytest
+<h2>🚀 Distribución como Ejecutable</h2>
+<pre><code class="hljs bash"><span class="hljs-comment"># Instalar PyInstaller</span>
+pip install pyinstaller
 
-<span class="hljs-comment"># Ejecutar con cobertura</span>
-pytest --cov=src
-
-<span class="hljs-comment"># Ejecutar pruebas específicas</span>
-pytest tests/test_osmosis_solver.py -v</code></pre><hr>
+<span class="hljs-comment"># Generar ejecutable</span>
+pyinstaller --onefile --windowed --icon=data/img/bia_icon.ico --name=<span class="hljs-string">"BiofisicaApp"</span> src/main.py</code></pre><p>El ejecutable se genera en <code>dist/</code>. Incluya la carpeta <code>data/</code> junto al ejecutable.</p>
+<hr>
 <h2>🔮 Desarrollo Futuro</h2>
-<p>La arquitectura del proyecto permite las siguientes extensiones:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Añadir nuevos módulos interactivos (cinética enzimática, termodinámica)</li>
-<li><input type="checkbox" disabled=""> Implementar sistema de progreso del estudiante</li>
-<li><input type="checkbox" disabled=""> Exportar resultados a PDF</li>
+<li><input type="checkbox" disabled=""> Módulo de Goldman-Hodgkin-Katz completo</li>
+<li><input type="checkbox" disabled=""> Exportación de resultados a PDF</li>
+<li><input type="checkbox" disabled=""> Sistema de progreso del estudiante</li>
+<li><input type="checkbox" disabled=""> Modo claro/oscuro configurable</li>
 <li><input type="checkbox" disabled=""> Migración a versión web (FastAPI + React)</li>
-<li><input type="checkbox" disabled=""> Modo oscuro/claro configurable</li>
+<li><input type="checkbox" disabled=""> Módulo de cinética enzimática</li>
 <li><input type="checkbox" disabled=""> Soporte multiidioma</li>
 </ul>
 <hr>
-<h2>👥 Contribución</h2>
-<p>Este proyecto ha sido desarrollado como parte de una innovación didáctica para la enseñanza de la Biofísica. Las contribuciones son bienvenidas siguiendo las guías de estilo del proyecto.</p>
+<h2>👥 Autores</h2>
+<ul>
+<li><strong>Ana Gabriela Zaragoza Palmarola</strong> - <a href="mailto:anagabrielazaragozapalmarola@gmail.com">anagabrielazaragozapalmarola@gmail.com</a></li>
+<li><strong>Sebastián González</strong> - <a href="mailto:sebagonz106@gmail.com">sebagonz106@gmail.com</a></li>
+</ul>
 <hr>
 <h2>📄 Licencia</h2>
-<p>Este proyecto está destinado a fines educativos. Consulte con los autores antes de cualquier uso comercial.</p>
-<hr>
-<h2>📞 Contacto</h2>
-<p>Para consultas académicas o técnicas relacionadas con este proyecto, contacte al equipo de desarrollo a través <a href="mailto:anagabrielazaragozapalmarola@gmail.com">anagabrielazaragozapalmarola@gmail.com</a> o <a href="mailto:sebagonz106@gmail.com">sebagonz106@gmail.com</a></p>
+<p>Proyecto desarrollado con fines educativos para la enseñanza de la Biofísica en la carrera de Bioquímica. Consulte con los autores antes de cualquier uso comercial.</p>
 <hr>
 <p align="center">
-  <em>Desarrollado como recurso educativo complementario para la enseñanza de la Biofísica</em>
+  <em>Universidad de La Habana — Facultad de Biología</em><br>
+  <em>Recurso educativo complementario para la asignatura de Biofísica</em>
 </p>
 
                 </article>

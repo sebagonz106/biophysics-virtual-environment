@@ -29,356 +29,473 @@
                 </head>
                 <body>
                 <article class="markdown-body">
-                    <h1>🗺️ Roadmap de Mejoras y Revisiones</h1>
-<p><strong>Entorno Virtual para la Enseñanza de la Biofísica</strong><br><em>Última actualización: 28 de noviembre de 2025</em></p>
+                    <h1>🗺️ Roadmap del Proyecto</h1>
+<p><strong>Entorno Virtual para la Enseñanza de la Biofísica</strong><br><em>Última actualización: 30 de noviembre de 2025</em></p>
 <hr>
-<h2>📊 Estado Actual de la Aplicación</h2>
-<p>La aplicación está <strong>funcional</strong> en su versión 1.0.0 con los siguientes módulos operativos:</p>
+<h2>📊 Estado Actual — Versión 1.0.0</h2>
+<h3>Resumen de Funcionalidades Implementadas</h3>
 <table>
 <thead>
 <tr>
 <th>Módulo</th>
 <th>Estado</th>
-<th>Observaciones</th>
+<th>Descripción</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>🏠 Vista de Inicio</td>
+<td>🏠 <strong>Inicio</strong></td>
 <td>✅ Completo</td>
-<td>Navegación y accesos rápidos</td>
+<td>Pantalla de bienvenida con logo y accesos rápidos</td>
 </tr>
 <tr>
-<td>📖 Conferencias</td>
-<td>✅ Funcional</td>
-<td>Requiere contenido (PDFs)</td>
-</tr>
-<tr>
-<td>📚 Bibliografía</td>
-<td>✅ Funcional</td>
-<td>Libros y artículos con hover</td>
-</tr>
-<tr>
-<td>📝 Problemas</td>
-<td>✅ Funcional</td>
-<td>Requiere más ejercicios</td>
-</tr>
-<tr>
-<td>💧 Ósmosis</td>
+<td>📖 <strong>Conferencias</strong></td>
 <td>✅ Completo</td>
-<td>3 calculadoras operativas</td>
+<td>7 temas con 20 PDFs organizados por carpetas</td>
 </tr>
 <tr>
-<td>⚡ Patch Clamp</td>
+<td>📚 <strong>Bibliografía</strong></td>
 <td>✅ Completo</td>
-<td>3 calculadoras operativas</td>
+<td>10 libros + 1 artículo con acceso a PDFs</td>
+</tr>
+<tr>
+<td>📝 <strong>Problemas</strong></td>
+<td>✅ Completo</td>
+<td>Banco de ejercicios con filtros y detalles</td>
+</tr>
+<tr>
+<td>📚 <strong>Seminarios</strong></td>
+<td>✅ Completo</td>
+<td>4 seminarios del curso en PDF</td>
+</tr>
+<tr>
+<td>💧 <strong>Ósmosis</strong></td>
+<td>✅ Completo</td>
+<td>Comparación de osmolaridades con gráficos</td>
+</tr>
+<tr>
+<td>⚖️ <strong>Equilibrio Iónico</strong></td>
+<td>✅ Completo</td>
+<td>Ecuación de Nernst con 7 iones predefinidos</td>
+</tr>
+<tr>
+<td>⚡ <strong>Patch Clamp</strong></td>
+<td>✅ Completo</td>
+<td>Curvas I-V y registro de canal único</td>
+</tr>
+</tbody></table>
+<h3>Características de la Interfaz</h3>
+<ul>
+<li>✅ Barra lateral con navegación visual</li>
+<li>✅ Logo personalizado en sidebar, home y barra de tareas</li>
+<li>✅ Paneles redimensionables con PanedWindow</li>
+<li>✅ Barras de desplazamiento en resultados y gráficos</li>
+<li>✅ Pestañas para organizar contenido</li>
+<li>✅ Efectos hover en tarjetas de bibliografía</li>
+<li>✅ Apertura de PDFs con visor del sistema</li>
+</ul>
+<h3>Solvers Implementados</h3>
+<h4>Módulo de Ósmosis</h4>
+<table>
+<thead>
+<tr>
+<th>Solver</th>
+<th>Archivo</th>
+<th>Funcionalidad</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>OsmolarityComparisonSolver</code></td>
+<td><code>osmolarity_comparison.py</code></td>
+<td>Comparación intra/extracelular con múltiples solutos</td>
+</tr>
+<tr>
+<td><code>OsmolaritySolver</code></td>
+<td><code>osmolarity.py</code></td>
+<td>Cálculo de osmolaridad simple</td>
+</tr>
+<tr>
+<td><code>TonicitySolver</code></td>
+<td><code>tonicity.py</code></td>
+<td>Clasificación de tonicidad</td>
+</tr>
+<tr>
+<td><code>CellVolumeSolver</code></td>
+<td><code>cell_volume.py</code></td>
+<td>Volumen celular Boyle-van't Hoff</td>
+</tr>
+<tr>
+<td><code>VolumeDynamicsSolver</code></td>
+<td><code>volume_dynamics.py</code></td>
+<td>Dinámica temporal del volumen</td>
+</tr>
+</tbody></table>
+<h4>Módulo de Equilibrio Iónico</h4>
+<table>
+<thead>
+<tr>
+<th>Solver</th>
+<th>Archivo</th>
+<th>Funcionalidad</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>NernstSolver</code></td>
+<td><code>ionic_equilibrium/nernst.py</code></td>
+<td>Potencial de equilibrio de Nernst</td>
+</tr>
+</tbody></table>
+<h4>Módulo de Patch Clamp</h4>
+<table>
+<thead>
+<tr>
+<th>Solver</th>
+<th>Archivo</th>
+<th>Funcionalidad</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>NernstSolver</code></td>
+<td><code>patch_clamp/nernst.py</code></td>
+<td>Potencial de Nernst (duplicado)</td>
+</tr>
+<tr>
+<td><code>GoldmanSolver</code></td>
+<td><code>goldman.py</code></td>
+<td>Ecuación de Goldman-Hodgkin-Katz</td>
+</tr>
+<tr>
+<td><code>IVCurveSolver</code></td>
+<td><code>iv_curve.py</code></td>
+<td>Curvas corriente-voltaje</td>
+</tr>
+<tr>
+<td><code>SingleChannelSolver</code></td>
+<td><code>single_channel.py</code></td>
+<td>Análisis de canal único</td>
 </tr>
 </tbody></table>
 <hr>
-<h2>🔴 Prioridad Alta — Correcciones Necesarias</h2>
-<h3>1. Validación de Entrada de Datos</h3>
-<p><strong>Problema</strong>: Los formularios no validan completamente los datos antes de enviarlos a los solvers.</p>
+<h2>🔴 Prioridad Alta — Próximas Mejoras</h2>
+<h3>1. Unificación de Solvers de Nernst</h3>
+<p><strong>Estado</strong>: Pendiente<br><strong>Problema</strong>: Existe duplicación entre <code>ionic_equilibrium/nernst.py</code> y <code>patch_clamp/nernst.py</code></p>
 <p><strong>Tareas</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Añadir validación de rangos numéricos en <code>InputForm</code></li>
-<li><input type="checkbox" disabled=""> Mostrar mensajes de error específicos por campo</li>
-<li><input type="checkbox" disabled=""> Prevenir concentraciones negativas o cero</li>
-<li><input type="checkbox" disabled=""> Validar que la temperatura esté en rangos fisiológicos</li>
+<li><input type="checkbox" disabled=""> Consolidar en un único solver base</li>
+<li><input type="checkbox" disabled=""> Mantener referencias desde ambos módulos</li>
+<li><input type="checkbox" disabled=""> Actualizar imports en las vistas</li>
 </ul>
-<p><strong>Archivos afectados</strong>: <code>src/desktop/components/input_form.py</code></p>
-<hr>
-<h3>2. Manejo de Errores en Solvers</h3>
-<p><strong>Problema</strong>: Algunos errores de cálculo no se capturan correctamente.</p>
+<h3>2. Integración Completa de Goldman-Hodgkin-Katz</h3>
+<p><strong>Estado</strong>: Parcialmente implementado (solver existe, GUI incompleta)</p>
 <p><strong>Tareas</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Envolver todos los cálculos en try-except</li>
-<li><input type="checkbox" disabled=""> Retornar mensajes de error descriptivos en español</li>
-<li><input type="checkbox" disabled=""> Registrar errores en log para debugging</li>
+<li><input type="checkbox" disabled=""> Añadir tab de Goldman en Equilibrio Iónico</li>
+<li><input type="checkbox" disabled=""> Campos para permeabilidades relativas (P_K, P_Na, P_Cl)</li>
+<li><input type="checkbox" disabled=""> Gráfico comparativo con potenciales individuales de Nernst</li>
 </ul>
-<p><strong>Archivos afectados</strong>: <code>src/core/solvers/**/*.py</code></p>
-<hr>
-<h3>3. Persistencia de Configuración de Usuario</h3>
-<p><strong>Problema</strong>: Los cambios de tema o preferencias no se guardan.</p>
+<h3>3. Validación de Datos de Entrada</h3>
+<p><strong>Estado</strong>: Básica</p>
 <p><strong>Tareas</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Implementar guardado de preferencias en <code>data/user_data/</code></li>
-<li><input type="checkbox" disabled=""> Recordar última vista visitada</li>
-<li><input type="checkbox" disabled=""> Guardar historial de cálculos recientes</li>
+<li><input type="checkbox" disabled=""> Validar rangos fisiológicos de concentraciones</li>
+<li><input type="checkbox" disabled=""> Prevenir valores negativos o cero donde no aplique</li>
+<li><input type="checkbox" disabled=""> Mensajes de error específicos en español</li>
+<li><input type="checkbox" disabled=""> Validar temperatura en rangos razonables</li>
 </ul>
-<p><strong>Archivos afectados</strong>: <code>src/infrastructure/file_manager.py</code>, <code>src/desktop/app.py</code></p>
 <hr>
 <h2>🟡 Prioridad Media — Mejoras Funcionales</h2>
-<h3>4. Añadir Más Solutos Predefinidos</h3>
-<p><strong>Ubicación</strong>: <code>src/core/solvers/osmosis/osmolarity.py</code></p>
-<p><strong>Solutos a añadir</strong>:</p>
-<ul>
-<li><input type="checkbox" disabled=""> Manitol (20%, diurético osmótico)</li>
-<li><input type="checkbox" disabled=""> NaHCO₃ (bicarbonato)</li>
-<li><input type="checkbox" disabled=""> Albúmina (presión oncótica)</li>
-<li><input type="checkbox" disabled=""> Lactato de Ringer (composición completa)</li>
-<li><input type="checkbox" disabled=""> Dextrosa en diferentes concentraciones</li>
-</ul>
-<hr>
-<h3>5. Calculadora de Presión Osmótica (π)</h3>
-<p><strong>Estado</strong>: No implementada</p>
-<p><strong>Funcionalidad propuesta</strong>:</p>
-<ul>
-<li>Ecuación de Van't Hoff: π = iMRT</li>
-<li>Comparación con presión oncótica del plasma</li>
-<li>Predicción de flujo de agua</li>
-</ul>
-<p><strong>Archivos a crear</strong>: <code>src/core/solvers/osmosis/osmotic_pressure.py</code></p>
-<hr>
-<h3>6. Exportación de Resultados</h3>
-<p><strong>Estado</strong>: No implementada</p>
+<h3>4. Exportación de Resultados</h3>
+<p><strong>Estado</strong>: No implementado</p>
 <p><strong>Funcionalidades propuestas</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Exportar resultados a PDF</li>
+<li><input type="checkbox" disabled=""> Exportar resultados a PDF con formato académico</li>
 <li><input type="checkbox" disabled=""> Exportar gráficos como imágenes (PNG/SVG)</li>
-<li><input type="checkbox" disabled=""> Generar reportes con interpretación completa</li>
 <li><input type="checkbox" disabled=""> Copiar resultados al portapapeles</li>
+<li><input type="checkbox" disabled=""> Generar reportes con interpretación completa</li>
 </ul>
 <p><strong>Archivos a crear</strong>: <code>src/infrastructure/export_manager.py</code></p>
-<hr>
-<h3>7. Mejoras en Gráficos</h3>
+<h3>5. Mejoras en Gráficos</h3>
 <p><strong>Ubicación</strong>: <code>src/desktop/components/plot_canvas.py</code></p>
 <p><strong>Mejoras propuestas</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Zoom interactivo en gráficos</li>
-<li><input type="checkbox" disabled=""> Tooltips al pasar el cursor sobre puntos</li>
-<li><input type="checkbox" disabled=""> Opción de guardar gráfico</li>
-<li><input type="checkbox" disabled=""> Personalización de colores/estilos</li>
+<li><input type="checkbox" disabled=""> Zoom interactivo con scroll del mouse</li>
+<li><input type="checkbox" disabled=""> Tooltips al pasar cursor sobre puntos de datos</li>
+<li><input type="checkbox" disabled=""> Botón para guardar gráfico individual</li>
+<li><input type="checkbox" disabled=""> Personalización de colores y estilos</li>
 <li><input type="checkbox" disabled=""> Animación de cambio de volumen celular</li>
 </ul>
-<hr>
-<h3>8. Calculadora de Canales Rectificadores</h3>
-<p><strong>Estado</strong>: Parcialmente implementada en <code>iv_curve.py</code></p>
-<p><strong>Mejoras</strong>:</p>
+<h3>6. Más Solutos Predefinidos</h3>
+<p><strong>Ubicación</strong>: <code>src/core/solvers/osmosis/osmolarity_comparison.py</code></p>
+<p><strong>Solutos a añadir</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Añadir modelos de rectificación inward/outward a la GUI</li>
-<li><input type="checkbox" disabled=""> Comparación visual con canal óhmico</li>
-<li><input type="checkbox" disabled=""> Ejemplos de canales Kir, Kv</li>
+<li><input type="checkbox" disabled=""> Lactato de Ringer (composición completa)</li>
+<li><input type="checkbox" disabled=""> Solución salina hipertónica (3%, 7.5%)</li>
+<li><input type="checkbox" disabled=""> Albúmina (para presión oncótica)</li>
+<li><input type="checkbox" disabled=""> Dextrosa en diferentes concentraciones</li>
 </ul>
+<h3>7. Calculadora de Presión Osmótica (π)</h3>
+<p><strong>Estado</strong>: No implementado</p>
+<p><strong>Funcionalidad propuesta</strong>:</p>
+<ul>
+<li>Ecuación de Van't Hoff: π = iMRT</li>
+<li>Comparación con presión oncótica del plasma (~25 mmHg)</li>
+<li>Predicción de dirección del flujo de agua</li>
+</ul>
+<p><strong>Archivo a crear</strong>: <code>src/core/solvers/osmosis/osmotic_pressure.py</code></p>
 <hr>
 <h2>🟢 Prioridad Baja — Mejoras de UX/UI</h2>
-<h3>9. Modo Oscuro/Claro Dinámico</h3>
+<h3>8. Modo Claro/Oscuro Dinámico</h3>
 <p><strong>Estado</strong>: Solo modo oscuro</p>
 <p><strong>Tareas</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Añadir toggle de tema en sidebar</li>
+<li><input type="checkbox" disabled=""> Añadir toggle de tema en sidebar o configuración</li>
 <li><input type="checkbox" disabled=""> Guardar preferencia de tema</li>
 <li><input type="checkbox" disabled=""> Asegurar legibilidad en ambos modos</li>
+<li><input type="checkbox" disabled=""> Adaptar gráficos al tema seleccionado</li>
 </ul>
-<hr>
-<h3>10. Internacionalización (i18n)</h3>
+<h3>9. Atajos de Teclado</h3>
+<p><strong>Estado</strong>: No implementado</p>
+<p><strong>Atajos propuestos</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Atajo</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ctrl+1-6</code></td>
+<td>Cambiar entre módulos principales</td>
+</tr>
+<tr>
+<td><code>Ctrl+Enter</code></td>
+<td>Ejecutar cálculo</td>
+</tr>
+<tr>
+<td><code>Ctrl+R</code></td>
+<td>Resetear formulario</td>
+</tr>
+<tr>
+<td><code>Ctrl+E</code></td>
+<td>Exportar resultados</td>
+</tr>
+<tr>
+<td><code>F1</code></td>
+<td>Mostrar ayuda contextual</td>
+</tr>
+</tbody></table>
+<h3>10. Tooltips y Ayuda Contextual</h3>
+<p><strong>Estado</strong>: Mínimo</p>
+<p><strong>Tareas</strong>:</p>
+<ul>
+<li><input type="checkbox" disabled=""> Tooltips explicativos en todos los campos de entrada</li>
+<li><input type="checkbox" disabled=""> Panel de ayuda con fórmulas y ecuaciones</li>
+<li><input type="checkbox" disabled=""> Enlace a recursos externos relevantes</li>
+<li><input type="checkbox" disabled=""> Explicación de unidades y rangos típicos</li>
+</ul>
+<h3>11. Internacionalización (i18n)</h3>
 <p><strong>Estado</strong>: Solo español</p>
 <p><strong>Tareas</strong>:</p>
 <ul>
 <li><input type="checkbox" disabled=""> Extraer strings a archivos de traducción</li>
-<li><input type="checkbox" disabled=""> Añadir soporte para inglés</li>
+<li><input type="checkbox" disabled=""> Implementar soporte para inglés</li>
 <li><input type="checkbox" disabled=""> Selector de idioma en configuración</li>
+<li><input type="checkbox" disabled=""> Traducir contenido de ayuda</li>
 </ul>
 <hr>
-<h3>11. Tooltips y Ayuda Contextual</h3>
-<p><strong>Estado</strong>: Mínimo</p>
-<p><strong>Tareas</strong>:</p>
-<ul>
-<li><input type="checkbox" disabled=""> Añadir tooltips explicativos a todos los campos</li>
-<li><input type="checkbox" disabled=""> Crear panel de ayuda con fórmulas</li>
-<li><input type="checkbox" disabled=""> Añadir enlaces a recursos externos</li>
-</ul>
-<hr>
-<h3>12. Atajos de Teclado</h3>
-<p><strong>Estado</strong>: No implementado</p>
-<p><strong>Atajos propuestos</strong>:</p>
-<ul>
-<li><code>Ctrl+1-4</code>: Cambiar entre módulos</li>
-<li><code>Ctrl+Enter</code>: Calcular</li>
-<li><code>Ctrl+R</code>: Resetear formulario</li>
-<li><code>Ctrl+E</code>: Exportar resultados</li>
-</ul>
-<hr>
-<h2>📚 Contenido a Añadir</h2>
-<h3>13. Banco de Problemas</h3>
+<h2>📚 Contenido a Expandir</h2>
+<h3>12. Banco de Problemas</h3>
 <p><strong>Ubicación</strong>: <code>data/problems/</code></p>
-<p><strong>Temas pendientes</strong>:</p>
+<p><strong>Categorías pendientes</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Problemas de transporte activo</li>
+<li><input type="checkbox" disabled=""> Problemas de transporte activo (bomba Na/K)</li>
 <li><input type="checkbox" disabled=""> Ejercicios de potencial de acción completo</li>
 <li><input type="checkbox" disabled=""> Casos clínicos de alteraciones electrolíticas</li>
-<li><input type="checkbox" disabled=""> Problemas de permeabilidad selectiva</li>
+<li><input type="checkbox" disabled=""> Problemas de cinética de canales</li>
+<li><input type="checkbox" disabled=""> Ejercicios de sinapsis y neurotransmisión</li>
 </ul>
-<p><strong>Formato sugerido por problema</strong>:</p>
+<p><strong>Formato JSON sugerido</strong>:</p>
 <pre><code class="hljs json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">"id"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"osm_003"</span><span class="hljs-punctuation">,</span>
   <span class="hljs-attr">"title"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Título del problema"</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"topic"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"osmosis"</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"difficulty"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-number">-5</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"points"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"category"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"osmosis"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"difficulty"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><span class="hljs-punctuation">,</span>
   <span class="hljs-attr">"statement"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Enunciado completo..."</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"given_data"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"variable"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"valor"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"solution_steps"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"Paso 1..."</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"Paso 2..."</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"answer"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Respuesta final"</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"hints"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"Pista 1"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"Pista 2"</span><span class="hljs-punctuation">]</span>
+  <span class="hljs-attr">"given_data"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"variable"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"value"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">100</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"unit"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"mM"</span><span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"solution"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"steps"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span><span class="hljs-attr">"step_number"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"description"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"..."</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"formula"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"..."</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"calculation"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"..."</span><span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"final_answer"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"value"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">285</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"unit"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"mOsm/L"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"interpretation"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Explicación del significado..."</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"related_solver"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"osmolarity_comparison"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"tags"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"ósmosis"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"tonicidad"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"NaCl"</span><span class="hljs-punctuation">]</span>
 <span class="hljs-punctuation">}</span></code></pre><hr>
-<h3>14. Conferencias Digitales</h3>
-<p><strong>Ubicación</strong>: <code>data/conferences/</code></p>
-<p><strong>Temas sugeridos</strong>:</p>
-<ol>
-<li>Introducción a la Biofísica</li>
-<li>Propiedades del agua y soluciones</li>
-<li>Membranas biológicas</li>
-<li>Transporte pasivo y activo</li>
-<li>Potenciales de membrana</li>
-<li>Potencial de acción</li>
-<li>Sinapsis y neurotransmisión</li>
-<li>Técnicas de Patch Clamp</li>
-</ol>
-<hr>
-<h3>15. Bibliografía Adicional</h3>
-<p><strong>Ubicación</strong>: <code>data/bibliography/</code></p>
-<p><strong>Añadir</strong>:</p>
-<ul>
-<li><input type="checkbox" disabled=""> Más artículos seminales (Hodgkin-Huxley originales)</li>
-<li><input type="checkbox" disabled=""> Reviews modernos de canales iónicos</li>
-<li><input type="checkbox" disabled=""> Libros de problemas resueltos</li>
-<li><input type="checkbox" disabled=""> Videos y recursos multimedia (enlaces)</li>
-</ul>
-<hr>
-<h2>🔬 Módulos Futuros (Versión 2.0)</h2>
-<h3>16. Módulo de Cinética Enzimática</h3>
+<h2>🔬 Módulos Futuros — Versión 2.0</h2>
+<h3>13. Módulo de Cinética Enzimática</h3>
 <p><strong>Funcionalidades propuestas</strong>:</p>
 <ul>
 <li>Ecuación de Michaelis-Menten</li>
-<li>Gráficos de Lineweaver-Burk</li>
-<li>Tipos de inhibición (competitiva, no competitiva, etc.)</li>
+<li>Gráficos de Lineweaver-Burk y Eadie-Hofstee</li>
+<li>Tipos de inhibición (competitiva, no competitiva, acompetitiva)</li>
 <li>Simulación de reacciones enzimáticas</li>
+<li>Determinación de Km y Vmax</li>
 </ul>
-<hr>
-<h3>17. Módulo de Termodinámica</h3>
+<h3>14. Módulo de Termodinámica Biológica</h3>
 <p><strong>Funcionalidades propuestas</strong>:</p>
 <ul>
 <li>Energía libre de Gibbs (ΔG)</li>
-<li>Equilibrio químico</li>
+<li>Equilibrio químico y constante de equilibrio</li>
 <li>Acoplamiento energético</li>
-<li>ATP y trabajo celular</li>
+<li>ATP como moneda energética</li>
+<li>Reacciones exergónicas y endergónicas</li>
 </ul>
-<hr>
-<h3>18. Módulo de Biofísica de Radiaciones</h3>
+<h3>15. Módulo de Biofísica de Radiaciones</h3>
 <p><strong>Funcionalidades propuestas</strong>:</p>
 <ul>
-<li>Decaimiento radiactivo</li>
+<li>Decaimiento radiactivo (vida media)</li>
 <li>Dosis y exposición</li>
 <li>Efectos biológicos de la radiación</li>
+<li>Protección radiológica básica</li>
 </ul>
-<hr>
-<h3>19. Sistema de Progreso del Estudiante</h3>
+<h3>16. Sistema de Progreso del Estudiante</h3>
 <p><strong>Funcionalidades propuestas</strong>:</p>
 <ul>
 <li><input type="checkbox" disabled=""> Registro de problemas resueltos</li>
-<li><input type="checkbox" disabled=""> Estadísticas de uso</li>
-<li><input type="checkbox" disabled=""> Logros y medallas</li>
+<li><input type="checkbox" disabled=""> Estadísticas de uso por módulo</li>
+<li><input type="checkbox" disabled=""> Sistema de logros y medallas</li>
 <li><input type="checkbox" disabled=""> Modo de práctica con tiempo</li>
-<li><input type="checkbox" disabled=""> Comparación con pares (anónima)</li>
+<li><input type="checkbox" disabled=""> Historial de cálculos recientes</li>
 </ul>
 <hr>
 <h2>🛠️ Mejoras Técnicas</h2>
-<h3>20. Testing Automatizado</h3>
+<h3>17. Testing Automatizado</h3>
 <p><strong>Estado</strong>: No implementado</p>
 <p><strong>Tareas</strong>:</p>
 <ul>
 <li><input type="checkbox" disabled=""> Tests unitarios para todos los solvers</li>
-<li><input type="checkbox" disabled=""> Tests de integración para la GUI</li>
+<li><input type="checkbox" disabled=""> Tests de integración para repositorios JSON</li>
+<li><input type="checkbox" disabled=""> Mocks para testing de GUI</li>
 <li><input type="checkbox" disabled=""> CI/CD con GitHub Actions</li>
-<li><input type="checkbox" disabled=""> Cobertura de código &gt; 80%</li>
+<li><input type="checkbox" disabled=""> Cobertura de código objetivo: &gt;80%</li>
 </ul>
-<p><strong>Archivos a crear</strong>: <code>tests/</code></p>
-<hr>
-<h3>21. Documentación del Código</h3>
+<p><strong>Estructura propuesta</strong>:</p>
+<pre><code class="hljs plaintext">tests/
+├── unit/
+│   ├── test_osmosis_solvers.py
+│   ├── test_nernst_solver.py
+│   ├── test_iv_curve_solver.py
+│   └── test_repositories.py
+├── integration/
+│   └── test_solver_service.py
+└── conftest.py</code></pre><h3>18. Documentación del Código</h3>
 <p><strong>Estado</strong>: Docstrings básicos</p>
 <p><strong>Tareas</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Generar documentación con Sphinx</li>
+<li><input type="checkbox" disabled=""> Generar documentación con Sphinx o MkDocs</li>
 <li><input type="checkbox" disabled=""> Añadir ejemplos de uso en docstrings</li>
-<li><input type="checkbox" disabled=""> Crear guía de contribución</li>
+<li><input type="checkbox" disabled=""> Crear guía de contribución (CONTRIBUTING.md)</li>
+<li><input type="checkbox" disabled=""> Documentar API de solvers</li>
 </ul>
-<hr>
-<h3>22. Optimización de Rendimiento</h3>
+<h3>19. Optimización de Rendimiento</h3>
 <p><strong>Tareas</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Lazy loading de módulos</li>
+<li><input type="checkbox" disabled=""> Lazy loading de vistas (cargar solo al navegar)</li>
 <li><input type="checkbox" disabled=""> Caché de cálculos frecuentes</li>
-<li><input type="checkbox" disabled=""> Optimizar gráficos grandes</li>
+<li><input type="checkbox" disabled=""> Optimizar renderizado de gráficos grandes</li>
+<li><input type="checkbox" disabled=""> Reducir tiempo de inicio de la aplicación</li>
 </ul>
-<hr>
-<h3>23. Empaquetado Mejorado</h3>
+<h3>20. Empaquetado Mejorado</h3>
 <p><strong>Estado</strong>: PyInstaller básico</p>
 <p><strong>Tareas</strong>:</p>
 <ul>
-<li><input type="checkbox" disabled=""> Crear instalador para Windows (NSIS o Inno Setup)</li>
-<li><input type="checkbox" disabled=""> Añadir icono y metadatos de aplicación</li>
+<li><input type="checkbox" disabled=""> Crear instalador para Windows (Inno Setup)</li>
+<li><input type="checkbox" disabled=""> Incluir icono y metadatos de aplicación</li>
 <li><input type="checkbox" disabled=""> Crear versión portable sin instalación</li>
+<li><input type="checkbox" disabled=""> Auto-actualización desde repositorio</li>
 <li><input type="checkbox" disabled=""> Firmar digitalmente el ejecutable</li>
 </ul>
 <hr>
-<h2>🌐 Migración Web (Versión 3.0)</h2>
-<h3>24. API REST Backend</h3>
-<p><strong>Tecnología propuesta</strong>: FastAPI</p>
+<h2>🌐 Migración Web — Versión 3.0</h2>
+<h3>21. API REST Backend</h3>
+<p><strong>Tecnología propuesta</strong>: FastAPI + Python</p>
 <p><strong>Endpoints</strong>:</p>
-<ul>
-<li><code>POST /api/osmosis/osmolarity</code></li>
-<li><code>POST /api/osmosis/volume</code></li>
-<li><code>POST /api/patch-clamp/nernst</code></li>
-<li><code>POST /api/patch-clamp/goldman</code></li>
-<li><code>POST /api/patch-clamp/iv-curve</code></li>
-</ul>
-<hr>
-<h3>25. Frontend Web</h3>
-<p><strong>Tecnología propuesta</strong>: React + TypeScript + Tailwind</p>
+<pre><code class="hljs plaintext">POST /api/v1/osmosis/compare
+POST /api/v1/osmosis/volume
+POST /api/v1/equilibrium/nernst
+POST /api/v1/equilibrium/goldman
+POST /api/v1/patch-clamp/iv-curve
+POST /api/v1/patch-clamp/single-channel
+GET  /api/v1/conferences
+GET  /api/v1/bibliography
+GET  /api/v1/problems</code></pre><h3>22. Frontend Web</h3>
+<p><strong>Tecnología propuesta</strong>: React + TypeScript + TailwindCSS</p>
 <p><strong>Ventajas</strong>:</p>
 <ul>
 <li>Acceso desde cualquier dispositivo</li>
 <li>No requiere instalación</li>
 <li>Actualizaciones automáticas</li>
 <li>Posibilidad de modo colaborativo</li>
+<li>Integración con LMS (Moodle, etc.)</li>
 </ul>
 <hr>
-<h2>✅ Checklist de Revisión Pre-Release</h2>
+<h2>✅ Checklist de Release</h2>
 <p>Antes de distribuir una nueva versión, verificar:</p>
 <ul>
 <li><input type="checkbox" disabled=""> Todos los solvers retornan resultados correctos</li>
-<li><input type="checkbox" disabled=""> La GUI no tiene errores visibles</li>
-<li><input type="checkbox" disabled=""> Los PDFs de ejemplo se abren correctamente</li>
-<li><input type="checkbox" disabled=""> El empaquetado con PyInstaller funciona</li>
-<li><input type="checkbox" disabled=""> El README está actualizado</li>
-<li><input type="checkbox" disabled=""> Se han actualizado los números de versión</li>
-<li><input type="checkbox" disabled=""> Se ha probado en Windows 10/11</li>
+<li><input type="checkbox" disabled=""> La GUI no tiene errores visibles ni warnings</li>
+<li><input type="checkbox" disabled=""> Los PDFs de conferencias, bibliografía y seminarios se abren</li>
+<li><input type="checkbox" disabled=""> El empaquetado con PyInstaller funciona en Windows 10/11</li>
+<li><input type="checkbox" disabled=""> El README.md está actualizado</li>
+<li><input type="checkbox" disabled=""> Se han actualizado los números de versión en <code>config.py</code></li>
 <li><input type="checkbox" disabled=""> Los datos de ejemplo están incluidos</li>
+<li><input type="checkbox" disabled=""> El logo aparece correctamente en sidebar, home y taskbar</li>
 </ul>
 <hr>
-<h2>📝 Notas de Implementación</h2>
-<h3>Convenciones de Código</h3>
+<h2>📝 Convenciones de Desarrollo</h2>
+<h3>Estilo de Código</h3>
 <ul>
-<li>Usar type hints en todas las funciones</li>
-<li>Docstrings en español (formato Google)</li>
-<li>Nombres de variables en inglés</li>
-<li>Mensajes de usuario en español</li>
+<li><strong>Type hints</strong>: Obligatorios en funciones públicas</li>
+<li><strong>Docstrings</strong>: Formato Google, en español</li>
+<li><strong>Nombres de variables</strong>: En inglés (snake_case)</li>
+<li><strong>Mensajes de usuario</strong>: En español</li>
+<li><strong>Linter</strong>: Pyright configurado en <code>pyrightconfig.json</code></li>
 </ul>
 <h3>Estructura de Commits</h3>
 <pre><code class="hljs plaintext">feat: añadir nueva funcionalidad
 fix: corregir error
 docs: actualizar documentación
-style: cambios de formato
+style: cambios de formato (sin cambio de lógica)
 refactor: reestructurar código
-test: añadir tests</code></pre><hr>
+test: añadir o modificar tests
+chore: tareas de mantenimiento</code></pre><h3>Flujo de Trabajo Git</h3>
+<ol>
+<li>Rama principal: <code>main</code></li>
+<li>Ramas de feature: <code>feature/nombre-descriptivo</code></li>
+<li>Ramas de fix: <code>fix/descripcion-del-bug</code></li>
+<li>Pull Request con revisión antes de merge</li>
+</ol>
+<hr>
 <h2>🤝 Contribución</h2>
 <p>Para contribuir al proyecto:</p>
 <ol>
 <li>Fork del repositorio</li>
 <li>Crear rama: <code>git checkout -b feature/nueva-funcionalidad</code></li>
-<li>Commit: <code>git commit -m 'feat: descripción'</code></li>
+<li>Desarrollar con tests</li>
+<li>Commit: <code>git commit -m 'feat: descripción concisa'</code></li>
 <li>Push: <code>git push origin feature/nueva-funcionalidad</code></li>
-<li>Crear Pull Request</li>
+<li>Crear Pull Request con descripción detallada</li>
 </ol>
+<hr>
+<h2>📞 Contacto</h2>
+<p><strong>Autores</strong>:</p>
+<ul>
+<li>Ana Gabriela Zaragoza Palmarola — <a href="mailto:anagabrielazaragozapalmarola@gmail.com">anagabrielazaragozapalmarola@gmail.com</a></li>
+<li>Sebastián González — <a href="mailto:sebagonz106@gmail.com">sebagonz106@gmail.com</a></li>
+</ul>
+<p><strong>Repositorio</strong>: <a href="https://github.com/sebagonz106/biophysics-virtual-environment">github.com/sebagonz106/biophysics-virtual-environment</a></p>
 <hr>
 <p><em>Este documento debe actualizarse conforme se implementen mejoras.</em></p>
 
