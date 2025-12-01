@@ -9,6 +9,12 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 SRC_DIR = ROOT_DIR / "src"
 DATA_DIR = ROOT_DIR / "data"
 ASSETS_DIR = ROOT_DIR / "assets"
+IMG_DIR = DATA_DIR / "img"
+
+# Logo de la aplicación
+APP_LOGO = IMG_DIR / "bia_logo.png"
+APP_ICON = IMG_DIR / "bia_icon.ico"  # Icono para barra de tareas
+APP_LOGO_CROPPED = IMG_DIR / "bia_logo_crop.png"
 
 # Rutas de datos
 CONFERENCES_DIR = DATA_DIR / "conferences"

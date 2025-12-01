@@ -4,6 +4,13 @@ Barra lateral de navegación.
 
 import customtkinter as ctk
 from typing import Callable, Optional
+from PIL import Image
+from pathlib import Path
+
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from config import APP_LOGO
 
 
 class Sidebar(ctk.CTkFrame):
@@ -30,7 +37,45 @@ class Sidebar(ctk.CTkFrame):
     
     def _create_widgets(self):
         """Crea los widgets del sidebar."""
-        # Logo/Título
+        # Logo de la aplicación
+        self._create_logo()
+    
+    def _create_logo(self):
+        """Crea y muestra el logo en el sidebar."""
+        try:
+            if APP_LOGO.exists():
+                # Cargar imagen
+                logo_image = Image.open(APP_LOGO)
+                # Redimensionar para el sidebar (ancho máximo ~160px)
+                max_width = 160
+                ratio = max_width / logo_image.width
+                new_height = int(logo_image.height * ratio)
+                logo_image = logo_image.resize((max_width, new_height), Image.Resampling.LANCZOS)
+                
+                # Crear CTkImage
+                self.logo_ctk = ctk.CTkImage(
+                    light_image=logo_image,
+                    dark_image=logo_image,
+                    size=(max_width, new_height)
+                )
+                
+                # Mostrar logo
+                self.logo_label = ctk.CTkLabel(
+                    self,
+                    image=self.logo_ctk,
+                    text=""
+                )
+                self.logo_label.grid(row=0, column=0, padx=10, pady=(15, 5))
+            else:
+                self._create_text_logo()
+        except Exception:
+            self._create_text_logo()
+        
+        # Continuar con el resto de widgets
+        self._create_nav_widgets()
+    
+    def _create_text_logo(self):
+        """Crea el logo como texto (fallback)."""
         self.logo_label = ctk.CTkLabel(
             self,
             text="🧬 Biofísica",
@@ -45,17 +90,20 @@ class Sidebar(ctk.CTkFrame):
             text_color="gray"
         )
         self.subtitle.grid(row=1, column=0, padx=20, pady=(0, 20))
+    
+    def _create_nav_widgets(self):
+        """Crea los widgets de navegación."""
         
         # Separador
         self.separator1 = ctk.CTkFrame(self, height=2, fg_color="gray70")
-        self.separator1.grid(row=2, column=0, sticky="ew", padx=10, pady=5)
+        self.separator1.grid(row=1, column=0, sticky="ew", padx=10, pady=5)
         
         # Botones de navegación principal
         nav_items = [
-            ("home", "🏠 Inicio", 3),
-            ("conferences", "📖 Conferencias", 4),
-            ("bibliography", "📚 Bibliografía", 5),
-            ("problems", "📝 Problemas", 6),
+            ("home", "🏠 Inicio", 2),
+            ("conferences", "📖 Conferencias", 3),
+            ("bibliography", "📚 Bibliografía", 4),
+            ("problems", "📝 Problemas", 5),
         ]
         
         for view_id, text, row in nav_items:
@@ -65,7 +113,7 @@ class Sidebar(ctk.CTkFrame):
         
         # Separador
         self.separator2 = ctk.CTkFrame(self, height=2, fg_color="gray70")
-        self.separator2.grid(row=7, column=0, sticky="ew", padx=10, pady=10)
+        self.separator2.grid(row=6, column=0, sticky="ew", padx=10, pady=10)
         
         # Sección Módulos Interactivos
         self.interactive_label = ctk.CTkLabel(
@@ -73,13 +121,13 @@ class Sidebar(ctk.CTkFrame):
             text="🧮 Interactivos",
             font=ctk.CTkFont(size=14, weight="bold")
         )
-        self.interactive_label.grid(row=8, column=0, padx=20, pady=(5, 5), sticky="w")
+        self.interactive_label.grid(row=7, column=0, padx=20, pady=(5, 5), sticky="w")
         
         # Botones de módulos interactivos
         interactive_items = [
-            ("osmosis", "  💧 Ósmosis", 9),
-            ("ionic_equilibrium", "  ⚖️ Equilibrio Iónico", 10),
-            ("patch_clamp", "  ⚡ Patch Clamp", 11),
+            ("osmosis", "  💧 Ósmosis", 8),
+            ("ionic_equilibrium", "  ⚖️ Equilibrio Iónico", 9),
+            ("patch_clamp", "  ⚡ Patch Clamp", 10),
         ]
         
         for view_id, text, row in interactive_items:
@@ -89,7 +137,7 @@ class Sidebar(ctk.CTkFrame):
         
         # Espaciador
         self.spacer = ctk.CTkLabel(self, text="")
-        self.spacer.grid(row=12, column=0, sticky="nsew")
+        self.spacer.grid(row=11, column=0, sticky="nsew")
         
         # Versión en la parte inferior
         self.version_label = ctk.CTkLabel(
@@ -98,7 +146,7 @@ class Sidebar(ctk.CTkFrame):
             font=ctk.CTkFont(size=10),
             text_color="gray"
         )
-        self.version_label.grid(row=13, column=0, padx=20, pady=10)
+        self.version_label.grid(row=12, column=0, padx=20, pady=10)
     
     def _create_nav_button(self, text: str, view_id: str) -> ctk.CTkButton:
         """Crea un botón de navegación."""

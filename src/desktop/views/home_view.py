@@ -3,6 +3,13 @@ Vista de inicio/bienvenida.
 """
 
 import customtkinter as ctk
+from PIL import Image
+from pathlib import Path
+
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from config import APP_LOGO, APP_LOGO_CROPPED
 
 
 class HomeView(ctk.CTkFrame):
@@ -20,25 +27,28 @@ class HomeView(ctk.CTkFrame):
     
     def _create_widgets(self):
         """Crea los widgets de la vista."""
+        # Logo de la aplicación
+        self._create_logo()
+        
         # Título de bienvenida
         self.title = ctk.CTkLabel(
             self,
-            text="🧬 Bienvenido al Entorno Virtual de Biofísica",
+            text="Bienvenido a Biofísica Interactiva para el Aprendizaje",
             font=ctk.CTkFont(size=24, weight="bold")
         )
-        self.title.grid(row=0, column=0, pady=(20, 10))
+        self.title.grid(row=1, column=0, pady=(10, 5))
         
         self.subtitle = ctk.CTkLabel(
             self,
-            text="Herramienta Interactiva para la Resolución de Problemas",
+            text="Herramienta para la Resolución de Problemas",
             font=ctk.CTkFont(size=14),
             text_color="gray"
         )
-        self.subtitle.grid(row=1, column=0, pady=(0, 30))
+        self.subtitle.grid(row=2, column=0, pady=(0, 30))
         
         # Frame de módulos
         self.modules_frame = ctk.CTkFrame(self)
-        self.modules_frame.grid(row=2, column=0, sticky="ew", padx=50, pady=20)
+        self.modules_frame.grid(row=3, column=0, sticky="ew", padx=50, pady=20)
         self.modules_frame.grid_columnconfigure((0, 1), weight=1)
         
         # Tarjetas de módulos
@@ -94,10 +104,10 @@ class HomeView(ctk.CTkFrame):
             text="⚡ Acceso Rápido a Módulos Interactivos",
             font=ctk.CTkFont(size=16, weight="bold")
         )
-        self.interactive_label.grid(row=3, column=0, pady=(30, 15))
+        self.interactive_label.grid(row=4, column=0, pady=(30, 15))
         
         self.quick_buttons_frame = ctk.CTkFrame(self, fg_color="transparent")
-        self.quick_buttons_frame.grid(row=4, column=0)
+        self.quick_buttons_frame.grid(row=5, column=0)
         
         # Botones de acceso rápido
         osmosis_btn = ctk.CTkButton(
@@ -137,7 +147,50 @@ class HomeView(ctk.CTkFrame):
             font=ctk.CTkFont(size=11),
             text_color="gray"
         )
-        self.footer.grid(row=5, column=0, pady=(40, 10))
+        self.footer.grid(row=6, column=0, pady=(40, 10))
+    
+    def _create_logo(self):
+        """Crea y muestra el logo de la aplicación."""
+        try:
+            if APP_LOGO.exists():
+                # Cargar imagen
+                logo_image = Image.open(APP_LOGO_CROPPED)
+                # Redimensionar manteniendo aspecto (máximo 120px de alto)
+                max_height = 120
+                ratio = max_height / logo_image.height
+                new_width = int(logo_image.width * ratio)
+                logo_image = logo_image.resize((new_width, max_height), Image.Resampling.LANCZOS)
+                
+                # Crear CTkImage para soporte de temas
+                self.logo_ctk = ctk.CTkImage(
+                    light_image=logo_image,
+                    dark_image=logo_image,
+                    size=(new_width, max_height)
+                )
+                
+                # Mostrar logo
+                self.logo_label = ctk.CTkLabel(
+                    self,
+                    image=self.logo_ctk,
+                    text=""
+                )
+                self.logo_label.grid(row=0, column=0, pady=(20, 10))
+            else:
+                # Si no hay logo, mostrar emoji como fallback
+                self.logo_label = ctk.CTkLabel(
+                    self,
+                    text="🧬",
+                    font=ctk.CTkFont(size=64)
+                )
+                self.logo_label.grid(row=0, column=0, pady=(20, 10))
+        except Exception as e:
+            # Fallback en caso de error
+            self.logo_label = ctk.CTkLabel(
+                self,
+                text="🧬",
+                font=ctk.CTkFont(size=64)
+            )
+            self.logo_label.grid(row=0, column=0, pady=(20, 10))
     
     def _create_module_card(
         self,

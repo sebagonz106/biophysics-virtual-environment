@@ -248,21 +248,23 @@ class OsmolarityComparisonSolver(BaseSolver):
             f"comparada con {int_osm:.1f} mOsm/L intracelular.\n\n"
         )
         
-        interpretation += f"📊 Clasificación osmótica: {osm_class}\n"
-        
         if int_eff != int_osm or ext_eff != ext_osm:
             interpretation += (
-                f"\nConsiderando solo solutos no penetrantes:\n"
+                f"Considerando solo solutos no penetrantes:\n"
                 f"- Presión osmótica real interna: {int_eff:.1f} mOsm/L\n"
                 f"- Presión osmótica real externa: {ext_eff:.1f} mOsm/L\n\n"
             )
         
-        interpretation += f"📊 Clasificación tónica: {ton_class}\n"
-        interpretation += f"Coeficiente de presión osmótica real: {eff_ratio:.4f}\n\n"
+        # Clasificaciones destacadas
+        interpretation += "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        interpretation += f"🌡️ CLASIFICACIÓN SEGÚN OSMOTICIDAD: {osm_class}\n"
+        interpretation += f"💧 CLASIFICACIÓN SEGÚN TONICIDAD: {ton_class}\n"
+        interpretation += f"   Coeficiente de presión osmótica real: {eff_ratio:.4f}\n"
+        interpretation += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
         
         if ton_class == "Hipertónica":
             interpretation += (
-                "⚠️ Coef < 1: La célula perderá agua y se encogerá (crenación). "
+                "⚠️ Coef < 1: La célula perderá agua y se encogerá (disecación). "
                 "Los solutos no penetrantes externos crean un gradiente osmótico "
                 "que extrae agua de la célula."
             )

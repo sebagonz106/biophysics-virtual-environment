@@ -8,7 +8,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from config import APP_NAME, APP_VERSION, WINDOW_SIZE, MIN_WINDOW_SIZE, DATA_DIR
+from config import APP_NAME, APP_VERSION, WINDOW_SIZE, MIN_WINDOW_SIZE, DATA_DIR, APP_ICON
 from core.services.solver_service import SolverService
 from infrastructure.json_repository import ConferenceRepository, BibliographyRepository, ProblemRepository
 from infrastructure.file_manager import FileManager
@@ -29,12 +29,19 @@ class BiofisicaApp(ctk.CTk):
     """
     
     def __init__(self):
+        # IMPORTANTE: Establecer AppUserModelID ANTES de crear la ventana
+        # Esto permite que Windows muestre un icono personalizado en la barra de tareas
+        self._set_windows_appid()
+        
         super().__init__()
         
         # Configuración de la ventana
         self.title(f"{APP_NAME} v{APP_VERSION}")
         self.geometry(f"{WINDOW_SIZE[0]}x{WINDOW_SIZE[1]}")
         self.minsize(MIN_WINDOW_SIZE[0], MIN_WINDOW_SIZE[1])
+        
+        # Configurar icono de la ventana
+        self._set_window_icon()
         
         # Configurar tema
         ctk.set_appearance_mode("light")
@@ -61,6 +68,25 @@ class BiofisicaApp(ctk.CTk):
         self.conference_repo = ConferenceRepository(DATA_DIR)
         self.bibliography_repo = BibliographyRepository(DATA_DIR)
         self.problem_repo = ProblemRepository(DATA_DIR)
+    
+    def _set_windows_appid(self):
+        """Establece el AppUserModelID para Windows (permite icono personalizado en taskbar)."""
+        try:
+            import platform
+            if platform.system() == 'Windows':
+                import ctypes
+                myappid = 'biofisica.entorno.virtual.1.0'
+                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+        except Exception:
+            pass
+    
+    def _set_window_icon(self):
+        """Configura el icono de la ventana y barra de tareas."""
+        try:
+            if APP_ICON.exists():
+                self.iconbitmap(str(APP_ICON))
+        except Exception as e:
+            print(f"No se pudo cargar el icono: {e}")
     
     def _setup_layout(self):
         """Configura el layout de la ventana."""

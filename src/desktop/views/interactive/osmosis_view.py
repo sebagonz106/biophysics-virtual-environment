@@ -66,7 +66,7 @@ class OsmosisView(ctk.CTkFrame):
         
         self.subtitle = ctk.CTkLabel(
             header,
-            text="Comparación de Osmolaridades y Clasificación Tónica",
+            text="Comparación de Osmolaridades y Clasificación según Osmoticidad/Tonicidad",
             font=ctk.CTkFont(size=12),
             text_color="gray"
         )
@@ -141,7 +141,7 @@ class OsmosisView(ctk.CTkFrame):
         info = ctk.CTkLabel(
             self.tab_comparison,
             text="Comparar osmolaridades intra y extracelular\n"
-                 "Clasifica por osmolaridad total y presión osmótica real",
+                 "Clasifica por osmoticidad total y tonicidad (presión osmótica real)",
             font=ctk.CTkFont(size=11),
             text_color="gray",
             justify="left"
@@ -392,11 +392,10 @@ class OsmosisView(ctk.CTkFrame):
             "Osm. Extracelular Total": f"{result.external_osmolarity:.1f} mOsm/L",
             "π Real Intracelular": f"{result.internal_effective_osmolarity:.1f} mOsm/L",
             "π Real Extracelular": f"{result.external_effective_osmolarity:.1f} mOsm/L",
-            "━━━━━━━━━━━━━━━━━━━": "",
-            "Clasificación Osmótica": result.osmotic_classification,
-            "━━━━━━━━━━━━━━━━━━": "",
             "Coef. π Real": f"{result.effective_osmolarity_ratio:.4f}",
-            "Clasificación Tónica": result.tonic_classification,
+            "━━━━━━━━━━━━━━━━━━━": "",
+            "🌡️ Según Osmoticidad": result.osmotic_classification,
+            "💧 Según Tonicidad": result.tonic_classification,
         }
         
         self.result_panel.show_results(

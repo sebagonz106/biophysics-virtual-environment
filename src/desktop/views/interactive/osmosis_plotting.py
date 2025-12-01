@@ -221,9 +221,9 @@ def plot_volume_dynamics(
     
     # Anotación
     if result.tonic_classification == "Hipertónica":
-        annotation = "El agua sale de la célula\n(crenación)"
+        annotation = "El agua sale de la célula\n(disecación)"
     elif result.tonic_classification == "Hipotónica":
-        annotation = "El agua entra en la célula\n(posible lisis)"
+        annotation = "El agua entra en la célula"
     else:
         annotation = "Sin cambio neto de volumen"
     
