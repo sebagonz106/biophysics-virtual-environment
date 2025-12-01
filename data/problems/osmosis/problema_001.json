@@ -38,7 +38,7 @@
       "value": 308,
       "unit": "mOsm/L"
     },
-    "interpretation": "Aunque se llama 'fisiológica', la solución salina 0.9% es ligeramente hipertónica respecto al plasma normal. Esto se debe a que el coeficiente osmótico real del NaCl es aproximadamente 0.93, lo que da una osmolaridad efectiva de ~286 mOsm/L, más cercana a la isotónica."
+    "interpretation": "Aunque se llama 'fisiológica', la solución salina 0.9% es ligeramente hipertónica respecto al plasma normal. Esto se debe a que el coeficiente osmótico real del NaCl es aproximadamente 0.93, lo que da una presión osmótica real de ~286 mOsm/L, más cercana a la isotónica."
   },
   "related_solver": "osmolarity",
   "hints": [

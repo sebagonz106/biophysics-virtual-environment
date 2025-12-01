@@ -4,9 +4,10 @@ Servicio que coordina los diferentes solvers.
 
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
-from ..solvers.osmosis import OsmolaritySolver, TonicityClassifier, CellVolumeSolver
+from ..solvers.osmosis import OsmolaritySolver, OsmolarityComparisonSolver, TonicityClassifier, CellVolumeSolver
 from ..solvers.patch_clamp import NernstSolver, GoldmanHodgkinKatzSolver, IVCurveSolver, SingleChannelSolver
 from ..solvers.patch_clamp.single_channel import SingleChannelResult
+from ..solvers.osmosis.osmolarity_comparison import OsmolarityComparisonResult
 from ..domain.solver_result import OsmosisResult, PatchClampResult, IVCurveData
 
 
@@ -80,6 +81,7 @@ class SolverService:
     def __init__(self):
         # Inicializar solvers de ósmosis
         self.osmolarity_solver = OsmolaritySolver()
+        self.osmolarity_comparison_solver = OsmolarityComparisonSolver()
         self.tonicity_classifier = TonicityClassifier()
         self.cell_volume_solver = CellVolumeSolver()
         
@@ -187,6 +189,32 @@ class SolverService:
     def get_clinical_examples(self) -> Dict:
         """Obtiene ejemplos clínicos de soluciones."""
         return self.tonicity_classifier.get_clinical_examples()
+    
+    def compare_osmolarities(
+        self,
+        internal_solutes: List[Dict],
+        external_solutes: List[Dict],
+    ) -> OsmolarityComparisonResult:
+        """
+        Compara osmolaridades entre medio intracelular y extracelular.
+        
+        Args:
+            internal_solutes: Lista de solutos intracelulares
+                Cada soluto: {name, concentration, j, is_penetrant}
+            external_solutes: Lista de solutos extracelulares
+                Cada soluto: {name, concentration, j, is_penetrant}
+            
+        Returns:
+            OsmolarityComparisonResult con clasificaciones y coeficiente
+        """
+        return self.osmolarity_comparison_solver.solve(
+            internal_solutes=internal_solutes,
+            external_solutes=external_solutes
+        )
+    
+    def get_predefined_solutes(self) -> Dict[str, Dict]:
+        """Obtiene la lista de solutos predefinidos con sus propiedades."""
+        return self.osmolarity_comparison_solver.PREDEFINED_SOLUTES
     
     def get_boyle_vant_hoff_curve(
         self,

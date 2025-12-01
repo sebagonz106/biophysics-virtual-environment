@@ -110,6 +110,16 @@ class HomeView(ctk.CTkFrame):
         )
         osmosis_btn.grid(row=0, column=0, padx=10, pady=5)
         
+        ionic_btn = ctk.CTkButton(
+            self.quick_buttons_frame,
+            text="⚖️ Equilibrio Iónico",
+            font=ctk.CTkFont(size=14),
+            width=200,
+            height=45,
+            command=lambda: self.app.show_view("ionic_equilibrium") if self.app else None
+        )
+        ionic_btn.grid(row=0, column=1, padx=10, pady=5)
+        
         patch_btn = ctk.CTkButton(
             self.quick_buttons_frame,
             text="⚡ Módulo Patch Clamp",
@@ -118,7 +128,7 @@ class HomeView(ctk.CTkFrame):
             height=45,
             command=lambda: self.app.show_view("patch_clamp") if self.app else None
         )
-        patch_btn.grid(row=0, column=1, padx=10, pady=5)
+        patch_btn.grid(row=0, column=2, padx=10, pady=5)
         
         # Footer con información
         self.footer = ctk.CTkLabel(

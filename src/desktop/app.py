@@ -20,6 +20,7 @@ from .views.bibliography_view import BibliographyView
 from .views.problems_view import ProblemsView
 from .views.interactive.osmosis_view import OsmosisView
 from .views.interactive.patch_clamp_view import PatchClampView
+from .views.interactive.ionic_equilibrium_view import IonicEquilibriumView
 
 
 class BiofisicaApp(ctk.CTk):
@@ -124,6 +125,7 @@ class BiofisicaApp(ctk.CTk):
             "bibliography": BibliographyView,
             "problems": ProblemsView,
             "osmosis": OsmosisView,
+            "ionic_equilibrium": IonicEquilibriumView,
             "patch_clamp": PatchClampView,
         }
         

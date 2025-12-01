@@ -78,7 +78,8 @@ class Sidebar(ctk.CTkFrame):
         # Botones de módulos interactivos
         interactive_items = [
             ("osmosis", "  💧 Ósmosis", 9),
-            ("patch_clamp", "  ⚡ Patch Clamp", 10),
+            ("ionic_equilibrium", "  ⚖️ Equilibrio Iónico", 10),
+            ("patch_clamp", "  ⚡ Patch Clamp", 11),
         ]
         
         for view_id, text, row in interactive_items:
@@ -88,7 +89,7 @@ class Sidebar(ctk.CTkFrame):
         
         # Espaciador
         self.spacer = ctk.CTkLabel(self, text="")
-        self.spacer.grid(row=11, column=0, sticky="nsew")
+        self.spacer.grid(row=12, column=0, sticky="nsew")
         
         # Versión en la parte inferior
         self.version_label = ctk.CTkLabel(
@@ -97,7 +98,7 @@ class Sidebar(ctk.CTkFrame):
             font=ctk.CTkFont(size=10),
             text_color="gray"
         )
-        self.version_label.grid(row=12, column=0, padx=20, pady=10)
+        self.version_label.grid(row=13, column=0, padx=20, pady=10)
     
     def _create_nav_button(self, text: str, view_id: str) -> ctk.CTkButton:
         """Crea un botón de navegación."""

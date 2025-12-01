@@ -172,6 +172,14 @@ class ResultPanel(ctk.CTkFrame):
             main_result=f"❌ Error: {message}",
             result_color="error"
         )
+    
+    def show_info(self, title: str, message: str):
+        """Muestra un mensaje informativo."""
+        self.title_label.configure(text=f"ℹ️ {title}")
+        self.show_result(
+            main_result=message,
+            result_color=None
+        )
 
     def show_results(
         self,
